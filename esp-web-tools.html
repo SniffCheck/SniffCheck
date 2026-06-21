@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SniffCheck Web Flasher</title>
+  <script
+    type="module"
+    src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js"></script>
   <style>
     :root { color-scheme: light dark; }
     body {
@@ -13,26 +16,12 @@
     h1 { margin-bottom: 0.25rem; }
     .sub { color: #888; margin-top: 0; }
     .flash { text-align: center; margin: 2rem 0; }
-    button {
-      font: inherit; font-weight: 600; cursor: pointer;
-      padding: 0.7rem 1.6rem; border-radius: 8px; border: 0;
-      background: #0a7; color: #fff;
-    }
-    button:disabled { opacity: 0.5; cursor: default; }
     .note {
       background: rgba(127,127,127,0.12); border-radius: 8px;
       padding: 0.75rem 1rem; margin: 1rem 0;
     }
     .unsupported { display: none; color: #b00020; font-weight: 600; }
     code { background: rgba(127,127,127,0.18); padding: 0 0.3em; border-radius: 4px; }
-    #bar { display: none; height: 10px; background: rgba(127,127,127,0.25);
-           border-radius: 5px; overflow: hidden; margin: 1rem 0; }
-    #barfill { width: 0; height: 100%; background: #0a7; transition: width .2s ease; }
-    #log {
-      display: none; white-space: pre-wrap; font-family: ui-monospace, Menlo, monospace;
-      font-size: 0.8rem; background: rgba(127,127,127,0.1); border-radius: 8px;
-      padding: 0.75rem 1rem; margin: 1rem 0; max-height: 16rem; overflow-y: auto;
-    }
     footer { margin-top: 2.5rem; font-size: 0.85rem; color: #888; }
     a { color: #0a7; }
   </style>
@@ -48,16 +37,15 @@
   </p>
 
   <div class="flash">
-    <button id="install">Install SniffCheck</button>
+    <esp-web-install-button manifest="./manifest.json">
+      <span slot="unsupported" class="unsupported"></span>
+    </esp-web-install-button>
     <p class="unsupported" id="unsupported">
       This browser can't flash over USB. Use Chrome or Edge on a desktop
       (Windows, macOS, or Linux). Firefox, Safari, and all phones/tablets
       lack the Web Serial API.
     </p>
   </div>
-
-  <div id="bar"><div id="barfill"></div></div>
-  <pre id="log"></pre>
 
   <div class="note">
     <strong>If the dongle isn't detected or flashing fails:</strong> unplug it,
@@ -83,20 +71,24 @@
 
   <footer>
     <p>Version: <span id="ver">loading…</span></p>
-    <p>Source: SniffCheck firmware. Apache 2.0. Flash engine:
-      <a href="https://github.com/adafruit/Adafruit_WebSerial_ESPTool">Adafruit WebSerial ESPTool</a>
-      (MIT, with ESP32-C5 support) — see <code>esptool/LICENSE.md</code>.</p>
-    <p>Plain ESP Web Tools build (does not currently flash the C5):
-      <a href="./esp-web-tools.html">esp-web-tools.html</a>.</p>
+    <p>Source: SniffCheck firmware. Apache 2.0. Powered by
+      <a href="https://github.com/esphome/esp-web-tools">esp-web-tools</a>.</p>
   </footer>
 
-  <script type="module" src="./flash.js"></script>
   <script>
     // Show the version from the manifest.
     fetch("./manifest.json")
-      .then((r) => r.json())
-      .then((m) => { document.getElementById("ver").textContent = m.version || "unknown"; })
+      .then(r => r.json())
+      .then(m => { document.getElementById("ver").textContent = m.version; })
       .catch(() => { document.getElementById("ver").textContent = "unknown"; });
+
+    // esp-web-tools hides itself on unsupported browsers; show our own note.
+    const btn = document.querySelector("esp-web-install-button");
+    customElements.whenDefined("esp-web-install-button").then(() => {
+      if (!btn.toggleAttribute || navigator.serial === undefined) {
+        document.getElementById("unsupported").style.display = "block";
+      }
+    });
   </script>
 </body>
 </html>
