@@ -16,7 +16,7 @@ Right now, this is just a demo. Some parts were built with help from friends and
 
 ## Flash it from your browser
 
-Open the GitHub Pages site for this repo, or open `index.html` from this folder in Chrome or Edge on a desktop.
+Open the web flahser: https://sniffcheck.github.io/SniffCheck/ or open `index.html` from this folder in Chrome or Edge on a desktop.
 
 1. Plug a LilyGO T-Dongle C5 into a USB port.
 2. Click Install.
