@@ -1,17 +1,34 @@
 # Credits and references
 
 SniffCheck is licensed under the Apache License, Version 2.0 (see LICENSE).
+Copyright 2026 Michael Pabst (@jLaHire).
 
 This file lists the projects, datasets, standards, and research that inspired and
 motivated SniffCheck. It is part of NOTICE by reference.
 
-None of the projects below gave source code to SniffCheck. Nothing was copied.
-They are listed because they inspired the me or motivated a feature. All of
-the code was written from scratch.
+I wrote SniffCheck's own code from scratch. The firmware image does bundle two
+small third-party libraries, both under the Apache License 2.0, listed under
+"Bundled in the firmware" below. The web flasher also vendors one MIT library.
+Everything else in the lists below gave no source code — those projects are here
+because they inspired me or motivated a feature.
 
 Note on facts. Lists of facts such as IEEE OUI prefixes, Bluetooth company IDs,
 and device name tokens are not copyrightable. Where SniffCheck uses such data it
 still names the source that first surfaced it.
+
+## Bundled in the firmware
+
+* Open Drone ID Core C Library, by Intel and the Open Drone ID project
+  contributors. Apache 2.0. Used for ASTM F3411 Remote ID decode.
+  https://github.com/opendroneid/opendroneid-core-c
+* esp_lcd ST7735 panel driver, by Espressif Systems. Apache 2.0. Drives the LCD.
+  https://github.com/espressif/esp-bsp
+
+## Bundled in the web flasher
+
+* Adafruit WebSerial ESPTool (with ESP32-C5 support). MIT, Copyright Nabu Casa
+  and Adafruit Industries. See esptool/LICENSE.md.
+  https://github.com/adafruit/Adafruit_WebSerial_ESPTool
 
 ## Inspiration
 
@@ -23,13 +40,40 @@ still names the source that first surfaced it.
 * piglet by Hamspiced: https://github.com/Hamspiced/piglet
 * Biscuit DIY: https://biscuitshop.us/products/biscuit-pro, https://github.com/CodeHedge/biscuit_flasher
 
+Creators whose videos inspired me to build SniffCheck:
+
+* Valley Tech Solutions: https://www.youtube.com/@Valleytechsolutions
+* Ghost Strats: https://www.youtube.com/@GhostStrats
+* Techcifer: https://www.youtube.com/@techcifer
+
 ## Public data and standards
 
-* Espressif: https://github.com/espressif/esp-idf 
+* Espressif ESP-IDF: https://github.com/espressif/esp-idf
 * IEEE OUI registry: https://standards-oui.ieee.org/
 * Bluetooth SIG Assigned Numbers: https://www.bluetooth.com/specifications/assigned-numbers/
-* Apple Continuity and Google Fast Pair identifiers, from community reverse engineering
+* Apple Continuity identifiers, from community reverse engineering — primarily
+  furiousMAC's Continuity corpus and Wireshark dissector
+  (https://github.com/furiousMAC/continuity) and the Celosia/Cunche paper below.
+* Google Fast Pair model IDs, from Google's public Fast Pair spec:
+  https://developers.google.com/nearby/fast-pair
+* Drone (UAS) manufacturer codes — ANSI/CTA-2063-A manufacturer code registry
+  (administered by ICAO) and FAA Remote ID Declaration-of-Compliance lists.
+* ASTM F3411 Remote ID: https://www.astm.org/f3411-22a.html
 * FCC ID database: https://www.fcc.gov/oet/ea/fccid
+
+### Dataset notices
+
+This firmware contains a static snapshot of the Organizationally Unique
+Identifier (OUI) dataset, utilized under compliance with the IEEE Registration
+Authority. All copyrights to the underlying organization mappings belong to
+their respective owners and the IEEE.
+
+This firmware contains a static snapshot of the Bluetooth SIG Assigned Numbers
+(company identifiers and service/characteristic UUIDs), utilized under
+compliance with the Bluetooth Special Interest Group. All copyrights to the
+underlying assignments belong to their respective owners and the Bluetooth SIG.
+The Bluetooth® word mark and logos are registered trademarks owned by
+Bluetooth SIG, Inc.
 
 ## Research
 
@@ -41,6 +85,8 @@ still names the source that first surfaced it.
 * Mayberry, Fenske, Brown, Martin, Fossaceca, Rye, Teplov, Foppe. "Who Tracks the
   Trackers? Circumventing Apple's Anti Tracking Alerts in the Find My Network."
   WPES 2021. DOI 10.1145/3463676.3485616
+* furiousMAC. "Reverse Engineering Apple's BLE Continuity Protocol." ShmooCon 2020.
+  https://github.com/furiousMAC/continuity
 * Wi-Fi security: IEEE 802.11i, IEEE 802.11-2020, Wi-Fi Alliance WPA3
 * Bluetooth address types: Bluetooth Core Spec, Vol 6, Part B
 * WiGLE CSV format: https://wigle.net
@@ -49,5 +95,4 @@ still names the source that first surfaced it.
 ## AI use
 
 AI tools were used during prototyping, and to help with debugging and reading
-ESP-IDF example code. The design, the decisions, and the final code are the
-author's own.
+ESP-IDF example code. The design, the decisions, and the final code are my own.

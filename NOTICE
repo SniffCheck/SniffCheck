@@ -1,0 +1,60 @@
+SniffCheck
+Copyright 2026 Michael Pabst (@jLaHire)
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this software except in compliance with the License. A copy of the License is in
+the LICENSE file at the root of this repository, or at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND. See the License for the specific language governing
+permissions and limitations under the License.
+
+CREDITS.md, at the root of this repository, lists every external project, data
+source, standard, and research reference SniffCheck builds on. It is part of this
+NOTICE for the purposes of Section 4(d) of the Apache License.
+
+------------------------------------------------------------------------------
+Bundled software
+------------------------------------------------------------------------------
+
+The prebuilt firmware image (firmware/sniffcheck-merged.bin) includes the
+following third-party software, each redistributed under its own license with
+its copyright and license retained:
+
+  * Open Drone ID Core C Library
+    Copyright (C) 2019 Intel Corporation
+    Copyright (C) Open Drone ID project contributors
+    Apache License 2.0. Used for ASTM F3411 Remote ID decode.
+    https://github.com/opendroneid/opendroneid-core-c
+
+  * esp_lcd ST7735 panel driver
+    Copyright (C) 2022-2023 Espressif Systems (Shanghai) CO LTD
+    Apache License 2.0. LCD panel driver.
+    https://github.com/espressif/esp-bsp
+
+The web flasher in this repository includes:
+
+  * Adafruit WebSerial ESPTool
+    Copyright (c) 2021 Nabu Casa
+    Copyright (c) 2020 Melissa LeBlanc-Williams for Adafruit Industries
+    MIT License. See esptool/LICENSE.md.
+    https://github.com/adafruit/Adafruit_WebSerial_ESPTool
+
+------------------------------------------------------------------------------
+Bundled datasets
+------------------------------------------------------------------------------
+
+This firmware contains a static snapshot of the Organizationally Unique
+Identifier (OUI) dataset, utilized under compliance with the IEEE Registration
+Authority. All copyrights to the underlying organization mappings belong to
+their respective owners and the IEEE.
+
+This firmware contains a static snapshot of the Bluetooth SIG Assigned Numbers
+(company identifiers and service/characteristic UUIDs), utilized under
+compliance with the Bluetooth Special Interest Group. All copyrights to the
+underlying assignments belong to their respective owners and the Bluetooth SIG.
+The Bluetooth(R) word mark and logos are registered trademarks owned by
+Bluetooth SIG, Inc.

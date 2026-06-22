@@ -1,6 +1,6 @@
 {
   "name": "SniffCheck",
-  "version": "v0.19-phase19-80-g7c44563-dirty",
+  "version": "v0.19-demo",
   "new_install_prompt_erase": true,
   "builds": [
     {

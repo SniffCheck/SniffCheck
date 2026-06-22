@@ -1,0 +1,1 @@
+sha256  26c9b0e4dd56c7b12f54c7657162a4407eb417ed4ede8f287a2cc7aee03a5fa9  firmware/sniffcheck-merged.bin
