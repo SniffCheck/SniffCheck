@@ -14,6 +14,12 @@ Up front: there will be no crowdfunding. At some point, I plan to make a self-fu
 
 Right now, this is just a demo. Some parts were built with help from friends and AI along the way. Shout out to DCS, Dead Coder Society. Check it out, open issues if you find problems or have questions, and take a look at the credits. Hopefully this turns into something cool.
 
+## Pertinent Files
+
+[Credits & References](https://github.com/SniffCheck/SniffCheck/blob/main/CREDITS.md)
+[NOTICE](https://github.com/SniffCheck/SniffCheck/blob/main/NOTICE)
+[UserGuide](https://github.com/SniffCheck/SniffCheck/blob/main/UserGuide.md)
+
 ## Flash it from your browser
 
 Open the web flahser: https://sniffcheck.github.io/SniffCheck/ or open `index.html` from this folder in Chrome or Edge on a desktop.
