@@ -22,11 +22,11 @@ Right now, this is just a demo. Some parts were built with help from friends and
 
 ## Flash it from your browser
 
-Open the web flahser: https://sniffcheck.github.io/SniffCheck/ or open `index.html` from this folder in Chrome or Edge on a desktop.
+Open the web flasher: https://sniffcheck.github.io/SniffCheck/ or open `index.html` from this folder in Chrome or Edge on a desktop.
 
-1. Plug a LilyGO T-Dongle C5 into a USB port.
-2. Click Install.
-3. Pick the serial port and wait.
+1. Pick a firmware (SniffCheck, SniffCheck Node, or Dog Park X4 orchestrator).
+2. Plug the matching board into a USB port.
+3. Click Install, pick the serial port, and wait.
 
 No toolchain, no Python, and no drivers are needed.
 
@@ -34,7 +34,13 @@ Web Serial is required, so Firefox, Safari, and phones cannot flash the device.
 
 If the dongle is not found, unplug it, hold the BOOT button, plug it back in while still holding BOOT, then release the button and click Install again.
 
-The image at `firmware/sniffcheck-merged.bin` is one merged build. It includes the bootloader, partition table, firmware, and vendor database, so the dongle works on first boot.
+Each image under `firmware/` is one merged build (bootloader, partition table, firmware, and any bundled data), so the board works on first boot:
+
+* `sniffcheck-merged.bin` — SniffCheck, the standalone RF audit tool (T-Dongle C5).
+* `sniffcheck-node-c5.bin` — SniffCheck Node, a scanner that reports to a Dog Park orchestrator (ESP32-C5).
+* `dogpark-x4-c3.bin` — Dog Park X4 orchestrator with the e-ink UI (Xteink X4, ESP32-C3).
+
+`firmware/checksums.txt` lists the SHA-256 of each image.
 
 ## What it does
 
@@ -46,7 +52,7 @@ If SniffCheck marks a network as safe, you can choose to connect your phone to t
 
 ## Roadmap notes
 
-There is a planned feature called Dog Park that will connect multiple SniffCheck devices together. Another planned feature, Guard Dog, will build on that idea.
+Dog Park connects multiple SniffCheck devices into one coordinated session. An orchestrator (the Dog Park X4, running on an Xteink X4 e-ink device) admits scanner nodes, assigns them Wi-Fi channels for coordinated wardriving (Walk mode), and can put them into perimeter watch (Guard Dog mode). The orchestrator and node firmwares are in the web flasher now; the Node mode for the standalone SniffCheck firmware is still landing.
 
 This is still a demo. It is not a final product. The hardware is bulky, the artwork is still rough, and the feature set is still changing.
 
@@ -76,7 +82,12 @@ Hardware details:
 
 Product page: https://lilygo.cc/en-us/products/t-dongle-c5
 
-For now, this is the only board SniffCheck supports. As I keep prototyping, I plan to work toward a custom PCB that people can order and build themselves.
+The Dog Park firmwares run on two more boards:
+
+* **SniffCheck Node** — any ESP32-C5 board (the T-Dongle C5 works); a headless scanner that reports to an orchestrator.
+* **Dog Park X4 orchestrator** — the Xteink X4 (ESP32-C3, 4.26" 800x480 e-ink, 7 buttons, microSD). It runs the session UI, channel scheduler, and SD/WiGLE export.
+
+As I keep prototyping, I plan to work toward a custom PCB that people can order and build themselves.
 
 ## Using the device
 

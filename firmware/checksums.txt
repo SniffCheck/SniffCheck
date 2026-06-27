@@ -1,1 +1,3 @@
-26c9b0e4dd56c7b12f54c7657162a4407eb417ed4ede8f287a2cc7aee03a5fa9  release-staging/firmware/sniffcheck-merged.bin
+5d4461a0907cfc56adab962f1bd790e3a1ad3065152cfa1526d68a79a3cfeb47  release-staging/firmware/sniffcheck-merged.bin
+257ac0afc89673c8a5d0985bee30367f55a20af70c5db50a4d255bfe781152fd  release-staging/firmware/sniffcheck-node-c5.bin
+f14824fef2916b7004d93bfb789d801d88ba0a816f1ff443a85c096274a51695  release-staging/firmware/dogpark-x4-c3.bin

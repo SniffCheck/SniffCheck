@@ -24,6 +24,11 @@
       padding: 0.75rem 1rem; margin: 1rem 0;
     }
     .unsupported { display: none; color: #b00020; font-weight: 600; }
+    select { font: inherit; padding: 0.45rem 0.6rem; border-radius: 8px;
+             border: 1px solid rgba(127,127,127,0.4); background: transparent;
+             color: inherit; max-width: 100%; }
+    .pick { margin: 1.25rem 0 0.5rem; }
+    label.pick-label { display: block; font-size: 0.85rem; color: #888; margin-bottom: 0.3rem; }
     code { background: rgba(127,127,127,0.18); padding: 0 0.3em; border-radius: 4px; }
     #bar { display: none; height: 10px; background: rgba(127,127,127,0.25);
            border-radius: 5px; overflow: hidden; margin: 1rem 0; }
@@ -39,16 +44,25 @@
 </head>
 <body>
   <h1>SniffCheck Web Flasher</h1>
-  <p class="sub">RF environment audit tool for the LilyGO T-Dongle C5.</p>
+  <p class="sub">RF environment audit tool, plus the Dog Park firmware family.</p>
 
   <p>
-    Flash SniffCheck onto a T-Dongle C5 straight from your browser. No ESP-IDF,
-    no Python, no drivers. Plug the dongle into a USB port, click Install,
-    pick the serial port, and wait.
+    Flash a SniffCheck board straight from your browser. No ESP-IDF, no Python,
+    no drivers. Pick a firmware, plug the matching board into a USB port, click
+    Install, choose the serial port, and wait.
   </p>
 
+  <div class="pick">
+    <label class="pick-label" for="target">Firmware</label>
+    <select id="target">
+      <option value="sniffcheck-c5" selected>SniffCheck — T-Dongle C5 (ESP32-C5)</option>
+      <option value="node-c5">SniffCheck Node — ESP32-C5</option>
+      <option value="dogpark-x4">Dog Park X4 orchestrator — Xteink X4 (ESP32-C3)</option>
+    </select>
+  </div>
+
   <div class="flash">
-    <button id="install">Install SniffCheck</button>
+    <button id="install">Install</button>
     <p class="unsupported" id="unsupported">
       This browser can't flash over USB. Use Chrome or Edge on a desktop
       (Windows, macOS, or Linux). Firefox, Safari, and all phones/tablets
@@ -74,11 +88,18 @@
     correctly on first boot.
   </p>
 
+  <h2>Firmwares</h2>
+  <ul>
+    <li><strong>SniffCheck</strong> — the standalone RF audit tool. LilyGO T-Dongle C5 (ESP32-C5).</li>
+    <li><strong>SniffCheck Node</strong> — a scanner node that reports to a Dog Park orchestrator. ESP32-C5.</li>
+    <li><strong>Dog Park X4 orchestrator</strong> — the e-ink controller that runs a Dog Park session. Xteink X4 (ESP32-C3).</li>
+  </ul>
+
   <h2>Requirements</h2>
   <ul>
     <li>Chrome or Edge on desktop (Web Serial API required).</li>
-    <li>A LilyGO T-Dongle C5 (ESP32-C5).</li>
-    <li>A USB port. Flashing erases the dongle and installs a clean image.</li>
+    <li>The board that matches the firmware you picked.</li>
+    <li>A USB port. Flashing erases the board and installs a clean image.</li>
   </ul>
 
   <footer>
