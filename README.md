@@ -52,7 +52,7 @@ If SniffCheck marks a network as safe, you can choose to connect your phone to t
 
 ## Roadmap notes
 
-Dog Park connects multiple SniffCheck devices into one coordinated session. An orchestrator (the Dog Park X4, running on an Xteink X4 e-ink device) admits scanner nodes, assigns them Wi-Fi channels for coordinated wardriving (Walk mode), and can put them into perimeter watch (Guard Dog mode). The orchestrator and node firmwares are in the web flasher now; the Node mode for the standalone SniffCheck firmware is still landing.
+Dog Park connects multiple SniffCheck devices into one coordinated session. An orchestrator (the Dog Park X4, running on an Xteink X4 e-ink device) admits scanner nodes, assigns them Wi-Fi channels for coordinated wardriving (Walk mode), and can put them into perimeter watch (Guard Dog mode). The orchestrator and node firmwares are in the web flasher now.
 
 This is still a demo. It is not a final product. The hardware is bulky, the artwork is still rough, and the feature set is still changing.
 

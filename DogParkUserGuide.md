@@ -1,52 +1,123 @@
 # SniffCheck Dog Park User Guide
 
-Dog Park is just throwing a few nodes together for cluster wardriving and our version of fox hunting, dog sense.
+Dog Park is the multi-device SniffCheck setup.
 
-So I had a xteink x4 laying around so I decided to try using it as the brain for a cluster of nodes for some ideas we're trying to figure out. It is still early firmware. It doesn't do any offensive things and it doesn't have GPS added yet, again this is just a demo of some ideas we've got.
+Simple version:
+
+```text
+Dog Park X4 orchestrator = the controller / screen / scheduler / session store
+SniffCheck Node          = the scanner device that reports back to the X4
+```
+
+It is still early firmware. It only listens. It does **not** deauth, jam, connect to, pair with, or attack nearby devices.
+
+---
 
 ## What you flash
 
-There are three different firmware images:
+There are three different firmware images in this release family:
 
- `SniffCheck`       LilyGO T-Dongle C5/ESP32-C5  Normal standalone SniffCheck scanner
- `SniffCheck Node`  ESP32-C5 node board          Dog Park scanner node. Reports to the X4 
- `Dog Park X4`      Xteink X4/ESP32-C3           Dog Park controller with e-ink menu 
+| Firmware | Board | What it does |
+|---|---|---|
+| `SniffCheck` | LilyGO T-Dongle C5 / ESP32-C5 | Normal standalone SniffCheck scanner. |
+| `SniffCheck Node` | ESP32-C5 node board | Dog Park scanner node. Reports to the X4. |
+| `Dog Park X4 orchestrator` | Xteink X4 / ESP32-C3 | Dog Park controller with e-ink menu, node admission, Walk, Guard Dog, Dog Sense, SD storage, and upload flow. |
 
-**Current Dog Park setup needs:**
-*going to make a s3 version because thats the end goal anyways but for now the x4 works well enough even if the screen is super slow are updating*
+The current Dog Park setup needs at least:
 
-- 1 Xteink X4 w/ Dog Park X4 firmware
-- 1(or more) ESP32-C5(lilygo tdongle c5) w/ SniffCheck Node firmware
+```text
+1 Xteink X4 running Dog Park X4 orchestrator
+1+ ESP32-C5 boards running SniffCheck Node
+```
 
+Best test setup:
 
-How i'm testing:
+```text
+1 X4 orchestrator
+3 C5 nodes
+microSD card in the X4
+```
 
-- 1 X4 
-- 3 Lilygo Tdongle C5's(trying to work out triangulating....very hard without gps as i'm learning)
-- SD card in the X4
+---
+
+## Flashing from the command line
+
+From the repo root:
+
+```sh
+echo "=== X4 (ACM0) ==="; ./scripts/c3_build.sh flash 2>&1 | tail -3
+```
+
+Flash three C5 nodes:
+
+```sh
+for p in ACM1 ACM2 ACM3; do echo "=== node /dev/tty$p ==="; TARGET=esp32c5 PORT=/dev/tty$p ./scripts/node_build.sh flash 2>&1 | tail -3; done
+```
+
+If your ports are different, change `ACM0`, `ACM1`, etc.
+
+Common layout:
+
+```text
+/dev/ttyACM0 = X4 orchestrator
+/dev/ttyACM1 = node 1
+/dev/ttyACM2 = node 2
+/dev/ttyACM3 = node 3
+```
+
+---
 
 ## Flashing from the web flasher
 
-Open the web flasher and pick a firmware:
+Open the release web flasher and pick the matching firmware:
 
-- **Dog Park X4 — Xteink X4 (ESP32-C3)** for the X4.
+- **Dog Park X4 orchestrator — Xteink X4 (ESP32-C3)** for the X4.
 - **SniffCheck Node — ESP32-C5** for C5 nodes.
 - **SniffCheck — T-Dongle C5** for normal standalone SniffCheck.
 
+The flasher checks the chip family before writing. Flashing erases that board and installs a clean image.
+
+---
+
+## X4 buttons
+
+The X4 has seven buttons. The screen legend shows the important ones.
+
+Basic controls:
+
+| Button | Meaning |
+|---|---|
+| Back | Go back / leave service screen. |
+| Select / Confirm | Open or choose the highlighted item. |
+| Left / Right | Move through rows. |
+| Up / Down | Move through rows. |
+| Power hold | Sleep / power off the X4. Hold about `1.5s`. |
+
+Most screens use:
+
+```text
+Back    = back
+Select  = choose
+< / >   = move
+^ / v   = move
+```
+
+---
+
 ## First boot
 
-1. Flash the X4 
-2. Flash some nodes
-3. Throw a SD card in the X4
-4. Boot X4
-5. Boot nodes
-6. Node broadcast to join on boot
-7. Open **Nodes** and approve each pending node on the X4
+1. Flash the X4 orchestrator.
+2. Flash one or more C5 nodes.
+3. Optional but recommended: put a microSD card in the X4.
+4. Power on the X4.
+5. Power on the nodes.
+6. The nodes auto-start and begin asking to join.
+7. On the X4, open **Nodes** and approve each pending node.
 
 A node shows up as something like:
 
 ```text
-+ sniffnode  ABC123  pending
++ sniffnode  A1B2C3
 ```
 
 Select the pending node to approve it.
@@ -59,23 +130,55 @@ After approval it becomes something like:
 #3 sniffnode online
 ```
 
-## Node
+If a node disappears, it will age from online to stale/offline.
 
-The C5 node firmware is not the full SniffCheck app. The node just does a few "simple" things and the c3 firmware does the rest. 
+---
 
-**after boot:**
+## What the node does
+
+The C5 node firmware is not the full SniffCheck app. It is a Dog Park node.
+
+It does this:
+
+- auto-starts on boot
 - broadcasts `JOIN_REQUEST` until the X4 approves it
-- receives commands from the X4
-- sends heartbeats to the X4
-**mode:**
-- **Walk**, passively sniffs Wi-Fi management frames
-- **Guard Dog**, passively scans BLE advertisements
-**button:**
-- button press = stop/start node mode
+- receives mode commands from the X4
+- sends heartbeats back to the X4
+- in **Walk**, passively sniffs Wi-Fi management frames
+- in **Guard Dog**, passively scans BLE advertisements
+- sends records back over ESP-NOW
+- uses the red LED as a Guard Dog bark indicator
+
+The node button toggles node mode:
+
+```text
+button press = stop/start node mode
+```
+
+Stopped means:
+
+```text
+no join requests
+no sniffing
+no Dog Park participation
+```
+
+---
+
+## X4 main screens
+
+### Nodes
+
+Use this to approve or remove nodes.
+
+- Pending nodes appear first with a `+`.
+- Approved nodes appear as `#<id>`.
+- Select a pending node to approve it.
+- Select an approved node to forget/remove it.
 
 ### Modes
 
-This part is still being worked on, just needed a simple ui to test out the firmware.
+Modes has:
 
 ```text
 Idle
@@ -85,9 +188,9 @@ Start
 Stop
 ```
 
-`>` what is staged
+`>` means the mode is armed.
 
-`*` what it currently running
+`*` means the fleet is actually running that mode.
 
 ### Session
 
@@ -99,14 +202,12 @@ Upload to WDGWars
 View Sessions
 ```
 
-Upload isn't working and gps adding isn't working yet either...well it is but its finicky so it's better just to say it isn't working...tried to do it with phone but still pretty buggy.
-
 ### Settings
 
 Settings currently includes:
 
-- Dark Mode toggle
-- Location status **again this isn't really working**
+- Dark Mode toggle.
+- Location status.
 
 Location is set from the phone portal, not typed on the X4.
 
@@ -114,7 +215,30 @@ Location is set from the phone portal, not typed on the X4.
 
 ## Walk mode
 
-Walk is just cluster wardriving. It tracks life time stuff like:
+Walk is coordinated wardriving.
+
+What happens:
+
+1. X4 assigns channels to each online node.
+2. Nodes avoid overlapping work where possible.
+3. Nodes passively sniff Wi-Fi devices.
+4. Nodes send records to the X4.
+5. X4 de-dupes records across the fleet.
+6. X4 saves the run to SD when stopped.
+
+Start Walk:
+
+```text
+Modes -> Walk -> Start
+```
+
+Stop Walk:
+
+```text
+Modes -> Stop
+```
+
+After stop, the X4 shows a run report with:
 
 ```text
 Unique WiFi
@@ -125,10 +249,9 @@ Lifetime totals
 
 Notes:
 
-- Walk currently focuses on WiFi 2.4/5GHz
-- Scheduler splits channels across online nodes
-- If a node joins or drops during Walk, the X4 replans the channel assignment
-- BLE is next just wanted to get this demo out.
+- Walk currently focuses on Wi-Fi from the nodes.
+- The scheduler splits channels across online nodes.
+- If a node joins or drops during Walk, the X4 can re-plan the channel assignments.
 
 ---
 
@@ -188,13 +311,17 @@ Near
 In room
 ```
 
-These are RSSI-based, so they are approximate. Walls, people, furniture, and node placement matter. Once we put GPS antennas in the mix this will get much more accurate(we think/hope), we're also looking at incorporating CSI into this for something kinda like RuView to help with the "blobbing" part of Dog Sense.
+These are RSSI-based, so they are approximate. Walls, people, furniture, and node placement matter.
+
+---
 
 ## Dog Sense
 
 Dog Sense is the Guard Dog map view.
 
-It is not GPS. It's a guess of whats going on in the area of the nodes.
+It is not GPS. It is not exact tracking. It is a confidence-based RF estimate.
+
+Simple version:
 
 ```text
 Dog Sense = nodes + RSSI + Guard Dog events -> rough blobs on a mini-map
@@ -204,30 +331,61 @@ The map shows:
 
 | Marker | Meaning |
 |---|---|
-| Node square/sonar rings | A Dog Park node/anchor. The sonar rings are **cosmetic**, not a calibrated detection radius |
-| `X4`/X marker | The X4's estimated position |
-| `#<n>` blob | A possible movement/presence |
-| Signal bars (next to a blob) | A 0–4 bar glyph showing the **strongest RSSI** any node hears that blob's devices at: more bars = closer to a node, fewer = far from all nodes. It changes as scans come in |
-| Small device dots | Devices associated with a focused blob |
+| Node square / sonar rings | A Dog Park node / anchor. The sonar rings are **cosmetic** (a fixed fraction of the map box, ~`span/3`, `/5`, `/7` by node count), not a calibrated detection radius. |
+| `X4` / X marker | The X4's estimated position. |
+| `#<n>` blob | A possible movement/presence blob. |
+| Signal bars (next to a blob) | A 0–4 bar glyph showing the **strongest RSSI** any node hears that blob's devices at: more bars = closer to a node, fewer = far from all nodes. It changes as scans come in. |
+| Small device dots | Devices associated with a focused blob. |
+
+The screen says things like:
+
+```text
+DOG SENSE
+CALIBRATING 12s...
+```
+
+or:
+
+```text
+DOG SENSE
+Nodes 3  Conf medium
+Blobs 2
+```
 
 ### Important honesty note
 
 A blob is **not** a confirmed person.
 
-A blob is just a guess that theres a device that appears to be moveing and is maybe kinda could be a person, maybe. It isn't perfect, its just a demo of an idea. 
+A blob means:
+
+```text
+nearby RF devices appear to be co-located or moving together
+```
+
+Use it as a situational hint, not a fact.
+
+---
 
 ## Calibrating Dog Sense
 
-Calibration lets the X4 learn the rough shape of your node layout, it's kinda accurate but not super accurate. Once we add GPS antennas it'll be a lot more accurate.
+Calibration lets the X4 learn the rough shape of your node layout.
 
-1. Place nodes around the area you care about, max of 8-ish meters diameter atm...its a demo...chill
-2. Stand near the middle with the X4
-3. Click **Calibrate Nodes**
-4. Wait for the countdown to finish
-5. The X4 tries to guess the node geometry
-6. Start Gaurd Dog
+Start calibration:
 
-Current calibration window is about `25 seconds`
+```text
+Modes -> Guard Dog -> Calibrate Nodes
+```
+
+What to do:
+
+1. Place nodes around the area you care about.
+2. Stand near the middle with the X4.
+3. Start **Calibrate Nodes**.
+4. Wait for the countdown to finish.
+5. The X4 locks the node geometry.
+6. Start Guard.
+
+Current calibration window is about `25 seconds`.
 
 The map works best with:
 
@@ -238,15 +396,25 @@ The map works best with:
 4+ nodes = better perimeter shape
 ```
 
-Still, it is RSSI. Treat it as like a guess-ish...kinda...its a placeholder until we figure something else out.
+Still, it is RSSI. Treat it as fuzzy.
+
+---
 
 ## Starting Guard Dog after calibration
 
-After calibration finishes, the Guard screen will unlock Start
+After calibration finishes, the Guard screen will allow Start Guard.
 
 ```text
-Modes -> Guard Dog -> Start
+Modes -> Guard Dog -> Start Guard
 ```
+
+The nodes keep scanning BLE. The X4 tracks:
+
+- nearby BLE devices
+- repeated RSSI changes
+- rough movement blobs
+- alerts/barks
+- map confidence
 
 To view the map:
 
@@ -266,16 +434,17 @@ Back               = leave the map
 
 When a blob is focused, the map switches to a detail view:
 
-- It shows the blob's **highest-confidence associated device** only with the full scan data the X4 holds for it:
+- It shows the blob's **highest-confidence associated device** only (instead of a
+  list that ran off the screen), with the full scan data the X4 holds for it:
   the full MAC, `BLE`/`WiFi` plus its **confidence score**, a signal-bars +
   `dBm` readout, how many nodes hear it, and whether it is moving.
 - If more than one device in the blob is high-confidence, it shows the strongest
-  one and notes `Multiple candidate devices <qty>`.
+  one and notes `Multiple candidate devices (N)`.
 
 While focused, the buttons change:
 
 ```text
-< / >  = see blobs "history"(place holder for when we have gps antennas..)
+< / >  = scrub a marker along the blob's path trail (Path p/N)
 ^ (Up) = start a FOX HUNT on this blob
 Select = unfocus
 Back   = back to the full map
@@ -303,7 +472,8 @@ The Fox Hunt screen shows:
 - a **proximity bar** that fills as you close in,
 - a compact map with a **line from the X4 "X" to the target** — walk to shrink
   that line,
-- `** ON TARGET **` when you are basically on top of it
+- `** ON TARGET **` when you are basically on top of it (the markers overlap,
+  ~within a metre on the map).
 
 ```text
 ^ (from a focused blob) = start hunt
@@ -314,8 +484,13 @@ Back                    = stop hunting, return to the map
 
 - Distance and positions are **RSSI estimates**, not GPS. The metre number is a
   guide; the WARMER/COLDER trend stays useful even when the exact number is rough.
-- The on-map line is **map-relative, not a compass bearing**. It isn't a compas, the numbers are guesses and not super accurate..just hold the x4 and walk around until the x4 is near what you're hunting. 
-- you need 3 or more nodes for fox hunt, it wont work without 3+, the nodes wont find the x4.
+- The on-map line is **map-relative, not a compass bearing**. Absolute direction
+  (true north) cannot be recovered from RSSI ranging alone, so navigate by
+  watching the "X" close on the target, not by pointing in a fixed direction.
+- If the X4 is not yet located (fewer than two nodes hear it), the screen shows
+  `LOCATING X4` instead of a fake distance — move so more nodes can hear it.
+
+---
 
 ## Account / upload portal
 
@@ -331,20 +506,25 @@ Open it from:
 Session -> Connect Account
 ```
 
-The X4 shows:
+The X4 screen will show:
 
 ```text
 Wi-Fi: SniffCheck-X4
 Pass:  dogpark1234
 URL:   https://192.168.4.1
 ```
-Hop on that Wi-Fi from your phone, then open the url.
+
+Join that Wi-Fi from your phone/laptop, then open:
+
+```text
+https://192.168.4.1
+```
 
 Because this uses a self-signed HTTPS certificate, your browser may say the page is not private. That is expected for this local-only portal.
 
-The portal uses HTTPS because phone location sharing API dont always work without https......
+The portal uses HTTPS because phone geolocation APIs usually require a secure context.
 
-Press **Back** on the X4 to return to Dog Park.
+Press **Back** on the X4 to close the portal and return to Dog Park.
 
 ### Session location
 
@@ -386,8 +566,8 @@ If upload fails, common reasons are:
 - Wi-Fi credentials not set
 - WDGWars API key not set
 - home Wi-Fi unavailable
-- or it just doesn't want to work because sometimes that happens
-- you didn't set any GPS data(this part is tricky because you can add a single GPS location, so if you add GPS, start a walk, stop the walk, then you can upload it and it should work. But there is no continuous GPS sharing until we throw some GPS antennas into the mix)
+
+---
 
 ## SD card files
 
@@ -405,24 +585,138 @@ records.jsonl   SniffCheck/BYOS-style sidecar records
 summary.txt     unique Wi-Fi/BLE counts and overflow info
 ```
 
+The X4 can list saved sessions:
+
+```text
+Session -> View Sessions
+```
+
+For a saved session you can:
+
+```text
+View Report
+Delete
+```
+
+---
+
+## What gets counted
+
+The X4 tracks:
+
+- total records received
+- Guard Dog alerts
+- unique Wi-Fi devices in a run
+- unique BLE devices in a run
+- lifetime Wi-Fi/BLE totals in NVS
+- overflow count if the bounded set fills
+
+Overflow is reported honestly. It means more devices were seen after the in-memory unique set hit its cap.
+
+---
+
+## Current limits
+
+This is the important part.
+
+### ESP-NOW is local to the Dog Park firmware family
+
+Dog Park uses a fresh protocol, separate from the older rolled-back ENOW work.
+
+Do not mix old ENOW firmware with this release.
+
 ### Normal SniffCheck is still separate
 
 The normal SniffCheck C5 firmware is still the normal scanner/reporting device.
 
 The current C5 Dog Park node image is a separate node firmware. Flashing it replaces normal SniffCheck on that board until you flash normal SniffCheck back.
 
-### Sniffing
+### Guard Dog is BLE-focused right now
 
-Gaurd Dog = BLE
-Walk = Wifi
+Current Guard Dog node behavior is BLE passive observation.
 
-**Again this is just a demo** We will probably keep Gaurd Dog as just BLE but will be adding BLE to the Walk we just need move C5's and antennas. 
+Walk mode uses Wi-Fi sniffing.
 
 ### Dog Sense is approximate
 
 Dog Sense uses RSSI and repeated sightings. RSSI is noisy.
 
 Do not treat map positions, blobs, or associated devices as exact truth.
+
+### GL.iNet base station support is planned, not in this firmware
+
+The planned **Dog Sense GL.iNet base station** idea is scoped separately. This current X4 firmware does not turn a GL.iNet router into a base station yet.
+
+---
+
+## Quick test recipe
+
+Use this when checking the current Dog Park build.
+
+1. Flash X4.
+2. Flash 1-3 nodes.
+3. Boot X4 and nodes.
+4. On X4: **Nodes** -> approve each pending node.
+5. On X4: **Modes** -> **Walk** -> **Start**.
+6. Watch record count climb.
+7. Stop Walk and check the run report.
+8. Open **Modes** -> **Guard Dog**.
+9. Pick radius/duration.
+10. Select **Calibrate Nodes**.
+11. Stand near the middle until calibration finishes.
+12. Select **Start Guard**.
+13. Open **Dog Sense**.
+14. Move a BLE device nearby and watch for blobs/alerts.
+15. Stop when done.
+
+---
+
+## Troubleshooting
+
+### Node does not appear on X4
+
+Try:
+
+- make sure the node firmware is flashed, not normal SniffCheck
+- power-cycle the node
+- make sure the X4 is running the Dog Park orchestrator
+- keep the node near the X4 for first admission
+- reflash if the wrong firmware was selected
+
+### X4 upload fails
+
+Check:
+
+- SD card inserted
+- session has records
+- Wi-Fi credentials saved from portal
+- WDGWars key saved from portal
+- router/internet reachable from the X4
+
+### Dog Sense map looks wrong
+
+Expected sometimes. Try:
+
+- put nodes farther apart
+- use 3+ nodes for better 2D shape
+- stand in the middle during calibration
+- recalibrate after moving nodes
+- avoid metal shelves/walls when testing
+- treat the map as a fuzzy hint, not GPS
+
+### Browser blocks location
+
+Use:
+
+```text
+https://192.168.4.1
+```
+
+not plain HTTP.
+
+You may need to accept the local self-signed certificate warning.
+
+---
 
 ## Safety / privacy posture
 

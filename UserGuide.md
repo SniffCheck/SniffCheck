@@ -4,6 +4,16 @@ SniffCheck only listens. It never attacks, never sends fake stuff, never pokes o
 
 This guide tells you how to push the button, read the screen, and use the phone page. *<- side note: don't push the button*
 
+## What's new in this build (v0.19-phase19-115)
+
+- **Themes.** The phone page and report viewer now have a theme picker (Settings tab on the dashboard, palette button on the report): Dracula, Nord, Gruvbox, Solarized Light, Tokyo Night, Monokai, plus the two SniffCheck defaults. The sun/moon button is still there for a quick light/dark flip. Your pick sticks across both pages.
+- **Public-safety gear is called out.** When the scan spots Axon/body-camera/TASER identifiers, those devices now get a badge icon on their result cards, the icon legend explains it, and the "Public safety" chip moved to the front of the summary badges, ahead of crowd density.
+- **Privacy findings got their own clusters.** The report groups per-device privacy-analyzer hits (probe requests, sequence fingerprints, IE signatures, ANQP) by source MAC, with cross-links where a finding matches a scan result. Heads up: most of these are client devices the sniffer overheard, not networks, so many won't have a matching Wi-Fi result — that's expected, not missing data.
+- **No more twin radio clusters.** When back-to-back scans picked a different lead radio for the same router, the report could show the same merged-radio group twice (once as 5 GHz + 2.4 GHz, once flipped). Same set of radios = one cluster now. Genuinely different groups still show separately.
+- **Walks are lighter on memory.** The Sniff Walk's dedup tables now live in PSRAM only while a walk is running and get released after, and the capture ring got resized so a walk, a packet capture, and the capture itself all fit in memory at once.
+
+Previous build (v0.19-phase19-111): unified `>` selector menus, summary `[1]` opens the Main menu, wireframe phone-page redesign, broader Adv sweep (hidden SSIDs, 5 GHz DFS, 192 BLE devices, merged radios kept in the export), Adv-only Auto AP.
+
 ## The button
 
 There is one button: BOOT. You do three things with it:       *<- yes two ":"'s in one sentence...*
@@ -24,7 +34,7 @@ Rule of thumb: `[hold]` = go back. On scan screens, `[hold]` can also rescan or 
 
 On the summary screen:
 
-- `[1]` = results       *<- exactly what it sounds like, take a look on the dongle before checking out the webpage*
+- `[1]` = Main menu (Results / Settings / Rescan)       *<- pick Results here to look on the dongle before checking out the webpage*
 - `[2]` = pup           *<- this is mostly cosmetic atm, so are trophies, we will put a future plans doc in the repo sometime soon*
 - `[hold]` = rescan     *<- exactly what it sounds like, BUUUT if you rescan in adv_mode you'll flag the deeper_scan which just means it'll scan for 90s instead of the typical boot scan snapshot. Good for verifying results or digging deeper into some of the threat flags.* 
 
@@ -58,10 +68,10 @@ Best if you just want a fast look on the device to see what RF threats flag from
 
 **On the device, from the Main screen:**          *<- this may change as things progress because right now every flash boots to adv mode which gives you easy access to the settings, etc. In lite_mode it's a little bit of a maze to get to the settings on purpose because originally I planned for lite to be the only mode with adv a easter egg for people who want to know more..i digress.*
 
-1. `[2]` = Settings
-2. `[1]` = Mode
-   - `[1]` = Lite
-   - `[2]` = Adv
+1. `[1]` = open the Main menu
+2. `[1]` to highlight **Settings**, `[2]` to open it
+3. `[1]` to highlight the **Mode** row, `[2]` to switch Lite/Adv
+4. `[hold]` = back one screen at any point
 
 If the mode changed, it does a fresh boot scan.    *<- not a reboot*
 
@@ -72,23 +82,29 @@ If the mode changed, it does a fresh boot scan.    *<- not a reboot*
 3. Pick **Lite** or **Adv**
 4. It takes effect on the next scan
 
-### Main screen
+### Main menu
 
-- `[1]` = Results
-- `[2]` = Settings
-- `[hold]` = scan again
+The Main menu is a `>` selector list: **Results**, **Settings**, **Rescan**.
+
+- `[1]` = next row
+- `[2]` = select the highlighted row
+- `[hold]` = back to the summary screen
+
+Menus don't show a Back row — `[hold]` is always back, one screen at a time. Results screens have a **Main Menu** row when you want to jump home.
 
 ### Lite Results
 
-- `[1]` = Wi-Fi list
-- `[2]` = Pup
-- `[hold]` = scan again
+Results is a `>` selector list now too (Wi-Fi list, Pup, Main Menu):
+
+- `[1]` = next row
+- `[2]` = open the highlighted row
+- `[hold]` = back
 
 In the Lite Wi-Fi list:
 
 - `[1]` = next network
 - `[2]` = open details
-- `[hold]` = back to Main
+- `[hold]` = back to Results
 
 In Lite Wi-Fi details:
 
@@ -100,11 +116,11 @@ In Lite Wi-Fi details:
 
 Adv Results has panes: WiFi, BLE, Probes, Pup
 
-**On the pane picker:**
+**On the pane picker** (a `>` selector, with a Main Menu row):
 
 - `[1]` = next pane
 - `[2]` = open the pane
-- `[hold]` = back to Main
+- `[hold]` = back
 
 **Adv Wi-Fi list:**
 
@@ -122,7 +138,7 @@ Adv Results has panes: WiFi, BLE, Probes, Pup
 
 - `[1]` = next class
 - `[2]` = open that class
-- `[hold]` = back to Main
+- `[hold]` = back
 
 **Adv Probes:**
 
@@ -140,15 +156,16 @@ Adv Results has panes: WiFi, BLE, Probes, Pup
 
 You need to be in adv mode for this
 
-From Main:
+From the Main menu:
 
-1. `[2]` = Settings
-2. In Settings: `[2]` = More
-3. In More: `[2]` = Download/launch AP
-4. In the confirm screen:
-   - `[1]` = turn the AP on
-   - `[2]` = set timer: `15`, `30`, or `60` minutes
+1. Open **Settings**
+2. Highlight the launch-AP row and `[2]` to open it
+3. The confirm screen is a `>` selector too:
+   - **Start AP** = turn the AP on
+   - **Auto-off: N min** = cycle the timer
    - `[hold]` = back
+
+There is also an **Auto AP** setting (Adv only) that launches the phone page automatically after every scan, with no auto-off timer.
 
 When the AP is on:
 
@@ -197,6 +214,7 @@ Your browser reads it. You can download a device list, or send the records into 
 ### Settings
 
 - Mode: Lite or Adv (next scan)
+- Theme: palette for the phone page + report (Dracula, Nord, Gruvbox, Solarized Light, Tokyo Night, Monokai, or the two SniffCheck defaults)
 - Brightness: `25%`, `50%`, `75%`, `100%`
 - LED: On or Off      *<- does not really work....it dims the light but because we redraw each splash for some reason it inits a led flash on redraw...we have a issues open with espressif to try and figure this out but honestly it may come down to just the Lilygo Tdongle C5 not appreciating our attempt at animation.....*
 - AP timer: `15`, `30`, or `60` minutes    *<- realistitcally you don't need to keep the ap open once you open the summary. Normally I'll launch the ap, connect, go to the page, open **View Report** or save the report as html, and then disconnect or do more scans while I check out the results.*

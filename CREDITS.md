@@ -17,6 +17,12 @@ Note on facts. Lists of facts such as IEEE OUI prefixes, Bluetooth company IDs,
 and device name tokens are not copyrightable. Where SniffCheck uses such data it
 still names the source that first surfaced it.
 
+## Contributors
+
+* jLaHire — author. https://github.com/jlahire
+* Arty — contributor. https://github.com/Runndownn
+* SedK-CSS — contributor. https://github.com/SedK-CSS
+
 ## Bundled in the firmware
 
 * Open Drone ID Core C Library, by Intel and the Open Drone ID project
