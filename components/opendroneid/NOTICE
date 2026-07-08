@@ -1,0 +1,18 @@
+This directory vendors the Open Drone ID Core C Library.
+
+Upstream:  https://github.com/opendroneid/opendroneid-core-c
+Commit:    4b266c7c33e5299bfbe8427ed8518e869e3a7d7f
+Files:     libopendroneid/opendroneid.c -> opendroneid.c
+           libopendroneid/opendroneid.h -> include/opendroneid.h
+License:   Apache License 2.0
+
+Copyright (C) 2019 Intel Corporation
+Copyright (C) Open Drone ID project contributors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use these files except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+SniffCheck uses only the decode half of this library (the encode functions are
+dropped by the linker's --gc-sections). The sources are vendored verbatim; no
+modifications were made.

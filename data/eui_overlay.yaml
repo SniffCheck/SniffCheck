@@ -1,0 +1,623 @@
+
+ssid_rules:
+  - ssid_pattern: "^Starbucks WiFi$"
+    expected_vendors:
+      - "Cisco Systems"
+      - "Aruba Networks"
+      - "Hewlett Packard Enterprise"
+      - "Meraki"
+    region: global
+    notes: "Starbucks contracts AT&T; APs are Cisco/Aruba/Meraki"
+
+  - ssid_pattern: "^attwifi$|^att-wifi$"
+    expected_vendors:
+      - "Pace Americas"
+      - "Arris"
+      - "Cisco"
+    region: us
+
+  - ssid_pattern: "^xfinitywifi$|^XFINITY$"
+    expected_vendors:
+      - "Cisco"
+      - "Arris"
+      - "Comcast Cable"
+    region: us
+
+  - ssid_pattern: "^Google Starbucks$"
+    expected_vendors:
+      - "Cisco"
+      - "Meraki"
+    notes: "Legacy Google partnership SSID, may still be live"
+
+  - ssid_pattern: "^.+_Guest$|^.+ Guest$"
+    expected_vendors:
+      - "Cisco"
+      - "Aruba"
+      - "Ruckus"
+      - "Ubiquiti"
+    notes: "Generic enterprise guest networks"
+
+  - ssid_pattern: "^Boingo.*$|^boingo.*$"
+    expected_vendors:
+      - "Cisco"
+      - "Aruba"
+      - "Ruckus"
+    notes: "Boingo airport/venue Wi-Fi"
+
+  - ssid_pattern: "^TWC.*WiFi$|^SpectrumWiFi.*$"
+    expected_vendors:
+      - "Cisco"
+      - "Arris"
+      - "Casa Systems"
+    region: us
+
+  - ssid_pattern: "^_The UPS Store.*$"
+    expected_vendors:
+      - "Cisco"
+      - "Meraki"
+    region: us
+
+  - ssid_pattern: "^McDonald's.*$|^McDonalds.*$"
+    expected_vendors:
+      - "Cisco"
+      - "Aruba"
+      - "Meraki"
+    region: global
+
+  - ssid_pattern: "^airport.*$|^Airport.*$|^.*_airport$"
+    expected_vendors:
+      - "Cisco"
+      - "Aruba"
+      - "Ruckus"
+      - "Boingo"
+    notes: "Airport networks typically enterprise grade"
+
+vendor_tiers:
+  enterprise:
+    - "Cisco Systems"
+    - "Aruba Networks"
+    - "Hewlett Packard Enterprise"
+    - "Meraki"
+    - "Ruckus Networks"
+    - "Ubiquiti"
+    - "Extreme Networks"
+    - "Juniper Networks"
+    - "Fortinet"
+    - "Aerohive Networks"
+    - "Mist Systems"
+    - "Cambium Networks"
+    - "Brocade Communications"
+    - "Xirrus"
+    - "Motorola Solutions"
+    - "Palo Alto Networks"
+    - "SonicWall"
+    - "WatchGuard Technologies"
+    - "Cradlepoint"
+    - "Peplink"
+    - "Zebra Technologies"
+    - "Honeywell"
+    - "Belden"
+    - "Siklu"
+    - "Mimosa Networks"
+    - "Allied Telesis"
+    - "Alcatel-Lucent"
+    - "Alcatel-Lucent Enterprise"
+    - "Nokia Solutions and Networks"
+    - "Dell Inc."
+    - "H3C"
+    - "Ruijie Networks"
+    - "Allied Telesis Labs"
+    - "Teltonika"
+    - "Arista Networks"
+    - "Lancom Systems"
+    - "RADWIN"
+    - "Moxa"
+    - "ADTRAN"
+    - "Edgecore Networks"
+  consumer:
+    - "TP-Link Technologies"
+    - "Netgear"
+    - "ASUS"
+    - "Linksys"
+    - "D-Link"
+    - "Belkin"
+    - "Buffalo"
+    - "Tenda Technology"
+    - "ZTE Corporation"
+    - "Huawei Technologies"
+    - "Xiaomi"
+    - "GL.iNet"
+    - "Synology"
+    - "QNAP"
+    - "AVM"
+    - "Sagemcom"
+    - "Arris"
+    - "Zyxel"
+    - "MikroTik"
+    - "Eero"
+    - "Orbi"
+    - "Plume Design"
+    - "Motorola Mobility"
+    - "Arcadyan"
+    - "Compal Broadband Networks"
+    - "Hitron Technologies"
+    - "Sagemcom Broadband"
+    - "Technicolor"
+    - "Vantiva"
+    - "Thomson Telecom"
+    - "Sercomm"
+    - "Actiontec Electronics"
+    - "Askey Computer"
+    - "Gemtek Technology"
+    - "Shenzhen Tenda"
+    - "TOTOLINK"
+    - "Mercusys"
+    - "Honor Device"
+    - "Nokia"
+
+    - "Commscope"
+    - "ADB Broadband"
+    - "Pirelli Broadband"
+    - "Pace"
+    - "Casa Systems"
+    - "Calix"
+    - "Adtran"
+    - "NetComm Wireless"
+    - "Hewlett Packard"
+    - "Reliance Jio"
+    - "Vivint"
+    - "ABB"
+    - "TIBCO"
+    - "Genexis"
+    - "Inteno"
+    - "Smartlabs"
+    - "Sunmuch"
+    - "ALFA Networks"
+    - "Edimax Technology"
+    - "Mediabridge Products"
+    - "Trendnet"
+    - "Tronxy"
+    - "Beeline"
+    - "China Mobile"
+    - "China Telecom"
+    - "iiNet"
+    - "Vodafone"
+    - "Hyundai Telecom"
+    - "Skyworth"
+    - "Konka"
+    - "Hisense"
+    - "Changhong"
+    - "Coolpad"
+    - "Inteno Broadband"
+    - "Comtrend"
+    - "Compal Information"
+    - "Coship Electronics"
+    - "Foxconn"
+    - "FibreOne"
+    - "Greenpacket"
+    - "ZyDAS Technology"
+    - "PEGATRON"
+    - "Lite-On Technology"
+    - "Wistron"
+    - "Inventec"
+    - "Smartrg"
+    - "Smart RG"
+    - "DASAN Networks"
+    - "Humax"
+    - "Hyundai HT"
+    - "Skyport"
+    - "Frontier Silicon"
+    - "Wisol"
+    - "Wireless Connection"
+    - "Cambridge Industries"
+    - "Greenwave Systems"
+    - "Verizon"
+    - "AT&T"
+    - "Spectrum"
+    - "Charter Communications"
+    - "Comcast Cable"
+    - "Cox Communications"
+    - "Optimum"
+    - "WOW"
+    - "Cisco-Linksys"
+  iot:
+    - "Tuya Global"
+    - "Shenzhen Bilian Electronic"
+    - "Realtek Semiconductor"
+    - "MediaTek"
+    - "Amazon Technologies"
+    - "Ring"
+    - "Signify"
+    - "Philips Lighting"
+    - "Sonos"
+    - "LIFX"
+    - "iRobot"
+    - "Wyze Labs"
+    - "Ezviz"
+    - "Ecobee"
+    - "Nest Labs"
+    - "Lutron Electronics"
+    - "Leviton"
+    - "Aqara"
+    - "Midea"
+    - "Hisense"
+    - "Tuya Smart"
+    - "Wemo"
+    - "Bosch"
+    - "Schneider Electric"
+    - "Shelly"
+    - "Govee"
+    - "Yale"
+    - "August Home"
+    - "Arlo"
+    - "Blink"
+    - "Canary Connect"
+    - "Sengled"
+    - "TP-Link Smart Home"
+  mobile:
+    - "Apple"
+    - "Samsung Electronics"
+    - "Google"
+    - "Qualcomm"
+    - "OnePlus Technology"
+    - "Huawei Device"
+    - "LG Electronics"
+    - "Sony Mobile"
+    - "OPPO"
+    - "Vivo"
+    - "Realme"
+    - "Xiaomi Mobile"
+    - "Motorola"
+    - "Nokia"
+    - "HTC"
+    - "Fairphone"
+    - "Nothing Technology"
+    - "Transsion"
+    - "Tecno"
+    - "Infinix"
+    - "Zebra Technologies"
+    - "Kyocera"
+    - "Sharp"
+    - "Lenovo"
+    - "Meizu"
+    - "AsusTek"
+    - "TCL Communication"
+    - "Sony Corporation"
+
+device_classes:
+  surveillance:
+    - "Flock Safety"
+    - "Hikvision"
+    - "Dahua"
+    - "Verkada"
+    - "Avigilon"
+    - "Reolink"
+    - "Hytera"
+    - "Axon Enterprise"
+
+  investigation:
+    - "Flipper Devices"
+    - "FLIPPER DEVICES"
+    - "Hak5"
+    - "Pwnagotchi"
+
+  maker:
+    - "Adafruit"
+    - "adafruit industries"
+    - "SparkFun"
+    - "Arduino"
+    - "Raspberry Pi"
+    - "Pimoroni"
+    - "Seeed Technology"
+
+  dev_module:
+    - "Espressif"
+    - "Nordic Semiconductor"
+    - "Silicon Laboratories"
+    - "Texas Instruments"
+    - "STMicroelectronics"
+    - "Realtek Semiconductor"
+    - "MediaTek"
+
+covered_list:
+  - "Huawei"
+  - "ZTE"
+  - "Hytera"
+  - "Hikvision"
+  - "Dahua"
+  - "Kaspersky"
+  - "China Mobile"
+  - "China Telecom"
+  - "Pacific Networks"
+  - "ComNet"
+  - "China Unicom"
+
+fcc_router_approved:
+  - vendor: "Netgear"
+    product_lines: ["Nighthawk", "Orbi", "CAX", "CM"]
+    expires: "2027-10-01"
+  - vendor: "Adtran"
+    product_lines: ["SDG"]
+    expires: "2027-10-01"
+  - vendor: "eero"
+    product_lines: ["all"]
+    expires: "2027-10-31"
+  - vendor: "Calix"
+    product_lines: ["100-06200"]
+    expires: "2027-10-31"
+
+blue_uas_cleared:
+  - "SiFly Aviation"
+  - "Mobilicom"
+  - "ScoutDI"
+  - "Verge, Inc."
+  - "Sees.ai"
+  - "Air6 System GmbH"
+
+bt_company_overrides:
+  - id: 0x0E29
+    class: investigation
+  - id: 0x0822
+    class: maker
+  - id: 0x02E5
+    class: dev_module
+  - id: 0x004C
+    class: mobile
+  - id: 0x0075
+    class: mobile
+  - id: 0x00E0
+    class: mobile
+  - id: 0x0006
+    class: mobile
+  - id: 0x09C8
+    class: surveillance_cam
+
+  - id: 0x0068
+    class: vehicle
+  - id: 0x010E
+    class: vehicle
+  - id: 0x011F
+    class: vehicle
+  - id: 0x0120
+    class: vehicle
+  - id: 0x017C
+    class: vehicle
+  - id: 0x022B
+    class: vehicle
+  - id: 0x0723
+    class: vehicle
+  - id: 0x0826
+    class: vehicle
+  - id: 0x0915
+    class: vehicle
+  - id: 0x0941
+    class: vehicle
+  - id: 0x0977
+    class: vehicle
+  - id: 0x0A10
+    class: vehicle
+  - id: 0x0BA6
+    class: vehicle
+  - id: 0x0EDE
+    class: vehicle
+
+uuid16_classes:
+  - uuid: 0xFEED
+    class: tracker
+  - uuid: 0xFEEC
+    class: tracker
+  - uuid: 0xFEEB
+    class: tracker
+  - uuid: 0xFEAA
+    class: beacon
+  - uuid: 0x1802
+    class: attack_signal
+  - uuid: 0x1803
+    class: attack_signal
+  - uuid: 0xFFF6
+    class: standards
+  - uuid: 0xFFFA
+    class: standards
+  - uuid: 0xFFFD
+    class: standards
+  - uuid: 0xFFF9
+    class: standards
+  - uuid: 0xFD6F
+    class: standards
+
+  - uuid: 0x3100
+    class: surveillance_cam
+    name: "Raven detector"
+  - uuid: 0x3200
+    class: surveillance_cam
+    name: "Raven detector"
+  - uuid: 0x3300
+    class: surveillance_cam
+    name: "Raven detector"
+  - uuid: 0x3400
+    class: surveillance_cam
+    name: "Raven detector"
+  - uuid: 0x3500
+    class: surveillance_cam
+    name: "Raven detector"
+
+  - uuid: 0xFE97
+    class: vehicle
+  - uuid: 0xFE96
+    class: vehicle
+  - uuid: 0xFE4C
+    class: vehicle
+  - uuid: 0xFE31
+    class: vehicle
+  - uuid: 0xFE30
+    class: vehicle
+  - uuid: 0xFE48
+    class: vehicle
+  - uuid: 0xFE47
+    class: vehicle
+  - uuid: 0xFD58
+    class: vehicle
+  - uuid: 0xFD57
+    class: vehicle
+  - uuid: 0xFCB0
+    class: vehicle
+
+  - uuid: 0xFFF5
+    class: vehicle
+  - uuid: 0xFFF1
+    class: vehicle
+
+surveillance_prefixes:
+  - prefix: "70:C9:4E"
+    name: "Flock Safety camera"
+  - prefix: "3C:91:80"
+    name: "Flock Safety camera"
+  - prefix: "D8:F3:BC"
+    name: "Flock Safety camera"
+  - prefix: "80:30:49"
+    name: "Flock Safety camera"
+
+  - prefix: "14:5A:FC"
+    name: "Flock Safety camera"
+  - prefix: "74:4C:A1"
+    name: "Flock Safety camera"
+  - prefix: "08:3A:88"
+    name: "Flock Safety camera"
+  - prefix: "9C:2F:9D"
+    name: "Flock Safety camera"
+  - prefix: "C0:35:32"
+    name: "Flock Safety camera"
+  - prefix: "94:08:53"
+    name: "Flock Safety camera"
+  - prefix: "E4:AA:EA"
+    name: "Flock Safety camera"
+  - prefix: "F4:6A:DD"
+    name: "Flock Safety camera"
+  - prefix: "24:B2:B9"
+    name: "Flock Safety camera"
+  - prefix: "00:F4:8D"
+    name: "Flock Safety camera"
+  - prefix: "D0:39:57"
+    name: "Flock Safety camera"
+  - prefix: "E8:D0:FC"
+    name: "Flock Safety camera"
+  - prefix: "E0:4F:43"
+    name: "Flock Safety camera"
+  - prefix: "B8:1E:A4"
+    name: "Flock Safety camera"
+  - prefix: "70:08:94"
+    name: "Flock Safety camera"
+  - prefix: "58:8E:81"
+    name: "Flock Safety camera"
+  - prefix: "EC:1B:BD"
+    name: "Flock Safety camera"
+
+  - prefix: "58:00:E3"
+    name: "Flock Safety camera"
+  - prefix: "90:35:EA"
+    name: "Flock Safety camera"
+  - prefix: "5C:93:A2"
+    name: "Flock Safety camera"
+  - prefix: "64:6E:69"
+    name: "Flock Safety camera"
+
+  - prefix: "04:0D:84"
+    name: "Flock Safety camera"
+  - prefix: "F0:82:C0"
+    name: "Flock Safety camera"
+  - prefix: "1C:34:F1"
+    name: "Flock Safety camera"
+  - prefix: "38:5B:44"
+    name: "Flock Safety camera"
+  - prefix: "94:34:69"
+    name: "Flock Safety camera"
+  - prefix: "B4:E3:F9"
+    name: "Flock Safety camera"
+  - prefix: "B4:1E:52"
+    name: "Flock Safety camera"
+    confidence: high
+  - prefix: "14:B5:CD"
+    name: "Flock Safety camera"
+
+  - prefix: "D4:11:D6"
+    name: "ShotSpotter acoustic sensor"
+
+    confidence: high
+  - prefix: "E0:0A:F6"
+    name: "Flock Safety camera"
+
+vehicle_prefixes:
+  - prefix: "00:01:A9"
+    name: "BMW"
+  - prefix: "3C:89:4D"
+    name: "Porsche"
+  - prefix: "D0:0E:A4"
+    name: "Porsche"
+  - prefix: "3C:CE:15"
+    name: "Mercedes-Benz"
+  - prefix: "54:72:6E"
+    name: "Daimler Truck"
+  - prefix: "00:76:B6"
+    name: "Ford"
+  - prefix: "00:26:B4"
+    name: "Ford"
+  - prefix: "E0:13:33"
+    name: "General Motors"
+  - prefix: "00:7D:FA"
+    name: "Volkswagen"
+  - prefix: "54:83:BB"
+    name: "Honda"
+  - prefix: "98:ED:5C"
+    name: "Tesla"
+  - prefix: "90:E6:43"
+    name: "Tesla"
+  - prefix: "D4:4F:14"
+    name: "Tesla"
+  - prefix: "54:F8:F0"
+    name: "Tesla"
+  - prefix: "0C:29:8F"
+    name: "Tesla"
+  - prefix: "4C:FC:AA"
+    name: "Tesla"
+  - prefix: "AC:96:5B"
+    name: "Lucid"
+  - prefix: "00:04:EF"
+    name: "Polestar"
+
+# ── Rogue-AP hardware platforms (evidence tier, NOT a verdict) ──────────
+# OUIs commonly used to *build* rogue-AP / pentest rigs. Presence is
+# EVIDENCE, never a conviction: a Raspberry Pi or ALFA adapter is legitimate,
+# general-purpose hardware that vastly more often runs Pi-hole, Home
+# Assistant, a media box or a research laptop than an attack. These get the
+# soft ROGUE-HW? class (no F_MALICIOUS) and surface as a device-identity fact
+# plus an evidence note; they only escalate when corroborated by observed
+# behavior (twin / KARMA / deauth / open-clone). Hak5 owns no IEEE OUI of its
+# own — its gear rides on third-party radios and spoofed MACs — so none of
+# these prefixes identify "a Hak5"; at most they identify the build platform.
+# `name` overrides the IEEE vendor string for display where it clarifies.
+rogue_hw_prefixes:
+  - prefix: "00:13:37"
+    name: "Orient Power (00:13:37 — also Wi-Fi Pineapple default-spoof MAC)"
+    notes: "IEEE-assigned to Orient Power Home Network Ltd; 00:13:37 is a 'leet' MAC the Pineapple spoofs by default, so a match is either Orient Power gear or a spoof"
+  - prefix: "00:C0:CA"
+    name: "ALFA Network adapter"
+    notes: "IEEE-assigned to ALFA, INC.; ubiquitous USB Wi-Fi NIC on pentest rigs and legitimate research alike"
+  - prefix: "28:CD:C1"
+    name: "Raspberry Pi (Trading) Ltd"
+    notes: "Raspberry Pi OUI — was previously mislabeled 'Hak5 Pineapple Tetra'"
+  - prefix: "DC:A6:32"
+    notes: "Raspberry Pi Trading Ltd — 3B/3B+/4"
+  - prefix: "B8:27:EB"
+    notes: "Raspberry Pi Foundation — original OUI"
+  - prefix: "E4:5F:01"
+    notes: "Raspberry Pi Trading Ltd — 4 / Zero 2W alt OUI"
+  - prefix: "D8:3A:DD"
+    notes: "Raspberry Pi Trading Ltd — 4 / CM4 / 400 OUI"
+  - prefix: "2C:CF:67"
+    notes: "Raspberry Pi (Trading) Ltd — Pi 5 OUI"
+
+# Genuinely-malicious OUIs → hard block (EUI_FLAG_KNOWN_MALICIOUS). Empty by
+# design: no vendor currently ships hardware whose OUI *alone* proves hostile
+# intent. Add an entry only for an OUI uniquely assigned to attack hardware,
+# never a general-purpose build platform (see rogue_hw_prefixes above).
+malicious_prefixes: []

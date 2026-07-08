@@ -1,0 +1,18 @@
+This directory vendors an esp_lcd panel driver for the ST7735 / ST7735S LCD
+controller.
+
+Upstream:  Espressif Systems esp_lcd panel-vendor driver family
+           (https://github.com/espressif/esp-bsp,
+            https://components.espressif.com/ — esp_lcd_st7789 / esp_lcd_st7796
+            reference drivers, which this ST7735 driver follows field-for-field)
+License:   Apache License 2.0
+Commit:    not pinned — adapted from the Espressif esp_lcd reference driver to
+           drive the ST7735 controller used by SniffCheck's panel.
+
+SPDX-FileCopyrightText: 2022-2023 Espressif Systems (Shanghai) CO LTD
+SPDX-License-Identifier: Apache-2.0
+
+The SPDX copyright/license header is retained verbatim in st7735.c and
+include/st7735.h. Licensed under the Apache License, Version 2.0 (the
+"License"); you may not use these files except in compliance with the License.
+You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0

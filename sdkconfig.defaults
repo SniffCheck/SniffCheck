@@ -1,0 +1,85 @@
+# SniffCheck T-Dongle C5 — sdkconfig defaults
+# Target set via: idf.py set-target esp32c5
+
+# Flash: 16 MB, DIO, 80 MHz
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+
+# Partition table
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# Console: USB Serial JTAG (no UART adapter needed — board connects via USB-A)
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+
+# FreeRTOS tick rate
+CONFIG_FREERTOS_HZ=1000
+
+# PSRAM probe — non-destructive detection.
+# Datasheet says C5HR8 (only PSRAM variant) is v1.2 die; boot log reports v1.0
+# but seller claims HR8. Probe at boot with IGNORE_NOTFOUND so a missing
+# PSRAM degrades to a warning instead of a boot failure. Per datasheet,
+# C5HR8 PSRAM is Quad SPI (not Octal).
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_QUAD=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_SPIRAM_IGNORE_NOTFOUND=y
+CONFIG_SPIRAM_USE_MALLOC=y
+CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY=y
+
+# Bluetooth — NimBLE host, observer-only, random scanner address.
+#
+# History: the C5 BT controller (commit 35fe65f in ESP-IDF v5.5) was
+# refusing HCI "LE Set Extended Scan Enable" (OCF=0x42) with
+# BLE_ERR_MEM_CAPACITY (-5) on the first all-features-on build. Root
+# cause was controller activity-slot exhaustion, not an EXT_SCAN bug.
+# Disabling every unused NimBLE role + periodic adv + controller-side
+# duplicate filter freed enough slots that EXT_SCAN works. Validated
+# 2026-05-28 with 1M PHY (Step A) and with 1M + Coded PHY (Step B).
+#
+# Keep the role/feature trim. The product is observation-only — no
+# central (Phase 12 rejected), no peripheral/broadcaster (Phase 13
+# paused, advertise-as-bait is opt-in only), no periodic-sync code
+# path exists. Re-enabling these would re-pressure the controller
+# slot budget that the extended dual-PHY scan is now occupying.
+#
+# BT_NIMBLE_EXT_ADV=y is required even though we never advertise: the
+# NimBLE header gates `struct ble_gap_ext_disc_desc` and
+# `event->ext_disc` on MYNEWT_VAL(BLE_EXT_ADV), not BLE_EXT_SCAN. No
+# ble_gap_ext_adv_* call exists in the codebase — symbol-only.
+#
+# BT_LE_SCAN_DUPL=n: duplicate filtering happens host-side via
+# ble_gap_ext_disc(filter_duplicates=1). The controller-side filter
+# was implicated in the original MEM_CAPACITY failures; leaving it
+# off keeps RAM available for the dual-PHY scan windows.
+CONFIG_BT_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLED=y
+CONFIG_BT_CONTROLLER_ENABLED=y
+CONFIG_BT_NIMBLE_ROLE_OBSERVER=y
+CONFIG_BT_NIMBLE_ROLE_CENTRAL=n
+CONFIG_BT_NIMBLE_ROLE_PERIPHERAL=n
+CONFIG_BT_NIMBLE_ROLE_BROADCASTER=n
+CONFIG_BT_NIMBLE_EXT_ADV=y
+CONFIG_BT_NIMBLE_EXT_SCAN=y
+CONFIG_BT_NIMBLE_ENABLE_PERIODIC_ADV=n
+CONFIG_BT_NIMBLE_PERIODIC_ADV_SYNC_TRANSFER=n
+CONFIG_BT_LE_SCAN_DUPL=n
+CONFIG_ESP_COEX_SW_COEXIST_ENABLE=y
+
+# Phase 19b — the 1 Hz download-mode tick re-renders the DOWNLOAD_ACTIVE
+# screen (including QR generation) from the esp_timer task. Bump the timer
+# task stack from the 3584 default so that render path has headroom.
+CONFIG_ESP_TIMER_TASK_STACK_SIZE=4096
+
+# Phase 19b — the on-demand softAP + DHCP server raise activity on the
+# default event loop task (sys_evt), and the AP-STA event handler logs from
+# that context. The 2.3 KB default overflows (stack protection fault in
+# vfprintf). 4096 was the value used during the retired-gateway AP era.
+CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=4096
+
+# Phase 32d — CSI/radio-metadata research spike. Owner greenlit the C5 CSI
+# experiment on 2026-06-19 and the firmware builds with this enabled. CSI stays
+# off the normal scan/scoring path; it only runs from the explicit console/WebAP
+# focused-capture command so runtime callback usability can be measured.
+CONFIG_ESP_WIFI_CSI_ENABLED=y

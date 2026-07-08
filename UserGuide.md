@@ -4,15 +4,15 @@ SniffCheck only listens. It never attacks, never sends fake stuff, never pokes o
 
 This guide tells you how to push the button, read the screen, and use the phone page. *<- side note: don't push the button*
 
-## What's new in this build (v0.19-phase19-115)
+## What's new in this build (v0.19-phase19-117)
 
-- **Themes.** The phone page and report viewer now have a theme picker (Settings tab on the dashboard, palette button on the report): Dracula, Nord, Gruvbox, Solarized Light, Tokyo Night, Monokai, plus the two SniffCheck defaults. The sun/moon button is still there for a quick light/dark flip. Your pick sticks across both pages.
-- **Public-safety gear is called out.** When the scan spots Axon/body-camera/TASER identifiers, those devices now get a badge icon on their result cards, the icon legend explains it, and the "Public safety" chip moved to the front of the summary badges, ahead of crowd density.
-- **Privacy findings got their own clusters.** The report groups per-device privacy-analyzer hits (probe requests, sequence fingerprints, IE signatures, ANQP) by source MAC, with cross-links where a finding matches a scan result. Heads up: most of these are client devices the sniffer overheard, not networks, so many won't have a matching Wi-Fi result — that's expected, not missing data.
-- **No more twin radio clusters.** When back-to-back scans picked a different lead radio for the same router, the report could show the same merged-radio group twice (once as 5 GHz + 2.4 GHz, once flipped). Same set of radios = one cluster now. Genuinely different groups still show separately.
-- **Walks are lighter on memory.** The Sniff Walk's dedup tables now live in PSRAM only while a walk is running and get released after, and the capture ring got resized so a walk, a packet capture, and the capture itself all fit in memory at once.
+- **The sniffer sweeps in loops now.** Instead of parking on each channel once for a long dwell, the passive sniff hops every `80 ms` and keeps looping over the channel list for the same total time. Devices that only transmit now and then don't get missed just because they were quiet during their channel's one window.
+- **The AP comes back after every capture.** Station capture and CSI capture now relaunch the SniffCheck AP on their own when the window ends, same as the packet scan already did. Just reconnect — no more digging through the device menu to re-open it.
+- **Quick tabs.** Pick your favorite report tabs in the dashboard Settings (default: Wi-Fi, BLE, Clusters, Channels). The report's floating button is now an apps-grid that jumps straight to them. The theme picker moved to dashboard Settings only — your theme still applies everywhere.
+- **Aggregate clusters.** The Clusters tab leads with a new subtab that combines NIC, radio, and privacy clusters describing the same physical device — linked only by a shared hardware address, or a shared SSID *plus* matching vendor OUI. Each tile shows which source clusters were combined and why.
+- **RF environment estimate.** The summary now shows a passive read on how busy the air is — crowd density, device density, mobile-device pressure, phone-like clustering — with icons for the device categories that fed the numbers, and a plain caveat that it's an estimate, not a head-count.
 
-Previous build (v0.19-phase19-111): unified `>` selector menus, summary `[1]` opens the Main menu, wireframe phone-page redesign, broader Adv sweep (hidden SSIDs, 5 GHz DFS, 192 BLE devices, merged radios kept in the export), Adv-only Auto AP.
+Previous build (v0.19-phase19-115): theme picker (Dracula/Nord/Gruvbox/Solarized Light/Tokyo Night/Monokai + SniffCheck defaults), public-safety gear badges, privacy-finding clusters, twin radio-cluster dedupe, PSRAM walk tables.
 
 ## The button
 
@@ -215,6 +215,7 @@ Your browser reads it. You can download a device list, or send the records into 
 
 - Mode: Lite or Adv (next scan)
 - Theme: palette for the phone page + report (Dracula, Nord, Gruvbox, Solarized Light, Tokyo Night, Monokai, or the two SniffCheck defaults)
+- Quick tabs: choose which report tabs the report's floating apps-grid button jumps to (default: Wi-Fi, BLE, Clusters, Channels)
 - Brightness: `25%`, `50%`, `75%`, `100%`
 - LED: On or Off      *<- does not really work....it dims the light but because we redraw each splash for some reason it inits a led flash on redraw...we have a issues open with espressif to try and figure this out but honestly it may come down to just the Lilygo Tdongle C5 not appreciating our attempt at animation.....*
 - AP timer: `15`, `30`, or `60` minutes    *<- realistitcally you don't need to keep the ap open once you open the summary. Normally I'll launch the ap, connect, go to the page, open **View Report** or save the report as html, and then disconnect or do more scans while I check out the results.*
@@ -286,9 +287,9 @@ All of these only listen. Nothing is ever sent    *<- at the moment this is a gl
 2. Go to **Channels**
 3. Tap **Capture stations**
 4. Type a channel and a time (`1` to `30` seconds)
-5. The AP closes during capture
+5. The AP closes during capture and comes back on its own when the window ends
 6. It reads MAC headers only. It does not decrypt traffic
-7. After, re-open the AP from the device to see results
+7. Rejoin the AP and reopen Channels to see results
 
 ### CSI capture
 
@@ -296,9 +297,9 @@ All of these only listen. Nothing is ever sent    *<- at the moment this is a gl
 2. Go to **Channels**
 3. Tap **Run CSI capture**
 4. Type a channel and a time (`1` to `30` seconds)
-5. The AP closes during the window
+5. The AP closes during the window and comes back on its own when it ends
 6. You get a GO / NO-GO result
-7. After, re-open the AP from the device to see results
+7. Rejoin the AP and reopen Channels to see it
 
 ### Packet scan (PCAP)
 
@@ -318,7 +319,7 @@ Packet scan only listens. Nothing is sent.    *<- for the moment*
 
 - Captive portal won't open? Go straight to `http://192.168.4.1/`    *<- save yourself some time, don't set auto connect in device settings for the ap for sniffcheck because it generates a new pass every time, but do save the webpage to your homescreen so you can just skip the second qrcode.*
 - Phone page drops during a scan or capture? That's normal. The radio can't serve the AP and scan at the same time *<- if you hit 'Continue trying wifi' it will stay connected*
-- After **Start new scan**, station capture, or CSI: re-open the AP from the device *<- should be same password so just rejoining the ap once it shows up works 70% or 90% of the time... we're still trying to figure that one out but I'm sure it'll sneak in there in one of the updates to the repo...*
-- After a Sniff Walk or packet scan: the AP comes back on its own *<- see above note*
+- After **Start new scan**: re-open the AP from the device *<- should be same password so just rejoining the ap once it shows up works 70% or 90% of the time... we're still trying to figure that one out but I'm sure it'll sneak in there in one of the updates to the repo...*
+- After a Sniff Walk, station capture, CSI, or packet scan: the AP comes back on its own *<- see above note*
 - Saved reports open later, but live tools need the SniffCheck AP *<- minus the channels...thats temporary*
 - Lost in the menus? `[hold]` backs you out toward Main

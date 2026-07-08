@@ -16,9 +16,10 @@ Right now, this is just a demo. Some parts were built with help from friends and
 
 ## Pertinent Files
 
-[Credits & References](https://github.com/SniffCheck/SniffCheck/blob/main/CREDITS.md)
-[NOTICE](https://github.com/SniffCheck/SniffCheck/blob/main/NOTICE)
-[UserGuide](https://github.com/SniffCheck/SniffCheck/blob/main/UserGuide.md)
+- [Credits & References](https://github.com/SniffCheck/SniffCheck/blob/main/CREDITS.md)
+- [NOTICE](https://github.com/SniffCheck/SniffCheck/blob/main/NOTICE)
+- [UserGuide](https://github.com/SniffCheck/SniffCheck/blob/main/UserGuide.md)
+- [Wiki](https://github.com/SniffCheck/SniffCheck/wiki)
 
 ## Flash it from your browser
 
@@ -41,6 +42,23 @@ Each image under `firmware/` is one merged build (bootloader, partition table, f
 * `dogpark-x4-c3.bin` — Dog Park X4 orchestrator with the e-ink UI (Xteink X4, ESP32-C3).
 
 `firmware/checksums.txt` lists the SHA-256 of each image.
+
+## Build it yourself
+
+If you would rather build it than flash the prebuilt image, the T-Dongle C5 firmware source is in this repo. You need ESP-IDF v5.5.0 and an ESP32-C5 target.
+
+```
+. $IDF_PATH/export.sh
+idf.py set-target esp32c5
+idf.py build
+idf.py -p PORT flash monitor
+```
+
+The vendor database lives in its own flash partition and is not part of the app build, so flash it once:
+
+```
+esptool.py -p PORT write_flash 0x310000 data/eui.bin
+```
 
 ## What it does
 

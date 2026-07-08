@@ -1,0 +1,5 @@
+dependencies:
+  espressif/mdns:
+    version: ">=1.0.0"
+  espressif/qrcode:
+    version: ">=0.1.0"
