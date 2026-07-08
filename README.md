@@ -4,7 +4,9 @@ A USB stick that helps you decide whether nearby Wi-Fi and Bluetooth activity lo
 
 Plug it in, read the screen, and decide whether to connect your phone to a nearby network. No app, no account, and nothing leaves the device.
 
-This repo is a public demo of SniffCheck.
+This repo is a opensource release of the standalone lilygo tdongle c5 firmware. 
+
+The - [Wiki](https://github.com/SniffCheck/SniffCheck/wiki) has a devlog if anyone wants to see how things came about. 
 
 ## Note from the author
 
@@ -14,12 +16,13 @@ Up front: there will be no crowdfunding. At some point, I plan to make a self-fu
 
 Right now, this is just a demo. Some parts were built with help from friends and AI along the way. Shout out to DCS, Dead Coder Society. Check it out, open issues if you find problems or have questions, and take a look at the credits. Hopefully this turns into something cool.
 
+This is just our twist on something thats pretty common. The only thing that is different from other projects is the environmental audit portion of SniffCheck. This shouldn't replace any of the other projects avaible out there. I think it's fun either way :)
+
 ## Pertinent Files
 
 - [Credits & References](https://github.com/SniffCheck/SniffCheck/blob/main/CREDITS.md)
 - [NOTICE](https://github.com/SniffCheck/SniffCheck/blob/main/NOTICE)
 - [UserGuide](https://github.com/SniffCheck/SniffCheck/blob/main/UserGuide.md)
-- [Wiki](https://github.com/SniffCheck/SniffCheck/wiki)
 
 ## Flash it from your browser
 
