@@ -92,7 +92,7 @@ As I keep prototyping, I plan to work toward a custom PCB that people can order 
 ## Using the device
 
 1. Plug SniffCheck into any USB power source.
-2. The T-Dongle C5 boots through the logo and author splashes, starts in Adv mode, and runs a scan automatically.
+2. The T-Dongle C5 boots through the logo and author splashes, starts in Adv mode, and runs a scan automatically.  *<- there is also a option to auto launch the ap*
 3. Read the verdict on the environment summary splash.
 4. Use the BOOT button to move around:
    * One click `[1]`: open the Main menu from the env summary, or move to the next row/item in selector screens.
