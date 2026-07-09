@@ -1,3 +1,3 @@
-8916c820d4ccf5a027fd008888594db894d18dfbc4f553a6b44561482fe4bf4e  firmware/sniffcheck-merged.bin
+a2dd27b286213144cc28b3233286274ad042fbb7d50d49a582208ddbff0de4cc  firmware/sniffcheck-merged.bin
 fd85d599ec96d6ba780c3708611878b7ca5a08e67e3ac1b71d5519c17a855080  firmware/sniffcheck-node-c5.bin
 f14824fef2916b7004d93bfb789d801d88ba0a816f1ff443a85c096274a51695  firmware/dogpark-x4-c3.bin

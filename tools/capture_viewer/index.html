@@ -69,9 +69,16 @@ header img{height:40px;width:auto;display:block;border:3px solid var(--line);
   border-radius:11px;background:var(--panel);padding:3px 6px;
   box-shadow:3px 3px 0 var(--sh)}
 header .sub{color:var(--dim);font-size:12px;font-weight:700}
+.constat{display:inline-flex;align-items:center;gap:5px;font-size:11px;
+  font-weight:800;letter-spacing:.02em;color:var(--avoid)}
+.constat .cdot{width:9px;height:9px;border-radius:50%;background:var(--avoid);flex:none}
+.constat.on{color:var(--safe)}
+.constat.on .cdot{background:var(--safe)}
 
 #top{position:sticky;top:0;z-index:8;
-  background:var(--bg);border-bottom:3px solid var(--line)}
+  background:var(--bg);border-bottom:3px solid var(--line);
+  transition:transform .22s ease}
+body.bar-hidden #top{transform:translateY(-100%)}
 #bar{display:none;padding:8px 12px;
   padding-top:calc(8px + env(safe-area-inset-top))}
 .trow{display:flex;gap:8px;align-items:center}
@@ -211,6 +218,15 @@ a{color:var(--acc2);text-decoration:none;font-weight:700}
 .why{margin-top:7px;font-size:13px;color:var(--txt);background:var(--panelw);
   border:1.5px solid var(--line);border-radius:9px;padding:8px 11px;
   border-left:4px solid var(--cat,var(--acc))}
+.surf{font-weight:800}
+.surf .sfx{width:13px;height:13px;vertical-align:-2px;margin-left:4px;opacity:.7}
+.idsurf{display:flex;gap:7px;align-items:flex-start;margin:6px 0 2px;
+  font-size:12.5px;line-height:1.35;background:var(--panelw);
+  border:1.5px solid var(--line);border-left:4px solid var(--acc2);
+  border-radius:9px;padding:7px 10px}
+.idsurf .ic{width:16px;height:16px;flex:none;margin-top:1px;color:var(--acc2)}
+.idsurf.hi{border-left-color:var(--avoid)}
+.idsurf.hi .ic{color:var(--avoid)}
 
 .grphdr{grid-column:1/-1;font-size:11px;letter-spacing:.6px;text-transform:uppercase;
   color:var(--dim);font-weight:800;margin:6px 0 0;padding-left:2px}
@@ -507,7 +523,11 @@ try{let t=localStorage.getItem("sc-theme");
 </defs></svg>
 <header>
   <img alt="SniffCheck" src="/logo.png" onerror="this.remove()">
+  <span id="constat" class="constat" title="Not connected to a SniffCheck device">
+    <span class="cdot"></span><span class="ctext">offline</span></span>
   <span class="sub" id="srcinfo"></span>
+  <button class="tbtn" id="addcap" style="display:none;margin-left:auto"
+    title="Add a SniffCheck capture, or import a Biscuit/Wigle/Kismet/wardriver scan">Import</button>
 </header>
 
 <div id="top">
@@ -516,8 +536,6 @@ try{let t=localStorage.getItem("sc-theme");
       <input id="q" type="search" placeholder="Search SSID, name, vendor, MAC…"
         autocomplete="off" autocapitalize="off" spellcheck="false">
       <button class="tbtn" id="ftog">Filters</button>
-      <button class="tbtn" id="addcap" style="display:none"
-        title="Aggregate another capture (rescan) into this view">+ Add rescan</button>
       <button class="tbtn" id="exp">Export</button>
       <a class="tbtn" id="dash" href="/" title="Back to the SniffCheck AP dashboard">Dashboard</a>
     </div>
@@ -541,11 +559,13 @@ try{let t=localStorage.getItem("sc-theme");
 
 <main>
   <div id="drop">
-    <b>Drop a capture file here</b> (live.jsonl / live.json) or tap to pick one.<br>
-    <span class="small">Handles true JSONL and the legacy array-wrapped format.
-    Pick several capture files at once — rescans aggregate into one view.
+    <b>Drop a capture file here</b> or tap to pick one.<br>
+    <span class="small">SniffCheck exports (.jsonl / .ndjson / .json) aggregate straight into
+    this view. Biscuit, Wigle, Kismet and wardriver scans (.json / .jsonl / .csv / .log)
+    are carved and re-decoded by a connected SniffCheck, then added to the cross-scan view.
     Everything stays in this browser tab.</span>
-    <input type="file" id="fpick" accept=".json,.jsonl,.txt,application/json" multiple>
+    <input type="file" id="fpick"
+      accept=".json,.jsonl,.ndjson,.txt,.csv,.log,application/json" multiple>
   </div>
   <div id="app">
     <section id="s-banner"><h2>RF Env Summary</h2><div id="banner"></div></section>
@@ -561,7 +581,7 @@ try{let t=localStorage.getItem("sc-theme");
   </div>
 </main>
 
-<script id="sc-data" type="application/json"></script>
+<script id="sc-data" type="application/json"><!--SC_DATA_ISLAND--></script>
 
 <script>
 "use strict";
@@ -611,7 +631,7 @@ function buildModel(recs,bad){
   const m={bad,total:recs.length,header:null,footer:null,codebook:null,
     wifi:new Map(),ble:new Map(),clusters:[],trackers:new Map(),
     drones:new Map(),alerts:new Map(),logs:{},unknown:new Map(),
-    addrStats:null,envInd:null,lawEnf:null,chanAct:null,pcap:null,maxScan:0,
+    addrStats:null,envInd:null,lawEnf:null,medResp:null,chanAct:null,pcap:null,maxScan:0,
     pres:new Map(),slots:[]};
 
   const presRaw=new Map(),slotSet=new Set();
@@ -645,6 +665,7 @@ function buildModel(recs,bad){
     case "ble_addr_stats":m.addrStats=r;break;
     case "environment_indicators":m.envInd=r;break;
     case "law_enforcement_presence":m.lawEnf=r;break;
+    case "medical_responder_presence":m.medResp=r;break;
     case "channel_activity":m.chanAct=r;break;
     case "pcap_capture":m.pcap=r;break;
     case "tracker":  latest(m.trackers,(r.addr||"?")+"|"+(r.tracker_kind||""),r);break;
@@ -783,6 +804,74 @@ function fGrade(r){
   if((f&0x0002)||fClass(r)==="ENT-AP")return "ent";
   if((f&0x0004)||fClass(r)==="CONSUMER")return "con";
   return "";
+}
+
+// Friendly labels for firmware device_type codes (public-safety + medical), so
+// surfaced identities read plainly instead of as raw enum strings.
+const SAFETY_LABEL={
+  body_camera:"law-enforcement body camera",
+  taser:"conducted-energy weapon (Taser)",
+  in_car_camera:"in-car / fleet camera",
+  radio:"public-safety radio",
+  vehicle_gateway:"police vehicle gateway",
+  rugged_device:"rugged field device",
+  other_public_safety:"public-safety device",
+  ambulance_gateway:"ambulance gateway",
+  ems_tablet:"EMS tablet",
+  medical_monitor:"patient monitor",
+  radio_accessory:"responder radio accessory",
+  ems_camera:"EMS camera",
+  air_ambulance:"air-ambulance system",
+  hospital_ems:"hospital / EMS device",
+  other_medical_responder:"medical-responder device"
+};
+function safetyLabel(t){return SAFETY_LABEL[t]||String(t||"").replace(/_/g," ");}
+
+// Derive a human identity for a record from raw scan fields, tiered most- to
+// least-specific. Returns {name, source, hi} or null. `hi` marks high-signal
+// awareness (public-safety / medical) surfaced even when a name already exists.
+// Everything here is read from the device's own decoded fields — never invented.
+function surfacedIdentity(r,kind){
+  const up=fMac(r)&&String(fMac(r)).toUpperCase();
+  const ps=up&&PSIDX.get(up);
+  if(ps&&ps.device_type&&ps.device_type!=="unknown")
+    return {name:safetyLabel(ps.device_type),hi:true,
+      source:"law-enforcement presence analysis"+(ps.label?" ("+ps.label+")":"")};
+  const mr=up&&MRIDX.get(up);
+  if(mr&&mr.device_type&&mr.device_type!=="unknown")
+    return {name:safetyLabel(mr.device_type),hi:true,
+      source:"medical-responder presence analysis"+(mr.label?" ("+mr.label+")":"")};
+  if(kind==="ble"){
+    if(r.fastpair_name)   return {name:r.fastpair_name,   source:"Google Fast Pair payload"};
+    if(r.uuid16_name)     return {name:r.uuid16_name,     source:"BLE service UUID (16-bit)"};
+    if(r.uuid128_name)    return {name:r.uuid128_name,    source:"BLE service UUID (128-bit)"};
+    if(r.uuid32_name)     return {name:r.uuid32_name,     source:"BLE service UUID (32-bit)"};
+    if(r.ms_subtype_name) return {name:r.ms_subtype_name, source:"Microsoft advertising payload"};
+    if(r.apple_category)  return {name:r.apple_category,  source:"Apple Continuity payload"};
+    if(r.name_rule_name)  return {name:r.name_rule_name,  source:"device-name rule match"};
+    if(r.mfg_rule_name)   return {name:r.mfg_rule_name,   source:"manufacturer-data rule match"};
+    if(r.phone_model)     return {name:r.phone_model,     source:"model inference"};
+  }
+  // last-resort awareness for a still-nameless device: its class, then vendor.
+  if(!fName(r)){
+    const cls=fClass(r);
+    if(cls)  return {name:CLASS_TO_CAT[cls]||cls,source:"device-class classification"};
+    const v=fVendor(r);
+    if(v)    return {name:v,source:"OUI vendor lookup"};
+  }
+  return null;
+}
+
+// The awareness "evidence card": shown whenever an identity was surfaced,
+// stating plainly what was surfaced and from where — so the RF picture is clear
+// without opening the raw record.
+function idSurfCard(si){
+  if(!si)return "";
+  return '<div class="idsurf'+(si.hi?" hi":"")+'">'+
+    '<svg class="ic"><use href="#ic-privacy"/></svg>'+
+    '<span><b>Surfaced from raw scan:</b> '+esc(si.name)+
+    ' <span class="dim">— '+esc(si.source)+
+    '. Shown to build RF awareness without digging into raw data.</span></span></div>';
 }
 
 const THREAT_CLS={none:"p0",low:"p1",medium:"p2",high:"p3"};
@@ -1110,6 +1199,7 @@ function dedupeRadioGroups(rows){
 let CLIDX=new Map();
 let PV=[],PVIDX=new Map();
 let PSIDX=new Map();
+let MRIDX=new Map();
 function buildClusterIndex(){
   CLIDX=new Map();
   const P=clusterParts();
@@ -1181,21 +1271,35 @@ function buildPsIndex(){
   PSIDX=new Map();
   if(M&&M.lawEnf)for(const e of M.lawEnf.evidence||[])
     if(e.target)PSIDX.set(String(e.target).toUpperCase(),e);
+  MRIDX=new Map();
+  if(M&&M.medResp)for(const e of M.medResp.evidence||[])
+    if(e.target)MRIDX.set(String(e.target).toUpperCase(),e);
 }
 
+// Pull a human identifier out of a raw analyzer row so a privacy cluster can
+// show a name/vendor instead of just the MAC. Tiered: name(3) > vendor(1).
+function privIdent(rec){
+  if(!rec)return null;
+  if(rec.name)return{t:3,s:String(rec.name)};
+  const v=rec.vendor||rec.mac_vendor||rec.ie_vendor||rec.company_name;
+  if(v)return{t:1,s:String(v)};
+  if(rec.camera)return{t:1,s:"camera-vendor device"};
+  return null;
+}
 function buildPrivClusters(){
   const by=new Map();
-  const add=(mac,label,html)=>{
+  const add=(mac,label,html,ident)=>{
     if(!mac)return;
-    let e=by.get(mac);if(!e){e={mac,items:[]};by.set(mac,e);}
+    let e=by.get(mac);if(!e){e={mac,items:[],ident:null};by.set(mac,e);}
     e.items.push([label,html]);
+    if(ident&&(!e.ident||ident.t>e.ident.t))e.ident=ident;
   };
   for(const p of PRIV){
     const rec=M.logs[p.k];if(!rec)continue;
     if(p.k==="station_log"){
-      for(const s of rec.stations||[])add(s.mac,p.label,stationRow(s));
+      for(const s of rec.stations||[])add(s.mac,p.label,stationRow(s),privIdent(s));
     }else if(p.row){
-      for(const r of rec.detail||[])add(r.src_mac,p.label,p.row(r));
+      for(const r of rec.detail||[])add(r.src_mac,p.label,p.row(r),privIdent(r));
     }
   }
   PV=[...by.values()];
@@ -1264,9 +1368,14 @@ function dcell(l,v){
 }
 function stdCard(kind,id,r,addr,nameHtml,rowA,rowB){
   const vend=fVendor(r);
+  const si=surfacedIdentity(r,kind);
+  const named=!!fName(r);
+  const nm=(si&&!named)?
+    '<span class="surf" title="identity surfaced from raw scan">'+esc(si.name)+
+      '<svg class="ic sfx"><use href="#ic-privacy"/></svg></span>':nameHtml;
   return '<div class="dcard k-'+kind+'"'+(id?' id="'+id+'"':"")+">"+
     '<div class="dch"><span class="dleft">'+catIcon(r,kind)+
-    '<span class="daddr" title="'+esc(fName(r)||addr)+'">'+nameHtml+"</span></span>"+
+    '<span class="daddr" title="'+esc(si&&!named?si.name:(fName(r)||addr))+'">'+nm+"</span></span>"+
     '<span class="dright">'+clusterLink(addr)+privacyLink(addr)+threatPill(r.threat_level)+
     '<button class="draw" type="button" aria-expanded="false" '+
     'title="View details" aria-label="View details">▾</button></span></div>'+
@@ -1336,7 +1445,7 @@ function renderWifi(){
 }
 function wifiDetail(r){
   const seen=M.wifi.get(r.bssid)||{n:1};
-  return whyHtml(r)+
+  return whyHtml(r)+idSurfCard(surfacedIdentity(r,"wifi"))+
     '<div class="small"><b>BSSID:</b> <span class="mono">'+esc(r.bssid||"?")+
     "</span> · <b>vendor:</b> "+esc(fVendor(r)||"unknown")+"</div>"+
     '<div class="small dim">class '+esc(cb("device_class",r.device_class))+
@@ -1390,7 +1499,7 @@ function bleDetail(r){
     ids.push("phone model: unknown ("+(r.apple_category||"type")+", inferred)");
   else if(r.phone_model_confidence==="make_only")
     ids.push("phone model: unknown (make only)");
-  return whyHtml(r)+
+  return whyHtml(r)+idSurfCard(surfacedIdentity(r,"ble"))+
     '<div class="small"><b>address:</b> <span class="mono">'+esc(r.addr||"?")+
     (r.addr_subtype?" ("+esc(r.addr_subtype)+")":"")+
     "</span> · <b>vendor:</b> "+esc(fVendor(r)||"unknown")+
@@ -1790,6 +1899,21 @@ function renderClusters(){
     });
     return '<h3 class="cgh">'+label+" ("+arr.length+')</h3><div class="cgrid">'+h+"</div>";
   }
+  // Privacy-only tile grid: surfaces a name/vendor (non-mono) with the MAC as
+  // the tooltip. Kept separate so NIC / aggregate / other grids stay untouched.
+  function pvGrid(arr,label,gid,ic,name,panel){
+    if(!arr.length)return "";
+    let h="";
+    arr.forEach((c,i)=>{
+      const nm=name(c);
+      h+='<button class="ctile" data-g="'+gid+'" data-i="'+i+'" title="'+esc(nm.title||nm.s)+
+        '" aria-expanded="false">'+(ic(c)||"")+
+        '<span class="cmac'+(nm.mono?" mono":"")+'">'+esc(nm.s)+"</span></button>"+
+        '<div class="cdet" data-g="'+gid+'" data-i="'+i+'" style="display:none">'+
+        panel(c)+"</div>";
+    });
+    return '<h3 class="cgh">'+label+" ("+arr.length+')</h3><div class="cgrid">'+h+"</div>";
+  }
 
   function pvIcon(e){
     const w=M.wifi.get(e.mac);if(w)return catIcon(w.rec,"wifi");
@@ -1809,11 +1933,32 @@ function renderClusters(){
     return h+"</div>";
   }
 
+  // Best human identifier for an address, tiered most- to least-identifying so a
+  // real device name (3) outranks a UUID/service/category label (2), which
+  // outranks a bare vendor (1), which outranks the raw MAC (0). Lets privacy
+  // clusters read as devices instead of anonymous MACs.
+  const bestIdent=mac=>{
+    if(!mac)return{t:0,s:"?"};
+    const w=M.wifi.get(mac);
+    if(w){const r=w.rec;
+      if(r.ssid)return{t:3,s:r.ssid};
+      if(r.vendor)return{t:1,s:r.vendor};}
+    const b=M.ble.get(mac);
+    if(b){const r=b.rec;
+      const nm=r.name||r.fastpair_name;
+      if(nm)return{t:3,s:nm};
+      const id=r.uuid16_name||r.uuid128_name||r.uuid32_name||r.ms_subtype_name||
+               r.name_rule_name||r.apple_category||r.mfg_rule_name;
+      if(id)return{t:2,s:id};
+      const v=r.vendor||r.company_name;
+      if(v)return{t:1,s:v};}
+    return{t:0,s:mac};
+  };
   const pvName=e=>{
-    const w=M.wifi.get(e.mac);if(w&&w.rec.ssid)return w.rec.ssid;
-    const b=M.ble.get(e.mac);if(b&&(b.rec.name||b.rec.vendor))
-      return b.rec.name||b.rec.vendor;
-    return e.mac;
+    const b=bestIdent(e.mac);
+    if(b.t>0)return{s:b.s,mono:false,title:e.mac};        // resolved to a known device
+    if(e.ident&&e.ident.s)return{s:e.ident.s,mono:false,title:e.mac}; // analyzer-derived
+    return{s:e.mac,mono:true,title:e.mac};                // no identifier — show MAC
   };
 
   function buildAggregates(){
@@ -1945,7 +2090,7 @@ function renderClusters(){
       r=>r.ssid||r.bssid,mrPanel)||
     empty("No merged-radio records in this capture.");
   const privHtml=
-    tgrid(PV,"Privacy clusters","pv",pvIcon,pvName,pvPanel)||
+    pvGrid(PV,"Privacy clusters","pv",pvIcon,pvName,pvPanel)||
     empty("No per-device privacy-analyzer rows in this capture.");
   const aggHtml=
     tgrid(AGG,"Aggregate clusters","ag",aggIcon,aggName,aggPanel)||
@@ -1981,7 +2126,7 @@ function renderClusters(){
     return h+"</div>";
   }
   const rcHtml=M.slots.length<2?
-    empty("Single scan loaded — use + Add rescan (or run more scan passes) to build multi-scan sequencing."):
+    empty("Single scan loaded — use Import (or run more scan passes) to build multi-scan sequencing."):
     (tgrid(RC,"Multi-scan chains","rc",rcIcon,rcName,rcPanel)||
      empty("No cross-scan address chains — every device kept a stable address across the aggregated scans."));
   const nicN=veh.length+net.length+bt.length+supBle.length;
@@ -2741,6 +2886,7 @@ $("exp").onclick=()=>{
 let RAW_RECS=[];
 
 let SESSIONS=[];
+let DEVICE_SESSION=-1;   // index of the session mirroring the device's live ring
 function combinedRecs(){
   const recs=[];let bad=0;
   SESSIONS.forEach((s,si)=>{
@@ -2779,23 +2925,139 @@ function loadText(text,label){
   renderAll();
 }
 
-function loadFiles(files){
+// SniffCheck-native record types. A native capture always carries at least one
+// of these; a foreign wardrive dump never does. Used to route Import.
+const NATIVE_TYPES={header:1,footer:1,codebook:1,wifi_ap:1,ble_device:1,tracker:1,
+  drone_rid:1,device_cluster:1,alert:1,station_log:1,probe_req_log:1,
+  seq_fingerprint_log:1,ie_signature_log:1,anqp_log:1,channel_activity:1,
+  pcap_capture:1,pup_walk:1,csi:1,crowd_density:1,multiscan_seq:1,
+  environment_indicators:1,law_enforcement_presence:1,medical_responder_presence:1,
+  ble_addr_stats:1};
+function looksNative(recs){
+  for(let i=0;i<recs.length&&i<300;i++)if(recs[i]&&NATIVE_TYPES[recs[i].type])return true;
+  return false;
+}
+function deviceOnline(){return location.protocol==="http:"||location.protocol==="https:";}
+
+// ---- foreign wardrive carve (ported from the on-device BYOS "Carve") ----
+// Produces the same tab-separated W/B/M lines /api/byos/sniffcheck consumes.
+function bynorm(m){var h=String(m==null?"":m).replace(/[^0-9A-Fa-f]/g,"").toUpperCase();
+  return h.length==12?h.match(/../g).join(":"):"";}
+function bysan(v,n){return String(v==null?"":v).replace(/[\t\r\n]+/g," ").trim().slice(0,n);}
+function bysrcname(fn){var b=String(fn||"").replace(/\.[^.]*$/,"");return bysan(b,16)||"src";}
+function byhasmac(o){var ks=Object.keys(o);for(var i=0;i<ks.length;i++){var lp=ks[i].toLowerCase().split(".").pop();
+  if((lp=="mac"||lp=="bssid"||lp=="macaddr"||lp=="addr"||lp=="address")&&bynorm(o[ks[i]]))return true;}return false;}
+function byfield(o,names,d){if(!o||typeof o!="object"||d>4)return undefined;var ks=Object.keys(o);
+  for(var n=0;n<names.length;n++){for(var i=0;i<ks.length;i++){var kl=ks[i].toLowerCase();
+    if(kl==names[n]||kl.split(".").pop()==names[n]){var v=o[ks[i]];if(v!=null&&v!==""&&typeof v!="object")return v;}}}
+  for(var i=0;i<ks.length;i++){var v=o[ks[i]];if(v&&typeof v=="object"&&!Array.isArray(v)){var r=byfield(v,names,(d||0)+1);if(r!==undefined)return r;}}return undefined;}
+function byrec(o,dsrc){var mac=bynorm(byfield(o,["mac","bssid","macaddr","addr","address"],0));if(!mac)return null;
+  var typ=String(byfield(o,["type","phyname","phy","technology"],0)||"").toLowerCase();
+  var ssid=byfield(o,["ssid","essid"],0),name=byfield(o,["name","local_name","devname","commonname"],0);
+  var ch=parseInt(byfield(o,["channel","chan"],0),10),rssi=parseInt(byfield(o,["rssi","signal","signal_dbm","last_signal","bestlevel"],0),10);
+  var auth=byfield(o,["authtype","authmode","auth","capabilities","encryption","security","crypt"],0);
+  var w=/wifi|wlan|802\.11|ieee/.test(typ),b=/ble|bt|bluetooth/.test(typ);
+  var isw=w||(!b&&(ssid!=null||auth!=null)),isb=b||(!w&&!isw&&name!=null);
+  var src=bysan(byfield(o,["source_id","source","node","node_id","sensor","observer"],0),16)||dsrc||"local";
+  var lat=bysan(byfield(o,["lat","latitude","trilat","currentlatitude"],0),16);
+  var lon=bysan(byfield(o,["lon","lng","longitude","trilong","currentlongitude"],0),16);
+  var ts=bysan(byfield(o,["time","timestamp","lasttime","firsttime","firstseen","lastseen"],0),16);
+  if(isw)return ["W",mac,bysan(ssid!=null?ssid:name,32),isNaN(ch)?"":ch,isNaN(rssi)?"":rssi,bysan(auth,23),src,lat,lon,ts].join("\t");
+  if(isb)return ["B",mac,bysan(name,32),isNaN(rssi)?"":rssi,src,lat,lon,ts].join("\t");
+  return ["M",mac,src,lat,lon,ts].join("\t");}
+function bywalk(node,out){if(Array.isArray(node)){for(var i=0;i<node.length;i++)bywalk(node[i],out);return;}
+  if(node&&typeof node=="object"){if(byhasmac(node)){out.push(node);return;}var ks=Object.keys(node);for(var i=0;i<ks.length;i++)bywalk(node[ks[i]],out);}}
+function bysplit(l){var o=[],c="",q=false;for(var i=0;i<l.length;i++){var ch=l[i];
+  if(q){if(ch=='"'){if(l[i+1]=='"'){c+='"';i++;}else q=false;}else c+=ch;}
+  else if(ch=='"')q=true;else if(ch==","){o.push(c);c="";}else c+=ch;}o.push(c);return o;}
+function bycsv(s,dsrc){var ls=s.split(/\r?\n/),h=-1,cols=[];
+  for(var i=0;i<ls.length;i++){var fs=bysplit(ls[i]).map(function(x){return x.trim().toLowerCase();});
+    if(fs.indexOf("mac")>=0||fs.indexOf("bssid")>=0){h=i;cols=fs;break;}}
+  if(h<0)return [];var recs=[];
+  for(var i=h+1;i<ls.length;i++){if(!ls[i].trim())continue;var fs=bysplit(ls[i]),o={};
+    for(var j=0;j<cols.length;j++)if(j<fs.length)o[cols[j]]=fs[j];var r=byrec(o,dsrc);if(r)recs.push(r);}return recs;}
+function bysrcof(p){return p[0]=="W"?p[6]:p[0]=="B"?p[4]:p[2];}
+function byone(s,dsrc,seen,out,cnt){var objs=[],recs=[];
+  try{objs.push(JSON.parse(s));}catch(e){var ls=s.split(/\r?\n/);for(var i=0;i<ls.length;i++){var t=ls[i].trim();
+    if(t&&(t[0]=="{"||t[0]=="[")){try{objs.push(JSON.parse(t));}catch(e2){}}}}
+  if(objs.length){var found=[];for(var i=0;i<objs.length;i++)bywalk(objs[i],found);
+    for(var i=0;i<found.length;i++){var r=byrec(found[i],dsrc);if(r)recs.push(r);}}
+  if(!recs.length)recs=bycsv(s,dsrc);
+  for(var i=0;i<recs.length;i++){var p=recs[i].split("\t"),mac=p[1];if(!mac)continue;
+    var k=mac+"|"+(bysrcof(p)||dsrc);if(seen[k])continue;seen[k]=1;out.push(recs[i]);
+    if(p[0]=="W")cnt[0]++;else if(p[0]=="B")cnt[1]++;else cnt[2]++;}
+  var re=/(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}|\b[0-9A-Fa-f]{12}\b/g,m;
+  while((m=re.exec(s))){var x=bynorm(m[0]);if(!x)continue;var k=x+"|"+dsrc;if(!seen[k]){seen[k]=1;out.push(["M",x,dsrc,"","",""].join("\t"));cnt[2]++;}}}
+
+// Native SniffCheck captures aggregate locally; foreign scans are carved and
+// re-decoded by a connected SniffCheck, then folded into the cross-scan view.
+function importFiles(files){
   const arr=[...files];
-  (function next(i){
-    if(i>=arr.length)return;
-    const f=arr[i],rd=new FileReader();
+  let pending=arr.length;
+  if(!pending)return;
+  let added=false;
+  const seen={},carved=[],cnt=[0,0,0],foreignNames=[];
+  const finish=()=>{
+    if(added)renderAll();
+    if(!carved.length){
+      if(!added)alert("No capture records found in the selected file(s).");
+      return;
+    }
+    if(!deviceOnline()){
+      alert(carved.length+" external sighting(s) carved from "+foreignNames.join(", ")+
+        ".\n\nImporting a Biscuit/Wigle/Kismet/wardriver scan needs a live SniffCheck to "+
+        "re-decode it — open this report from the SniffCheck AP (http://…/report.html) and "+
+        "import again. Native SniffCheck exports (.jsonl/.ndjson) can be added offline.");
+      return;
+    }
+    importCarved(carved,foreignNames,cnt);
+  };
+  arr.forEach(f=>{
+    const rd=new FileReader();
     rd.onload=()=>{
-      loadText(rd.result,f.name+" · "+(f.size/1024).toFixed(1)+" KB");
-      next(i+1);
+      const text=String(rd.result||"");
+      const pr=parseCapture(text);
+      if(pr.recs.length&&looksNative(pr.recs)){
+        SESSIONS.push({label:f.name+" · "+(f.size/1024).toFixed(1)+" KB",recs:pr.recs,bad:pr.bad});
+        added=true;
+      }else{
+        byone(text,bysrcname(f.name),seen,carved,cnt);
+        foreignNames.push(f.name);
+      }
+      if(--pending===0)finish();
     };
+    rd.onerror=()=>{if(--pending===0)finish();};
     rd.readAsText(f);
-  })(0);
+  });
+}
+
+// POST carved lines to the device, which re-decodes against eui.db (and replaces
+// its volatile ring). Pull the decoded records back as one cross-scan session.
+function importCarved(lines,names,cnt){
+  const label=names.join(", ");
+  fetch("/api/byos/sniffcheck",{method:"POST",
+      headers:{"Content-Type":"text/plain"},body:lines.join("\n")})
+    .then(r=>r.json().then(j=>{if(!r.ok)throw new Error(j.error||"import failed");return j;}))
+    .then(j=>fetch("/api/captures/live.jsonl").then(r=>r.text()).then(txt=>{
+      const pr=parseCapture(txt);
+      if(!pr.recs.length)throw new Error("import produced no records");
+      // Additive: the device ring now holds the prior capture + this import as a
+      // new scan pass, so mirror the whole ring into the one device session
+      // (replace, don't duplicate the pre-existing records).
+      const sess={label:"SniffCheck device · +"+label+" ("+
+        (j.wifi||0)+" Wi-Fi, "+(j.ble||0)+" BLE, "+(j.mac_only||0)+" MAC-only imported)",
+        recs:pr.recs,bad:pr.bad};
+      if(DEVICE_SESSION>=0&&DEVICE_SESSION<SESSIONS.length)SESSIONS[DEVICE_SESSION]=sess;
+      else{SESSIONS.push(sess);DEVICE_SESSION=SESSIONS.length-1;}
+      renderAll();
+    }))
+    .catch(e=>alert("External import failed: "+(e.message||e)));
 }
 
 const drop=$("drop"),fpick=$("fpick");
 drop.onclick=()=>fpick.click();
 fpick.onchange=()=>{
-  if(fpick.files.length)loadFiles(fpick.files);
+  if(fpick.files.length)importFiles(fpick.files);
   fpick.value="";
 };
 $("addcap").onclick=()=>fpick.click();
@@ -2803,14 +3065,43 @@ drop.ondragover=e=>{e.preventDefault();drop.classList.add("hover");};
 drop.ondragleave=()=>drop.classList.remove("hover");
 drop.ondrop=e=>{
   e.preventDefault();drop.classList.remove("hover");
-  if(e.dataTransfer.files.length)loadFiles(e.dataTransfer.files);
+  if(e.dataTransfer.files.length)importFiles(e.dataTransfer.files);
 };
+
+// Live connection indicator: green "online" when a SniffCheck device answers,
+// red "offline" otherwise (e.g. a downloaded report opened from disk).
+function setConn(on){
+  const c=$("constat");if(!c)return;
+  c.classList.toggle("on",!!on);
+  const t=c.querySelector(".ctext");if(t)t.textContent=on?"online":"offline";
+  c.title=on?"Connected to a SniffCheck device":"Not connected to a SniffCheck device";
+}
+function pollConn(){
+  if(location.protocol==="file:"){setConn(false);return;}
+  fetch("/api/status",{cache:"no-store"}).then(r=>setConn(r.ok)).catch(()=>setConn(false));
+}
+pollConn();setInterval(pollConn,15000);
+addEventListener("visibilitychange",()=>{if(!document.hidden)pollConn();});
+
+// Auto-hide the top bar (search / filters / export / dashboard + tabs) on
+// scroll-down for more screen; reveal it on scroll-up or near the top.
+(function(){
+  let lastY=0,ticking=false;
+  function upd(){
+    const y=window.scrollY||document.documentElement.scrollTop||0;
+    if(y<60)document.body.classList.remove("bar-hidden");
+    else if(y>lastY+6)document.body.classList.add("bar-hidden");
+    else if(y<lastY-6)document.body.classList.remove("bar-hidden");
+    lastY=y;ticking=false;
+  }
+  addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
+})();
 
 (function(){
   const isl=document.getElementById("sc-data");
   if(!isl)return;
   let t=(isl.textContent||"").replace(/<!--.*?-->/g,"").trim();
-  if(t)loadText(t,"locally stored report");
+  if(t){loadText(t,"locally stored report");DEVICE_SESSION=SESSIONS.length-1;}
 })();
 </script>
 </body>

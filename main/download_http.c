@@ -1338,9 +1338,20 @@ static esp_err_t byos_sniffcheck_post(httpd_req_t *req)
         return send_bad(req, "no records found");
     }
 
-    capture_ring_clear_volatile();
-    capture_emit_header();
-    capture_emit_codebook();
+    /* Additive import: keep whatever is already in the ring (live capture and
+       prior imports) and fold this scan in as its own pass. Only lay down a
+       fresh header/codebook when the ring is empty. The import takes the next
+       scan slot after any existing scans so it sequences distinctly in the
+       cross-scan view. When the 4 MB PSRAM ring fills, the ring evicts its
+       oldest records first (see capture_ring_write). */
+    capture_ring_stats_t rst;
+    capture_ring_get_stats(&rst);
+    bool fresh = (rst.records_current == 0);
+    if (fresh) {
+        capture_emit_header();
+        capture_emit_codebook();
+    }
+    uint16_t scan_index = fresh ? 1 : (uint16_t)(capture_writer_last_scan() + 1);
     uint32_t import_id = (uint32_t)(esp_timer_get_time() / 1000);
     uint32_t wifi_n = 0, ble_n = 0, mac_n = 0;
     for (uint16_t i = 0; i < im->count; i++) {
@@ -1348,19 +1359,19 @@ static esp_err_t byos_sniffcheck_post(httpd_req_t *req)
         uint16_t idx = (uint16_t)(i + 1);
         switch (rc->type) {
         case 'W':
-            capture_emit_byos_wifi(rc->mac, 1, import_id, idx,
+            capture_emit_byos_wifi(rc->mac, scan_index, import_id, idx,
                                    rc->text, rc->channel, rc->auth,
                                    rc->sight, rc->n_sight);
             wifi_n++;
             break;
         case 'B':
-            capture_emit_byos_ble(rc->mac, 1, import_id, idx,
+            capture_emit_byos_ble(rc->mac, scan_index, import_id, idx,
                                   rc->text[0] ? rc->text : NULL,
                                   rc->sight, rc->n_sight);
             ble_n++;
             break;
         default:
-            capture_emit_byos_mac(rc->mac, 1, import_id, idx,
+            capture_emit_byos_mac(rc->mac, scan_index, import_id, idx,
                                   rc->sight, rc->n_sight);
             mac_n++;
             break;
