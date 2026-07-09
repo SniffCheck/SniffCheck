@@ -103,7 +103,7 @@ The Main menu is a `>` selector with **Results**, **Settings**, and **Rescan**.
 Results opens the current Lite or Adv result panes. Settings includes Mode and,
 in Adv mode, Launch AP for the phone page QR flow.
 
-Some splashes do not have room to show every shortcut. When a legend is missing,
+Some splashes do not have room to show the buttons. When a one is missing,
 `[hold]` still always backs out to the previous splash.
 
 Connect your phone to an SSID only if SniffCheck marks it safe.  *<- just joking this isn't a end all be all RF Audit but hopefully this helps people understand the environment around them and make safe RF decisions*
