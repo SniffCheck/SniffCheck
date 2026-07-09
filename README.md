@@ -106,7 +106,7 @@ in Adv mode, Launch AP for the phone page QR flow.
 Some splashes do not have room to show every shortcut. When a legend is missing,
 `[hold]` still usually backs out to the previous screen or the summary splash.
 
-Connect your phone to an SSID only if SniffCheck marks it safe.
+Connect your phone to an SSID only if SniffCheck marks it safe.  *<- just joking this isn't a end all be all RF Audit but hopefully this helps people understand the environment around them and make safe RF decisions*
 
 SniffCheck has two modes: Lite and Adv.
 
