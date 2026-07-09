@@ -113,7 +113,6 @@ SniffCheck has two modes: Lite and Adv.
 Lite mode is the original idea: a standalone RF audit tool that does not need an
 app or phone. Adv mode adds deeper Wi-Fi, BLE, probe, report, export, capture,
 and phone-page tools. For the full current splash map, see
-[`UserGuide.md`](UserGuide.md).
 
 ## Updating
 
