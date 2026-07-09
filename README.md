@@ -97,7 +97,7 @@ As I keep prototyping, I plan to work toward a custom PCB that people can order 
 4. Use the BOOT button to move around:
    * One click (`[1]`): open the Main menu from the summary, or move to the next row/item in selector screens.
    * Two quick clicks (`[2]`): open the highlighted item, or open Pup from the summary.
-   * Hold for about 1.5 seconds (`[hold]`): rescan from the summary, or go back from most menus.
+   * Hold for 1.5 seconds `[hold]`: rescan from the env summary, or go back from all splashes.
 
 The Main menu is a `>` selector with **Results**, **Settings**, and **Rescan**.
 Results opens the current Lite or Adv result splash. Settings includes Mode and,
