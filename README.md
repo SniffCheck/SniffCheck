@@ -110,7 +110,7 @@ Connect your phone to an SSID only if SniffCheck marks it safe.
 
 SniffCheck has two modes: Lite and Adv.
 
-Lite mode is the original idea: a standalone RF audit tool that does not need an
+Lite mode is the original idea: a standalone RF audit tool that doesnt need a
 app or phone. Adv mode adds deeper Wi-Fi, BLE, probe, report, export, capture,
 and surfaces the webAP. For more indepth guide check out ['UserGuide.md'](UserGuide.md)
 
