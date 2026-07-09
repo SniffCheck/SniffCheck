@@ -100,7 +100,7 @@ As I keep prototyping, I plan to work toward a custom PCB that people can order 
    * Hold for about 1.5 seconds (`[hold]`): rescan from the summary, or go back from most menus.
 
 The Main menu is a `>` selector with **Results**, **Settings**, and **Rescan**.
-Results opens the current Lite or Adv result panes. Settings includes Mode and,
+Results opens the current Lite or Adv result splash. Settings includes Mode and,
 in Adv mode, Launch AP.
 
 Some splashes do not have room to show the buttons. When a one is missing,
