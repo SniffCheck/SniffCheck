@@ -19,8 +19,12 @@ static const char *TAG = "sc_vpup";
 #define VP_K_TREATS    "vp_treats"
 #define VP_K_NAME      "vp_name"
 
-#define VP_CURVE_BASE    30.0
-#define VP_CURVE_GROWTH  1.35
+/* XP per scan = wifi networks + BLE devices seen that scan (tens per scan in a
+ * populated area). The curve is deliberately slow so a single dense scan can't
+ * jump levels: threshold(L) = BASE * GROWTH^L, so L2 ~= 150*1.4^2 ~= 294 XP
+ * (a few hundred sightings), L5 ~= 800, L10 ~= 4300. */
+#define VP_CURVE_BASE    150.0
+#define VP_CURVE_GROWTH  1.4
 
 #define VP_LEVEL_GUARD   1000
 

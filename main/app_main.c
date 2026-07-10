@@ -183,6 +183,11 @@ static uint8_t   s_dl_last_drawn_joined = 0xFF;
 
 static volatile bool s_rescan_after_dl = false;
 
+/* Set when a scan is kicked off from the WebAP dashboard so the following
+ * do_scan() re-opens the AP on completion regardless of advisor mode / auto-AP
+ * — the web user is waiting to reconnect and would otherwise be stranded. */
+static volatile bool s_web_ap_relaunch = false;
+
 static volatile bool s_force_rescan = false;
 
 static volatile bool     s_capture_after_dl = false;
@@ -3242,7 +3247,9 @@ static void do_scan(void)
     s_ble_index   = 1;
     xSemaphoreGive(s_state_mutex);
 
-    bool auto_ap = (s_advisor_mode == ADVISOR_MODE_ADV) && s_auto_ap_enabled;
+    bool auto_ap = ((s_advisor_mode == ADVISOR_MODE_ADV) && s_auto_ap_enabled) ||
+                   s_web_ap_relaunch;
+    s_web_ap_relaunch = false;
 
     if (auto_ap) {
         xSemaphoreTake(s_state_mutex, portMAX_DELAY);
@@ -3852,6 +3859,16 @@ void app_request_scan_after_download(void)
     download_mode_request_disable(CAP_END_SCAN_START);
 }
 
+int app_scan_eta_seconds(void)
+{
+    /* A web rescan runs a deep pass in Adv (broad multi-sweep Wi-Fi up to
+     * WIFI_ADV_MAX_MS + BLE_ADV_SCAN_MS) and the quick pass in Lite. These are
+     * conservative upper bounds; the browser reconnect button re-checks the
+     * device is actually reachable before it reloads, so a loose estimate is
+     * fine. */
+    return (s_advisor_mode == ADVISOR_MODE_ADV) ? 95 : 20;
+}
+
 void app_request_walk_after_download(void)
 {
     s_walk_after_dl = true;
@@ -3936,6 +3953,7 @@ static void dl_tick_cb(void *arg)
             s_dl_last_drawn_joined = 0xFF;
             if (s_rescan_after_dl) {
                 s_rescan_after_dl = false;
+                s_web_ap_relaunch = true;
                 s_ui_mode = UI_MODE_SCANNING;
                 display_scan_stage_static("WiFi");
                 led_apply(128, 0, 128, 8);

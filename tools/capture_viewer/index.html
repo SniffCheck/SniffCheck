@@ -53,6 +53,51 @@ body.dark{
 #hotmenu button:active{transform:none}
 #hotmenu button.act{border-color:var(--line);background:var(--panelw)}
 #hotmenu .tn{margin-left:auto;font-weight:900;opacity:.7}
+#expov{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);
+  display:flex;align-items:flex-end;justify-content:center}
+#expov[hidden]{display:none}
+@media(min-width:560px){#expov{align-items:center}}
+#expsheet{width:100%;max-width:460px;max-height:88vh;overflow:auto;
+  background:var(--panel);border:3px solid var(--line);border-radius:14px 14px 0 0;
+  box-shadow:0 -4px 0 var(--sh);padding:16px}
+@media(min-width:560px){#expsheet{border-radius:14px;box-shadow:5px 5px 0 var(--sh)}}
+#expsheet h3{margin:0 0 3px;font-size:18px}
+#expsheet .exsub{color:var(--dim);font-size:12.5px;margin-bottom:12px}
+.exopt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  border:2.5px solid var(--line);background:var(--panelw);color:var(--txt);
+  border-radius:11px;padding:11px 13px;margin-bottom:9px;box-shadow:2px 2px 0 var(--sh);
+  font:inherit;cursor:pointer}
+.exopt:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+.exopt:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;background:var(--panel)}
+.exopt .exi{flex:none;width:26px;height:26px;color:var(--acc)}
+.exopt.net .exi{color:var(--band)}
+.exopt .ext{flex:1;min-width:0}
+.exopt .exl{font-weight:800;display:block}
+.exopt .exd{display:block;font-size:11.5px;color:var(--dim);line-height:1.35;margin-top:1px}
+.exopt .extag{flex:none;font-size:10px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.4px;border:1.5px solid currentColor;border-radius:6px;padding:1px 5px;opacity:.8}
+.exopt.net .extag{color:var(--band)}
+#expsheet .excancel{width:100%;border:2.5px solid var(--line2);background:none;
+  color:var(--txt);border-radius:11px;padding:10px;font:inherit;font-weight:800;
+  box-shadow:none;margin-top:3px;cursor:pointer}
+#expsheet .exform{border-top:2px solid var(--line2);margin-top:6px;padding-top:12px}
+#expsheet label{display:block;font-weight:700;font-size:12.5px;margin:8px 0 3px}
+#expsheet input[type=text],#expsheet input[type=password],#expsheet input[type=number]{
+  width:100%;padding:9px 10px;border:2px solid var(--line2);border-radius:9px;
+  background:var(--panel);color:var(--txt);font:inherit}
+#expsheet .exrow{display:flex;gap:8px}
+#expsheet .exrow>*{flex:1;min-width:0}
+.exgo{width:100%;border:2.5px solid var(--line);background:var(--acc);color:var(--onacc,#3f2a14);
+  border-radius:11px;padding:11px;font:inherit;font-weight:800;box-shadow:2px 2px 0 var(--sh);
+  margin-top:12px;cursor:pointer}
+.exgo:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+.exgo:disabled{opacity:.55;cursor:not-allowed}
+#expsheet .exnote{font-size:11.5px;color:var(--dim);margin-top:9px;line-height:1.4}
+#expsheet .exstat{font-size:12.5px;font-weight:700;margin-top:10px;min-height:1.2em}
+#expsheet .exstat.err{color:var(--avoid)}
+#expsheet .exstat.ok{color:var(--safe)}
+#expsheet .exback{background:none;border:none;color:var(--acc2);font:inherit;
+  font-weight:800;padding:0;margin-bottom:8px;cursor:pointer;box-shadow:none}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;color:var(--txt);
@@ -340,6 +385,178 @@ a{color:var(--acc2);text-decoration:none;font-weight:700}
 .crowd .evid .e .ic{width:1.05em;height:1.05em;vertical-align:-.18em;opacity:.85}
 .crowd .evid .e span{color:var(--txt);font-weight:700}
 .crowd .disc{font-size:11px;color:var(--dim);line-height:1.4}
+.crowd.tone-safe{border-color:var(--safe)}
+.crowd.tone-ok{border-color:var(--ok)}
+.crowd.tone-caution{border-color:var(--caution)}
+.crowd.tone-avoid{border-color:var(--avoid)}
+.crowd.tone-info{border-color:var(--wifi)}
+.crowd .ttl .tt{font-weight:800;padding:0 5px;border-radius:6px;margin-left:6px;
+  font-size:11px;color:#fff}
+.tone-safe .ttl .tt{background:var(--safe)}
+.tone-ok .ttl .tt{background:var(--ok)}
+.tone-caution .ttl .tt{background:var(--caution)}
+.tone-avoid .ttl .tt{background:var(--avoid)}
+.tone-info .ttl .tt{background:var(--wifi)}
+.crowd .est .r .v.c-safe{color:var(--safe)}
+.crowd .est .r .v.c-ok{color:var(--ok)}
+.crowd .est .r .v.c-caution{color:var(--caution)}
+.crowd .est .r .v.c-avoid{color:var(--avoid)}
+.crowd .est .r .v.c-info{color:var(--wifi)}
+.crowd .est .r .v.c-rot{color:var(--drone)}
+/* 74g — lightweight local charts (SVG/CSS only, no libraries) */
+.charts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:10px;margin-top:10px}
+.chart{background:var(--panel);border:2.5px solid var(--line);border-radius:11px;
+  padding:10px 12px;box-shadow:2px 2px 0 var(--sh)}
+.chart h4{margin:0 0 8px;font-size:11px;font-weight:800;color:var(--dim);
+  text-transform:uppercase;letter-spacing:.4px}
+.chstack{display:flex;height:20px;border-radius:6px;overflow:hidden;
+  border:1.5px solid var(--line2);background:var(--panelw)}
+.chstack .seg{height:100%}
+.chleg{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-size:11.5px}
+.chleg .k{display:inline-flex;align-items:center;gap:5px;color:var(--dim)}
+.chleg .k i{width:10px;height:10px;border-radius:2px;flex:none}
+.chleg .k b{color:var(--txt);font-weight:700}
+.chrow{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;
+  font-size:11.5px;margin-top:5px}
+.chrow .rl{color:var(--dim);white-space:nowrap;max-width:96px;overflow:hidden;
+  text-overflow:ellipsis}
+.chrow .rb{height:11px;border-radius:3px;background:var(--panelw);
+  border:1px solid var(--line2);overflow:hidden}
+.chrow .rb i{display:block;height:100%}
+.chrow .rn{color:var(--txt);font-weight:700;font-variant-numeric:tabular-nums;
+  text-align:right;min-width:2ch}
+.chhist{display:flex;align-items:flex-end;gap:4px;height:72px;margin-top:4px}
+.chhist .col{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;gap:3px;height:100%}
+.chhist .col .bar{width:100%;border-radius:3px 3px 0 0;min-height:2px}
+.chhist .col .cn{font-size:10px;font-weight:700;color:var(--txt);
+  font-variant-numeric:tabular-nums}
+.chhist .col .cl{font-size:9px;color:var(--dim);text-align:center;line-height:1.1}
+.chempty{font-size:11.5px;color:var(--dim)}
+/* clickable chart marks (drill into a filtered result list) */
+.chstack .seg.clk,.chhist .col.clk{cursor:pointer}
+.chrow.clk{cursor:pointer;border:0;background:none;width:100%;text-align:left;
+  padding:0;font:inherit;color:inherit}
+.chstack .seg.clk:hover{filter:brightness(1.12)}
+.chrow.clk:hover .rl{color:var(--txt)}
+.chleg .k.clk{cursor:pointer}
+.chleg .k.clk:hover b{text-decoration:underline}
+/* Summary customization: gear header + settings sheet + block list */
+.smbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;
+  margin:-2px 0 6px}
+.smgear{display:inline-flex;align-items:center;gap:6px;background:var(--panel);
+  border:2px solid var(--line);border-radius:9px;padding:5px 10px;font:inherit;
+  font-weight:700;font-size:12px;color:var(--dim);box-shadow:2px 2px 0 var(--sh);
+  cursor:pointer}
+.smgear:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+.smgear svg{width:15px;height:15px}
+#smov,#wlov{position:fixed;inset:0;z-index:41;background:rgba(0,0,0,.45);
+  display:flex;align-items:flex-end;justify-content:center}
+#smov[hidden],#wlov[hidden]{display:none}
+@media(min-width:560px){#smov,#wlov{align-items:center}}
+#smsheet,#wlsheet{width:100%;max-width:480px;max-height:88vh;overflow:auto;
+  background:var(--panel);border:3px solid var(--line);border-radius:14px 14px 0 0;
+  box-shadow:0 -4px 0 var(--sh);padding:16px}
+@media(min-width:560px){#smsheet,#wlsheet{border-radius:14px;box-shadow:5px 5px 0 var(--sh)}}
+#smsheet h3,#wlsheet h3{margin:0 0 3px;font-size:18px}
+#smsheet .smsub,#wlsheet .smsub{color:var(--dim);font-size:12.5px;margin-bottom:12px}
+.smblk{display:flex;align-items:center;gap:9px;border:2px solid var(--line2);
+  border-radius:10px;padding:8px 10px;margin-bottom:7px;background:var(--panelw)}
+.smblk.off{opacity:.62}
+.smblk .smgrip{flex:none;color:var(--dim);cursor:grab;font-size:15px;line-height:1;
+  touch-action:none;user-select:none}
+.smblk .smname{flex:1;min-width:0;font-weight:700;font-size:13px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.smblk .smtag{flex:none;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;
+  color:var(--dim);border:1px solid var(--line2);border-radius:5px;padding:1px 5px}
+.smblk .smmv{flex:none;display:flex;gap:3px}
+.smblk .smmv button,.smblk .smtog{flex:none;border:2px solid var(--line2);
+  background:var(--panel);color:var(--txt);border-radius:7px;width:34px;height:34px;
+  font:inherit;font-weight:800;cursor:pointer;box-shadow:none;padding:0}
+.smblk .smmv button:disabled{opacity:.35;cursor:not-allowed}
+.smblk .smtog{width:auto;padding:0 10px;font-size:11px}
+.smblk.on .smtog{border-color:var(--acc);color:var(--acc)}
+.smblk.dragging{opacity:.5;border-style:dashed}
+.smblk.dragover{border-color:var(--acc)}
+#smsheet .smact{display:flex;gap:8px;margin-top:6px}
+#smsheet .smact button{flex:1;border:2.5px solid var(--line);background:var(--panel);
+  color:var(--txt);border-radius:10px;padding:10px;font:inherit;font-weight:800;
+  cursor:pointer;box-shadow:2px 2px 0 var(--sh)}
+#smsheet .smact button.prim{background:var(--acc);color:var(--onacc,#3f2a14)}
+#smsheet .smact button:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+/* summary mini result lists (top signal / top threats) */
+.smlist{background:var(--panel);border:2.5px solid var(--line);border-radius:11px;
+  padding:8px 10px;box-shadow:2px 2px 0 var(--sh);margin-top:10px}
+.smlist h4{margin:0 0 6px;font-size:11px;font-weight:800;color:var(--dim);
+  text-transform:uppercase;letter-spacing:.4px}
+.smlrow{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;
+  width:100%;text-align:left;border:0;background:none;font:inherit;color:inherit;
+  padding:5px 4px;border-radius:7px;cursor:pointer}
+.smlrow:hover{background:var(--panelw)}
+.smlrow .li{width:15px;height:15px;flex:none;color:var(--c,var(--dim))}
+.smlrow .ln{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-weight:600;font-size:12.5px}
+.smlrow .lv{font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums;
+  white-space:nowrap}
+/* watchlist: match badge + manager sheet */
+.pill.watch{background:var(--acc);color:var(--onacc,#3f2a14);border:0}
+.dcard.watched{outline:2px solid var(--acc);outline-offset:-2px}
+.smlist.watch h4{color:var(--acc)}
+.wlman{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.wlman input{flex:1 1 150px;min-width:0;padding:8px 10px;border:2px solid var(--line2);
+  border-radius:9px;background:var(--panel);color:var(--txt);font:inherit}
+.wlseg{display:inline-flex;border:2px solid var(--line2);border-radius:9px;overflow:hidden}
+.wlseg button{border:0;background:var(--panel);color:var(--dim);font:inherit;
+  font-weight:700;padding:8px 11px;cursor:pointer;box-shadow:none}
+.wlseg button.on{background:var(--panelw);color:var(--txt)}
+.wladd{border:2.5px solid var(--line);background:var(--acc);color:var(--onacc,#3f2a14);
+  border-radius:9px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer;
+  box-shadow:2px 2px 0 var(--sh)}
+.wladd:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+.wlrow{display:flex;align-items:center;gap:9px;border:2px solid var(--line2);
+  border-radius:9px;padding:7px 10px;margin-top:7px;background:var(--panelw)}
+.wlrow .wt{font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--dim);
+  border:1px solid var(--line2);border-radius:5px;padding:1px 5px;flex:none}
+.wlrow .wv{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-weight:600;font-size:13px}
+.wlrow .wx{flex:none;border:2px solid var(--line2);background:var(--panel);color:var(--avoid);
+  border-radius:7px;width:32px;height:32px;font:inherit;font-weight:800;cursor:pointer;
+  box-shadow:none;padding:0}
+/* notification display filter controls */
+.alfbar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:10px;
+  padding:9px 11px;border:2px dashed var(--line2);border-radius:10px}
+.alfbar label{font-size:12px;color:var(--dim);font-weight:700}
+.alfbar select{padding:6px 8px;border:2px solid var(--line2);border-radius:8px;
+  background:var(--panel);color:var(--txt);font:inherit}
+.alfmutes{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.almute{font-size:11px;border:1.5px solid var(--line2);border-radius:7px;padding:2px 8px;
+  background:var(--panel);color:var(--dim);cursor:pointer;font:inherit}
+.almute.muted{background:var(--band);color:var(--txt);border-color:var(--band);
+  text-decoration:line-through}
+.alfnote{font-size:12px;color:var(--dim);margin-bottom:8px}
+.alfnote button{border:0;background:none;color:var(--acc2);font:inherit;font-weight:800;
+  cursor:pointer;padding:0;box-shadow:none}
+/* narrow-phone tightening for the summary customization sheet */
+@media(max-width:400px){
+  .smblk{gap:6px;padding:7px 8px}
+  .smblk .smtag{display:none}
+  .smblk .smgrip{display:none}
+  .smgear span,.smgear{font-size:11px}
+}
+.tl{margin-top:7px}
+.tl .hop{display:flex;gap:9px;align-items:flex-start;padding:5px 0;position:relative}
+.tl .hop .dot{width:10px;height:10px;border-radius:50%;background:var(--drone);
+  flex:none;margin-top:4px;box-shadow:0 0 0 2px var(--panel)}
+.tl .hop:not(:last-child)::before{content:"";position:absolute;left:4px;top:15px;
+  bottom:-5px;width:2px;background:var(--line2)}
+.tl .hop .body{flex:1;min-width:0}
+.tl .hop .rng{font-size:11px;color:var(--dim);font-weight:700;margin-left:6px}
+.card .xhead{display:flex;align-items:center;gap:6px;margin-bottom:6px;
+  font-size:12.5px;font-weight:800}
+.card .xhead .dicon .ic{width:1.2em;height:1.2em;vertical-align:-.22em}
+.card .xhead.rot{color:var(--drone)}
+.card .xhead.grp{color:var(--acc2)}
 
 .chips{display:flex;flex-wrap:wrap;align-items:center;gap:6px;flex:1 1 100%}
 .chlbl{font-size:12px;color:var(--dim);margin-right:2px}
@@ -429,8 +646,31 @@ pre{background:var(--code);margin:0;padding:9px 11px;overflow:auto;font-size:12p
 .jnum{color:var(--wifi)}
 .jl{color:var(--drone)}
 .note{color:var(--dim);font-size:12px;margin:6px 0}
+.sibcav{margin:6px 0;padding:6px 9px;font-size:12px;line-height:1.4;
+  border:1.5px solid var(--caution);border-radius:8px;color:var(--txt);
+  background:color-mix(in srgb,var(--caution) 12%,transparent)}
+.sibcav b{color:var(--caution)}
 details>summary{cursor:pointer;color:var(--acc);font-weight:700;font-size:13px}
 #app{display:none}
+#rcov{position:fixed;inset:0;z-index:30;display:none;align-items:center;
+  justify-content:center;padding:20px;background:rgba(20,14,6,.92)}
+#rcov.on{display:flex}
+#rcbox{background:var(--panel);border:3px solid var(--line);border-radius:14px;
+  box-shadow:4px 4px 0 var(--sh);max-width:360px;width:100%;padding:20px 18px;
+  text-align:center;color:var(--txt)}
+#rcbox h3{margin:0 0 6px;font-size:16px;color:var(--acc)}
+#rcbox .rcmsg{color:var(--dim);font-size:13px;line-height:1.4;margin:0 0 14px}
+#rcnum{font-size:40px;font-weight:900;line-height:1;margin:6px 0;color:var(--txt)}
+#rcbar{height:9px;background:var(--trk);border:2px solid var(--line);
+  border-radius:5px;overflow:hidden;margin:12px 0}
+#rcbar i{display:block;height:100%;width:0;background:var(--acc);
+  transition:width .9s linear}
+#rcbtn{display:block;width:100%;box-sizing:border-box;margin:14px 0 0;padding:11px;
+  border:2px solid var(--line);border-radius:9px;font-size:15px;font-weight:800;
+  cursor:not-allowed;background:var(--trk);color:var(--dim);
+  box-shadow:3px 3px 0 var(--sh)}
+#rcbtn.ready{cursor:pointer;background:var(--safe);color:#0c2a16}
+#rcbtn.ready:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
 </style>
 </head>
 <body>
@@ -477,7 +717,49 @@ const SC_THEMES={
   dim:"#a59f85",acc:"#fd971f",acc2:"#e6db74",onacc:"#272822",purple:"#ae81ff",
   sh:"#1b1c17",trk:"#1b1c17",code:"#1e1f1c",wifi:"#66d9ef",ble:"#ae81ff",
   track:"#fd971f",drone:"#f92672",safe:"#a6e22e",ok:"#e6db74",caution:"#fd971f",
-  avoid:"#f92672"}}
+  avoid:"#f92672"}},
+ "catppuccin-mocha":{label:"Catppuccin Mocha",dark:true,vars:{bg:"#1e1e2e",
+  panel:"#313244",panelw:"#45475a",band:"#45475a",line:"#cba6f7",line2:"#585b70",
+  txt:"#cdd6f4",dim:"#a6adc8",acc:"#89b4fa",acc2:"#cba6f7",onacc:"#1e1e2e",
+  purple:"#cba6f7",sh:"#11111b",trk:"#11111b",code:"#181825",wifi:"#89dceb",
+  ble:"#cba6f7",track:"#fab387",drone:"#f5c2e7",safe:"#a6e3a1",ok:"#f9e2af",
+  caution:"#fab387",avoid:"#f38ba8"}},
+ "catppuccin-latte":{label:"Catppuccin Latte",dark:false,vars:{bg:"#eff1f5",
+  panel:"#e6e9ef",panelw:"#ccd0da",band:"#ccd0da",line:"#8839ef",line2:"#bcc0cc",
+  txt:"#4c4f69",dim:"#6c6f85",acc:"#1e66f5",acc2:"#8839ef",onacc:"#eff1f5",
+  purple:"#8839ef",sh:"#bcc0cc",trk:"#ffffff",code:"#dce0e8",wifi:"#04a5e5",
+  ble:"#8839ef",track:"#fe640b",drone:"#ea76cb",safe:"#40a02b",ok:"#df8e1d",
+  caution:"#fe640b",avoid:"#d20f39"}},
+ "one-dark":{label:"One Dark",dark:true,vars:{bg:"#282c34",panel:"#2c313a",
+  panelw:"#353b45",band:"#3a3f4b",line:"#61afef",line2:"#4b5263",txt:"#abb2bf",
+  dim:"#7f848e",acc:"#61afef",acc2:"#c678dd",onacc:"#282c34",purple:"#c678dd",
+  sh:"#1b1e24",trk:"#1b1e24",code:"#21252b",wifi:"#56b6c2",ble:"#c678dd",
+  track:"#e5c07b",drone:"#e06c75",safe:"#98c379",ok:"#e5c07b",caution:"#d19a66",
+  avoid:"#e06c75"}},
+ "github-light":{label:"GitHub Light",dark:false,vars:{bg:"#ffffff",
+  panel:"#f6f8fa",panelw:"#eaeef2",band:"#eaeef2",line:"#0969da",line2:"#d0d7de",
+  txt:"#1f2328",dim:"#656d76",acc:"#0969da",acc2:"#8250df",onacc:"#ffffff",
+  purple:"#8250df",sh:"#d0d7de",trk:"#ffffff",code:"#f6f8fa",wifi:"#0969da",
+  ble:"#8250df",track:"#bc4c00",drone:"#bf3989",safe:"#1a7f37",ok:"#9a6700",
+  caution:"#bc4c00",avoid:"#cf222e"}},
+ "ayu-mirage":{label:"Ayu Mirage",dark:true,vars:{bg:"#1f2430",panel:"#232834",
+  panelw:"#2d3441",band:"#343f4c",line:"#ffcc66",line2:"#3d4752",txt:"#cbccc6",
+  dim:"#8a9199",acc:"#ffcc66",acc2:"#73d0ff",onacc:"#1f2430",purple:"#d4bfff",
+  sh:"#171b24",trk:"#171b24",code:"#1a1f29",wifi:"#73d0ff",ble:"#d4bfff",
+  track:"#ffd580",drone:"#f29e74",safe:"#a6cc70",ok:"#ffcc66",caution:"#ffa759",
+  avoid:"#f28779"}},
+ "everforest-dark":{label:"Everforest Dark",dark:true,vars:{bg:"#2d353b",
+  panel:"#343f44",panelw:"#3d484d",band:"#475258",line:"#a7c080",line2:"#4f585e",
+  txt:"#d3c6aa",dim:"#9da9a0",acc:"#a7c080",acc2:"#7fbbb3",onacc:"#2d353b",
+  purple:"#d699b6",sh:"#232a2e",trk:"#232a2e",code:"#272e33",wifi:"#7fbbb3",
+  ble:"#d699b6",track:"#e69875",drone:"#d699b6",safe:"#a7c080",ok:"#dbbc7f",
+  caution:"#e69875",avoid:"#e67e80"}},
+ "synthwave-84":{label:"Synthwave '84",dark:true,vars:{bg:"#262335",
+  panel:"#2a2139",panelw:"#34294f",band:"#423384",line:"#ff7edb",line2:"#495495",
+  txt:"#f0eff1",dim:"#b6b1c8",acc:"#ff7edb",acc2:"#36f9f6",onacc:"#262335",
+  purple:"#d580ff",sh:"#171520",trk:"#171520",code:"#241b2f",wifi:"#36f9f6",
+  ble:"#d580ff",track:"#ff8b39",drone:"#ff7edb",safe:"#72f1b8",ok:"#fede5d",
+  caution:"#ff8b39",avoid:"#fe4450"}}
 };
 let curTheme="sniffcheck";
 function applyTheme(id){
@@ -488,6 +770,8 @@ function applyTheme(id){
   document.body.classList.toggle("dark",!!t.dark);
   curTheme=id;
 }
+// This viewer has no picker of its own — it inherits the theme chosen on the
+// SniffCheck dashboard (Settings → Theme) via the shared sc-theme key.
 try{let t=localStorage.getItem("sc-theme");
   if(t==="dark")t="sniffcheck-dark";else if(t==="light")t="sniffcheck";
   applyTheme(t||"sniffcheck");
@@ -519,6 +803,11 @@ try{let t=localStorage.getItem("sc-theme");
   <symbol id="ic-nic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h3v18"/><rect x="5" y="6.5" width="17" height="11"/><rect x="5" y="9.5" width="2.8" height="4"/><rect x="14.2" y="9" width="4.6" height="4.6" stroke-width="1.6"/></g><circle cx="11" cy="10" r="1.2" fill="currentColor"/><g fill="currentColor"><rect x="15.1" y="7.2" width="1.2" height="1.8"/><rect x="17" y="7.2" width="1.2" height="1.8"/><rect x="15.1" y="13.6" width="1.2" height="1.8"/><rect x="17" y="13.6" width="1.2" height="1.8"/><rect x="12.4" y="10" width="1.8" height="1.2"/><rect x="12.4" y="11.9" width="1.8" height="1.2"/><rect x="18.8" y="10" width="1.8" height="1.2"/><rect x="18.8" y="11.9" width="1.8" height="1.2"/></g></symbol>
   <symbol id="ic-radio" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.9" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7 7.2 22M12 7 16.8 22"/><path d="M9.7 14.2h4.6M8.3 18.6h7.4"/><path d="M9.7 14.2l6 4.4M14.3 14.2l-6 4.4"/><path d="M9.3 2.8a4 4 0 0 0 0 4.4"/><path d="M7.2 1.6a6.8 6.8 0 0 0 0 6.8"/><path d="M14.7 2.8a4 4 0 0 1 0 4.4"/><path d="M16.8 1.6a6.8 6.8 0 0 1 0 6.8"/></g></symbol>
   <symbol id="ic-chain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.5 14.5 14.5 9.5"/><path d="M10.8 7.2 13 5a4 4 0 0 1 5.7 0l.3.3A4 4 0 0 1 19 11l-2.2 2.2"/><path d="M13.2 16.8 11 19a4 4 0 0 1-5.7 0L5 18.7A4 4 0 0 1 5 13l2.2-2.2"/></g></symbol>
+  <symbol id="ic-rotate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 0 1 12.9-5.2"/><path d="M19.5 12a7.5 7.5 0 0 1-12.9 5.2"/></g><path fill="currentColor" d="M18.4 3.2 18.4 7.4 14.2 7.1Z"/><path fill="currentColor" d="M5.6 20.8 5.6 16.6 9.8 16.9Z"/></symbol>
+  <symbol id="ic-gear" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 8.2A3.8 3.8 0 1 0 12 15.8 3.8 3.8 0 0 0 12 8.2ZM12 10.2A1.8 1.8 0 1 1 12 13.8 1.8 1.8 0 0 1 12 10.2ZM10.6 2.5 10.2 4.7A7.5 7.5 0 0 0 8.5 5.7L6.4 4.9 4.9 6.4 5.7 8.5A7.5 7.5 0 0 0 4.7 10.2L2.5 10.6 2.5 13.4 4.7 13.8A7.5 7.5 0 0 0 5.7 15.5L4.9 17.6 6.4 19.1 8.5 18.3A7.5 7.5 0 0 0 10.2 19.3L10.6 21.5 13.4 21.5 13.8 19.3A7.5 7.5 0 0 0 15.5 18.3L17.6 19.1 19.1 17.6 18.3 15.5A7.5 7.5 0 0 0 19.3 13.8L21.5 13.4 21.5 10.6 19.3 10.2A7.5 7.5 0 0 0 18.3 8.5L19.1 6.4 17.6 4.9 15.5 5.7A7.5 7.5 0 0 0 13.8 4.7L13.4 2.5Z"/></symbol>
+  <symbol id="ic-signal" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3" y="14" width="3.2" height="6" rx="1"/><rect x="8" y="10" width="3.2" height="10" rx="1"/><rect x="13" y="6" width="3.2" height="14" rx="1"/><rect x="18" y="3" width="3.2" height="17" rx="1"/></g></symbol>
+  <symbol id="ic-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M8 10.5 12 14.5 16 10.5"/><path d="M4 18.5h16"/></g></symbol>
+  <symbol id="ic-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.5 10.5A3.75 3.75 0 0 1 17 18Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-6"/><path d="M9.5 17.5 12 15 14.5 17.5"/></g></symbol>
   <symbol id="ic-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9.6" cy="9.6" r="1" fill="currentColor"/><g fill="currentColor"><rect x="9" y="3.5" width="1.6" height="3"/><rect x="13.4" y="3.5" width="1.6" height="3"/><rect x="9" y="17.5" width="1.6" height="3"/><rect x="13.4" y="17.5" width="1.6" height="3"/><rect x="3.5" y="9" width="3" height="1.6"/><rect x="3.5" y="13.4" width="3" height="1.6"/><rect x="17.5" y="9" width="3" height="1.6"/><rect x="17.5" y="13.4" width="3" height="1.6"/></g></symbol>
 </defs></svg>
 <header>
@@ -574,7 +863,7 @@ try{let t=localStorage.getItem("sc-theme");
     <section id="s-clusters"><h2>Device clusters</h2><div id="clusters"></div></section>
     <section id="s-trackers"><h2>Trackers</h2><div id="trackers"></div></section>
     <section id="s-drones"><h2>Drones (Remote ID)</h2><div id="drones"></div></section>
-    <section id="s-alerts"><h2>Alerts</h2><div id="alerts"></div></section>
+    <section id="s-alerts"><h2>Notifications</h2><div id="alerts"></div></section>
     <section id="s-privacy"><h2>Privacy analyzers</h2><div id="privacy"></div></section>
     <section id="s-channel"><h2>Channel analyzer</h2><div id="channel"></div></section>
     <section id="s-raw"><h2>Raw records</h2><div id="raw"></div></section>
@@ -727,6 +1016,9 @@ function cb(en,v){
 
 function fVendor(r){return r.vendor||r.company_name||"";}
 function fName(r){return r.ssid||r.name||"";}
+// A surfacable name: a hidden SSID (the literal "<hidden>") is not a real name,
+// so cluster labels prefer any actual member name over it.
+function realName(s){return (s&&s!=="<hidden>")?s:"";}
 function fMac(r){return r.bssid||r.addr||"";}
 function fClass(r){return r.device_class!=null?cb("device_class",r.device_class):"";}
 function fThreat(r){return r.threat_level!=null?cb("threat_level",r.threat_level):"";}
@@ -775,7 +1067,7 @@ const ICON_BY_KIND={
   ble:  ["ic-ble","BLE device"],
   track:["ic-tracker","tracker"],
   drone:["ic-drone","drone"],
-  alert:["ic-alert","alert"],
+  alert:["ic-alert","notification"],
 };
 function iconSpan(pair){
   return pair?'<span class="dicon" role="img" aria-label="'+esc(pair[1])+
@@ -1262,6 +1554,13 @@ function buildRescanChains(){
     const rotation=overlap===0;
     const conf=Math.max(10,Math.min(95,
       g.base+(rotation?Math.min(20,5*(ms.length-1)):-20)));
+    // A cross-scan cluster means ONE device observed across scans. Only keep
+    // same-device address-rotation chains (no concurrent overlap) that span at
+    // least two scans and clear a >70 confidence bar. Concurrent product groups
+    // (separate units heard at once) and weak matches are excluded here — they
+    // still appear as individual devices and in the other cluster tabs.
+    const scanSpan=Object.keys(cnt).length;
+    if(!rotation||scanSpan<2||conf<=70)continue;
     RC.push({members:ms,evidence:g.ev,rotation,overlap,conf});
   }
   RC.sort((a,b)=>b.conf-a.conf);
@@ -1373,10 +1672,11 @@ function stdCard(kind,id,r,addr,nameHtml,rowA,rowB){
   const nm=(si&&!named)?
     '<span class="surf" title="identity surfaced from raw scan">'+esc(si.name)+
       '<svg class="ic sfx"><use href="#ic-privacy"/></svg></span>':nameHtml;
-  return '<div class="dcard k-'+kind+'"'+(id?' id="'+id+'"':"")+">"+
+  const watched=!!watchMatch(r,kind);
+  return '<div class="dcard k-'+kind+(watched?" watched":"")+'"'+(id?' id="'+id+'"':"")+">"+
     '<div class="dch"><span class="dleft">'+catIcon(r,kind)+
     '<span class="daddr" title="'+esc(si&&!named?si.name:(fName(r)||addr))+'">'+nm+"</span></span>"+
-    '<span class="dright">'+clusterLink(addr)+privacyLink(addr)+threatPill(r.threat_level)+
+    '<span class="dright">'+watchPill(r,kind)+clusterLink(addr)+privacyLink(addr)+threatPill(r.threat_level)+
     '<button class="draw" type="button" aria-expanded="false" '+
     'title="View details" aria-label="View details">▾</button></span></div>'+
     '<div class="dvend" title="'+esc(vend||"")+'">'+
@@ -1511,170 +1811,504 @@ function bleDetail(r){
     kvGrid(r);
 }
 
-function renderBanner(){
+// 74g — compact local charts built from the already-filtered result arrays.
+// Pure string builders (SVG/CSS), each carrying its own numeric text equivalent
+// so a chart never replaces the underlying rows. Items may carry an `act` string
+// (see summaryAct) that makes the mark a drill-in to a filtered result list.
+function chStack(title,segs){
+  const tot=segs.reduce((s,x)=>s+x.n,0);
+  if(!tot)return "";
+  const on=segs.filter(s=>s.n>0);
+  const bars=on.map(s=>
+    '<span class="seg'+(s.act?" clk":"")+'" style="width:'+(100*s.n/tot).toFixed(2)+
+    '%;background:'+s.color+'"'+(s.act?' data-act="'+esc(s.act)+'" role="button" tabindex="0"':"")+
+    ' title="'+esc(s.label+": "+s.n+(s.act?" — tap to filter":""))+'"></span>').join("");
+  const leg=on.map(s=>
+    '<span class="k'+(s.act?" clk":"")+'"'+(s.act?' data-act="'+esc(s.act)+'" role="button" tabindex="0"':"")+
+    '><i style="background:'+s.color+'"></i>'+esc(s.label)+" <b>"+s.n+"</b></span>").join("");
+  return '<div class="chart"><h4>'+esc(title)+'</h4>'+
+    '<div class="chstack" role="img" aria-label="'+esc(title+": "+
+      on.map(s=>s.label+" "+s.n).join(", "))+'">'+bars+"</div>"+
+    '<div class="chleg">'+leg+"</div></div>";
+}
+function chBars(title,rows,max){
+  rows=rows.filter(r=>r.n>0).sort((a,b)=>b.n-a.n);
+  if(!rows.length)return "";
+  if(max)rows=rows.slice(0,max);
+  const top=rows[0].n;
+  const body=rows.map(r=>{
+    const inner='<span class="rl" title="'+esc(r.label)+'">'+esc(r.label)+
+      '</span><span class="rb"><i style="width:'+(100*r.n/top).toFixed(1)+
+      '%;background:'+(r.color||"var(--acc)")+'"></i></span><span class="rn">'+r.n+"</span>";
+    return r.act?
+      '<button type="button" class="chrow clk" data-act="'+esc(r.act)+'">'+inner+"</button>":
+      '<div class="chrow">'+inner+"</div>";
+  }).join("");
+  return '<div class="chart"><h4>'+esc(title)+'</h4>'+body+"</div>";
+}
+function chHist(title,bins){
+  const tot=bins.reduce((s,b)=>s+b.n,0);
+  if(!tot)return "";
+  const top=Math.max.apply(null,bins.map(b=>b.n))||1;
+  const cols=bins.map(b=>
+    '<div class="col'+(b.act?" clk":"")+'"'+(b.act?' data-act="'+esc(b.act)+'" role="button" tabindex="0"':"")+
+    ' title="'+esc(b.label+": "+b.n)+'">'+
+    '<span class="cn">'+b.n+'</span>'+
+    '<span class="bar" style="height:'+(b.n?Math.max(6,100*b.n/top):0).toFixed(1)+
+    '%;background:'+b.color+'"></span>'+
+    '<span class="cl">'+esc(b.label)+"</span></div>").join("");
+  return '<div class="chart"><h4>'+esc(title)+'</h4>'+
+    '<div class="chhist" role="img" aria-label="'+esc(title+": "+
+      bins.map(b=>b.label+" "+b.n).join(", "))+'">'+cols+"</div></div>";
+}
+// ---- individual chart blocks (each toggleable/movable on the Summary) ----
+function chartComposition(){
+  return chStack("Result composition",[
+    {label:"Wi-Fi",n:FW.length,color:"var(--wifi)",act:FW.length?"wifi":""},
+    {label:"BLE",n:FB.length,color:"var(--ble)",act:FB.length?"ble":""},
+    {label:"Trackers",n:FT.length,color:"var(--track)",act:FT.length?"track":""},
+    {label:"Drones",n:FD.length,color:"var(--drone)",act:FD.length?"drone":""}]);
+}
+function chartThreat(){
+  const all=[...FW,...FB,...FT,...FD];
+  const tc=[0,0,0,0];
+  for(const r of all){const t=Math.min(r.threat_level||0,3);tc[t]++;}
+  const col=["var(--safe)","var(--ok)","var(--caution)","var(--avoid)"];
+  return chStack("Threat distribution",tc.map((n,i)=>{
+    const lb=cb("threat_level",i);
+    return {label:lb,n:n,color:col[i],act:n?"t:"+lb:""};
+  }));
+}
+function chartSignal(){
+  const all=[...FW,...FB,...FT,...FD];
+  const sb=[{label:"≥-50",n:0,color:"var(--safe)"},
+    {label:"-50–-60",n:0,color:"var(--ok)"},
+    {label:"-60–-70",n:0,color:"var(--caution)"},
+    {label:"-70–-80",n:0,color:"var(--avoid)"},
+    {label:"<-80",n:0,color:"var(--dim)"}];
+  for(const r of all){const v=r.rssi;if(typeof v!=="number")continue;
+    sb[v>=-50?0:v>=-60?1:v>=-70?2:v>=-80?3:4].n++;}
+  return chHist("Signal strength (dBm)",sb);
+}
+function chartChannels(){
+  const chc={};
+  for(const r of FW)if(r.channel!=null)chc[r.channel]=(chc[r.channel]||0)+1;
+  return chBars("Wi-Fi channel activity",Object.keys(chc).map(c=>({label:"ch "+c,
+    n:chc[c],color:Number(c)>14?"var(--ble)":"var(--wifi)",act:"ch:"+c})),10);
+}
+function chartCategories(){
+  const cat={};
+  for(const r of [...FW,...FB]){const c=fCat(r);if(c)cat[c]=(cat[c]||0)+1;}
+  return chBars("Device categories",Object.keys(cat).map(c=>({label:c,n:cat[c],
+    color:"var(--acc)",act:"cat:"+c})),8);
+}
+// ---- Summary mini result lists (drill straight to a device row) ----
+function smMiniList(title,rows){
+  if(!rows.length)return "";
+  return '<div class="smlist"><h4>'+esc(title)+'</h4>'+rows.map(r=>
+    '<button type="button" class="smlrow" data-act="dev:'+esc(r.tab)+":"+esc(r.anchor)+
+    '"><svg class="li" style="--c:'+r.color+'"><use href="#'+r.ic+'"/></svg>'+
+    '<span class="ln">'+esc(r.name)+'</span><span class="lv">'+esc(r.val)+
+    "</span></button>").join("")+"</div>";
+}
+function smRowFor(r,kind){
+  const isW=kind==="wifi";
+  return {tab:isW?"s-wifi":"s-ble",anchor:anchorId(kind,isW?r.bssid:r.addr),
+    ic:isW?"ic-wifi":"ic-ble",color:isW?"var(--wifi)":"var(--ble)",
+    name:(isW?(r.ssid||r.bssid):(r.name||r.fastpair_name||r.addr))||"?",
+    rssi:typeof r.rssi==="number"?r.rssi:-999,r};
+}
+function blkTopSignal(){
+  const rows=[...FW.map(r=>smRowFor(r,"wifi")),...FB.map(r=>smRowFor(r,"ble"))]
+    .filter(x=>x.rssi>-999).sort((a,b)=>b.rssi-a.rssi).slice(0,6)
+    .map(x=>({...x,val:x.rssi+" dBm"}));
+  return smMiniList("Strongest signals",rows);
+}
+function blkTopThreat(){
+  const rows=[...FW.map(r=>({...smRowFor(r,"wifi"),tl:r.threat_level||0})),
+    ...FB.map(r=>({...smRowFor(r,"ble"),tl:r.threat_level||0}))]
+    .filter(x=>x.tl>0).sort((a,b)=>b.tl-a.tl||b.rssi-a.rssi).slice(0,6)
+    .map(x=>({...x,val:cb("threat_level",x.tl)}));
+  if(!rows.length)return "";
+  return smMiniList("Top threats",rows);
+}
+// ---- Summary blocks (each returns HTML; "" when it has no data to show) ----
+function blkVerdict(){
   let worst=0;
   for(const r of [...FW,...FB,...FT,...FD])worst=Math.max(worst,r.threat_level||0);
   const lbl=cb("threat_level",worst);
   const cls=THREAT_CLS[lbl]||"p"+Math.min(worst,3);
   const VMAP={p0:"var(--safe)",p1:"var(--ok)",p2:"var(--caution)",p3:"var(--avoid)"};
-  let h='<div class="hero"><div class="hero-side">'+
+  return '<div class="hero"><div class="hero-side">'+
     '<div class="verdict" style="background:'+(VMAP[cls]||"var(--dim)")+
     '">worst threat: '+esc(lbl).toUpperCase()+"</div></div></div>";
-
+}
+function blkTiles(){
   let ap24=0,ap5=0;for(const r of FW)r.band_5g?ap5++:ap24++;
   let alerts=0;for(const a of FA)alerts+=a.n;
   const scans=M.slots.length>1?M.slots.length:
-    (M.footer&&M.footer.counters?
-     M.footer.counters.scans_completed:M.maxScan);
-
+    (M.footer&&M.footer.counters?M.footer.counters.scans_completed:M.maxScan);
   const cp=clusterParts();
   const clustersAll=FC.length+cp.sb.length+cp.mr.length+PV.length;
   const tile=(n,l,c,ic,act)=>'<button class="tile" type="button" data-act="'+act+
     '" style="--c:'+c+'"><span class="n">'+
     (ic?'<svg class="ic"><use href="#'+ic+'"/></svg>':"")+n+
     '</span><span class="l">'+l+"</span></button>";
-  h+='<div class="tiles">'+
+  return '<div class="tiles">'+
     tile(FW.length,"Wi-Fi","var(--wifi)","ic-wifi","wifi")+
     tile(FB.length,"BLE","var(--ble)","ic-ble","ble")+
     tile(FT.length,"trackers","var(--track)","ic-tracker","track")+
     (FD.length?tile(FD.length,"drones","var(--drone)","ic-drone","drone"):"")+
     tile(clustersAll,"clusters","var(--acc)","ic-nic","clusters")+
-    tile(alerts,"alerts","var(--avoid)","ic-alert","alerts")+
+    tile(alerts,"notifications","var(--avoid)","ic-alert","alerts")+
     tile(scans??"?","scans","var(--dim)","","scans")+
     tile(PV.length,"privacy","var(--acc2)","ic-privacy","privacy")+
     tile(ap24,"2.4 GHz APs","var(--wifi)","ic-router","ap24")+
     tile(ap5,"5 GHz APs","var(--wifi)","ic-router","ap5")+"</div>";
-
+}
+function blkChannels(){
   const chc={};
   for(const r of FW)if(r.channel!=null)chc[r.channel]=(chc[r.channel]||0)+1;
   const chans=Object.keys(chc).map(Number).sort((a,b)=>a-b);
-  if(chans.length)
-    h+='<div class="chansum"><span class="chlbl">Channels:</span>'+
-      chans.map(c=>'<button class="fchip" type="button" data-ch="'+c+'">ch '+c+
-        ' <span class="chn">'+chc[c]+"</span></button>").join("")+"</div>";
-
+  if(!chans.length)return "";
+  return '<div class="chansum"><span class="chlbl">Channels:</span>'+
+    chans.map(c=>'<button class="fchip" type="button" data-act="ch:'+c+'">ch '+c+
+      ' <span class="chn">'+chc[c]+"</span></button>").join("")+"</div>";
+}
+function blkEnv(){
   const ei=M.envInd;
-  if(ei&&!filterActive()){
-    const NOTE="Estimated from passive RF identifiers. This is an assumption "+
-      "based on confidence-scored evidence, not a confirmed count.";
-    const cw=c=>c>=70?"strong":c>=50?"med":"weak";
-    const bb=[];
-
-    if(ei.public_safety_count_high)bb.push(["ic-police","Public safety",
-      (ei.public_safety_count_low===ei.public_safety_count_high?
-        "~"+ei.public_safety_count_high:
-        ei.public_safety_count_low+"–"+ei.public_safety_count_high),
-      ei.public_safety_conf]);
-    if(ei.camera_count)bb.push(["ic-camera","Cameras",ei.camera_count,ei.camera_conf]);
-    if(ei.medical_count)bb.push(["ic-responder","Medical/EMS",ei.medical_count,ei.medical_conf]);
-    if(bb.length)
-      h+='<div class="envb">'+bb.map(([ic,lb,ct,cf,act])=>
-        '<div class="b'+(act?" tap":"")+'"'+(act?' data-act="'+act+'"':"")+
-        ' title="'+esc(lb+" — "+NOTE+(act?" Tap to view the devices behind it.":""))+
-        '"><svg class="ic" role="img" '+
-        'aria-label="'+esc(lb)+'"><use href="#'+esc(ic)+'"/></svg><span>'+esc(lb)+'</span>'+
-        '<span class="ct">'+esc(String(ct))+'</span><span class="cf">'+cw(cf||0)+
-        "</span></div>").join("")+"</div>";
+  if(!ei||filterActive())return "";
+  const NOTE="Estimated from passive RF identifiers. This is an assumption "+
+    "based on confidence-scored evidence, not a confirmed count.";
+  const cw=c=>c>=70?"strong":c>=50?"med":"weak";
+  const bb=[];
+  if(ei.public_safety_count_high)bb.push(["ic-police","Public safety",
+    (ei.public_safety_count_low===ei.public_safety_count_high?
+      "~"+ei.public_safety_count_high:
+      ei.public_safety_count_low+"–"+ei.public_safety_count_high),
+    ei.public_safety_conf]);
+  if(ei.camera_count)bb.push(["ic-camera","Cameras",ei.camera_count,ei.camera_conf]);
+  if(ei.medical_count)bb.push(["ic-responder","Medical/EMS",ei.medical_count,ei.medical_conf]);
+  if(!bb.length)return "";
+  return '<div class="envb">'+bb.map(([ic,lb,ct,cf])=>
+    '<div class="b" title="'+esc(lb+" — "+NOTE)+
+    '"><svg class="ic" role="img" aria-label="'+esc(lb)+'"><use href="#'+esc(ic)+
+    '"/></svg><span>'+esc(lb)+'</span><span class="ct">'+esc(String(ct))+
+    '</span><span class="cf">'+cw(cf||0)+"</span></div>").join("")+"</div>";
+}
+function blkCrowd(){
+  if(filterActive())return "";
+  const catCount={};
+  for(const r of FW){const c=fCat(r);if(c)catCount[c]=(catCount[c]||0)+1;}
+  for(const r of FB){const c=fCat(r);if(c)catCount[c]=(catCount[c]||0)+1;}
+  const deviceDensity=FW.length+FB.length;
+  if(deviceDensity<=0)return "";
+  const persons=["Phones & mobile","Wearables","Computers"];
+  const mobilePressure=persons.reduce((s,c)=>s+(catCount[c]||0),0);
+  // Dense residential (townhouses, apartments) routinely hears dozens of neighbour
+  // networks + devices, so the bands are deliberately loose.
+  const lvl=n=>n===0?"Quiet":n<=15?"Light":n<=50?"Moderate":n<=120?"Busy":"Crowded";
+  const dtone=n=>n<=15?"safe":n<=50?"ok":n<=120?"caution":"avoid";
+  const tone=dtone(deviceDensity),dens=lvl(deviceDensity);
+  const rows=[["RF crowd density",dens,"c-"+tone],
+    ["Total devices",deviceDensity+" seen"],["Mobile devices","~"+mobilePressure]];
+  const evid=CAT_BUCKETS.map(([c])=>c).filter(c=>catCount[c]).map(c=>{
+    const p=ICON_BY_CAT[c];
+    return '<span class="e" title="'+esc(p[1])+'"><svg class="ic" role="img" aria-label="'+
+      esc(p[1])+'"><use href="#'+esc(p[0])+'"/></svg><span>'+catCount[c]+"</span></span>";
+  }).join("");
+  return '<div class="crowd tone-'+tone+'"><div class="ttl">RF environment estimate'+
+    '<span class="tt">'+esc(dens)+'</span></div>'+
+    '<div class="est">'+rows.map(([k,v,cc])=>
+      '<div class="r"><b>'+esc(k)+'</b><span class="v'+(cc?" "+cc:"")+'">'+esc(v)+
+      "</span></div>").join("")+"</div>"+
+    (evid?'<div class="evid">'+evid+"</div>":"")+
+    '<div class="disc">Estimated from devices heard this scan — not a confirmed '+
+    "count. MAC randomization and hidden devices mean the real number is likely "+
+    "higher.</div></div>";
+}
+function blkCrossScan(){
+  if(!(M.slots.length>1)||filterActive())return "";
+  const tot=M.slots.length;
+  let stable=0,transient=0,newest=0;
+  for(const p of M.pres.values()){
+    const n=p.slots.length;
+    if(n>=Math.max(2,Math.ceil(tot*0.8)))stable++;
+    if(n===1){transient++;if(p.slots[0]===tot-1)newest++;}
   }
+  const rot=RC.filter(c=>c.rotation).length;
+  const rows=[
+    ["Scans aggregated",tot+(SESSIONS.length>1?
+      " (across "+SESSIONS.length+" captures)":"")],
+    ["Stable devices",stable+" seen in ≥80% of scans","c-safe"],
+    ["Transient devices",transient+" seen only once"+
+      (newest?" ("+newest+" new in the latest scan)":""),"c-caution"],
+    ["Address-rotation chains",rot+(RC.length>rot?
+      " (+"+(RC.length-rot)+" concurrent product groups)":""),"c-rot"]];
+  return '<div class="crowd tone-info"><div class="ttl">Scan Timeline'+
+    '<span class="tt">'+tot+' scans</span></div>'+
+    '<div class="est">'+rows.map(([k,v,cc])=>
+      '<div class="r"><b>'+esc(k)+'</b><span class="v'+(cc?" "+cc:"")+'">'+
+      esc(String(v))+"</span></div>").join("")+"</div>"+
+    '<div class="disc">Devices seen in every pass are established here; '+
+    "transient and address-rotating devices deserve a closer look. "+
+    "MAC-randomization chains appear under Clusters → Cross Scan.</div></div>";
+}
+function blkPcap(){
+  if(filterActive()||!(M.pcap&&M.pcap.ran!==false&&M.pcap.status))return "";
+  const p=M.pcap;
+  return '<div class="stats"><div><b>Packet capture</b>'+esc(p.status)+
+    " · "+(p.packets??0)+" pkts"+
+    (p.dropped?" · "+p.dropped+" dropped":"")+
+    (p.bytes?" · "+Math.round(p.bytes/1024)+" KB":"")+
+    (Array.isArray(p.channels)&&p.channels.length?" · ch "+p.channels.join(","):"")+
+    ' <a class="mono" href="'+esc(p.download||"/api/pcap/latest")+
+    '">download .pcap</a></div></div>';
+}
 
-  if(!filterActive()){
-    const catCount={};
-    for(const r of FW){const c=fCat(r);if(c)catCount[c]=(catCount[c]||0)+1;}
-    for(const r of FB){const c=fCat(r);if(c)catCount[c]=(catCount[c]||0)+1;}
-    const deviceDensity=FW.length+FB.length;
-    const persons=["Phones & mobile","Wearables","Computers"];
-    const mobilePressure=persons.reduce((s,c)=>s+(catCount[c]||0),0);
-    const phoneLike=(ei&&ei.phone_like_count)||catCount["Phones & mobile"]||0;
-    const lvl=n=>n===0?"Quiet":n<=5?"Light":n<=15?"Moderate":n<=40?"Busy":"Crowded";
-    if(deviceDensity>0){
-      const rows=[
-        ["RF crowd density",lvl(deviceDensity)],
-        ["Device density",deviceDensity+" seen"],
-        ["Mobile-device pressure","~"+mobilePressure],
-        ["Phone-like clustering","~"+phoneLike],
-      ];
-
-      const evid=CAT_BUCKETS.map(([c])=>c).filter(c=>catCount[c]).map(c=>{
-        const p=ICON_BY_CAT[c];
-        return '<span class="e" title="'+esc(p[1])+'"><svg class="ic" role="img"'+
-          ' aria-label="'+esc(p[1])+'"><use href="#'+esc(p[0])+
-          '"/></svg><span>'+catCount[c]+"</span></span>";
-      }).join("");
-      h+='<div class="crowd"><div class="ttl">RF environment estimate</div>'+
-        '<div class="est">'+rows.map(([k,v])=>
-          '<div class="r"><b>'+esc(k)+'</b><span class="v">'+esc(v)+
-          "</span></div>").join("")+"</div>"+
-        (evid?'<div class="evid">'+evid+"</div>":"")+
-        '<div class="disc">Estimation from the devices this scan heard — not a '+
-        "confirmed head-count. Rescanning and a longer dwell usually surface "+
-        "more; MAC randomization and hidden devices mean the real number is "+
-        "likely higher, not lower.</div></div>";
-    }
+// ---- Watchlist: user-entered MACs / names flagged when detected ----
+// Viewer-side (this browser). Never hides data — it only adds a flag.
+const WATCH_KEY="sc-watchlist";
+function watchGet(){try{const a=JSON.parse(localStorage.getItem(WATCH_KEY));
+  return Array.isArray(a)?a:[];}catch(e){return [];}}
+function watchSet(a){try{localStorage.setItem(WATCH_KEY,JSON.stringify(a));}catch(e){}}
+function normMac(s){return String(s||"").replace(/[^0-9a-fA-F]/g,"").toUpperCase();}
+function watchAdd(type,val){
+  val=String(val||"").trim();if(!val)return false;
+  if(type==="mac"){const m=normMac(val);if(m.length!==12)return false;val=m;}
+  const a=watchGet();
+  if(a.some(w=>w.t===type&&String(w.v).toUpperCase()===val.toUpperCase()))return true;
+  a.push({t:type,v:val});watchSet(a);return true;
+}
+function watchDel(i){const a=watchGet();a.splice(i,1);watchSet(a);}
+// Match a record; return the matched entry or null. MAC is exact; name is a
+// case-insensitive substring of the SSID (Wi-Fi) or device name (BLE/etc).
+function watchMatch(r,kind){
+  const wl=watchGet();if(!wl.length||!r)return null;
+  const mac=normMac(kind==="wifi"?r.bssid:r.addr);
+  const nm=String((kind==="wifi"?(r.ssid||""):
+    (r.name||r.fastpair_name||""))||"").toLowerCase();
+  for(const w of wl){
+    if(w.t==="mac"&&mac&&normMac(w.v)===mac)return w;
+    if(w.t==="name"&&w.v&&nm&&nm.indexOf(String(w.v).toLowerCase())>=0)return w;
   }
+  return null;
+}
+function watchPill(r,kind){
+  return watchMatch(r,kind)?'<span class="pill watch" title="On your watchlist">'+
+    "★ watch</span>":"";
+}
+function blkWatch(){
+  const wl=watchGet();
+  const hits=[];
+  for(const r of FW){if(watchMatch(r,"wifi"))hits.push({...smRowFor(r,"wifi"),
+    val:"Wi-Fi"});}
+  for(const r of FB){if(watchMatch(r,"ble"))hits.push({...smRowFor(r,"ble"),
+    val:"BLE"});}
+  let h='<div class="smlist watch"><h4>Watchlist'+(hits.length?" — "+hits.length+
+    " here now":wl.length?" — none detected":"")+"</h4>";
+  if(hits.length)
+    h+=hits.map(r=>'<button type="button" class="smlrow" data-act="dev:'+esc(r.tab)+
+      ":"+esc(r.anchor)+'"><svg class="li" style="--c:var(--acc)"><use href="#'+r.ic+
+      '"/></svg><span class="ln">'+esc(r.name)+'</span><span class="lv">'+esc(r.val)+
+      "</span></button>").join("");
+  else h+='<div class="chempty">'+(wl.length?
+    "None of your "+wl.length+" watched item"+(wl.length>1?"s":"")+" are in this scan.":
+    "Add a MAC or a device / network name to get flagged when it shows up.")+"</div>";
+  h+='<div class="wlman"><button type="button" class="wladd" data-wl="manage">'+
+    "Manage watchlist</button></div></div>";
+  return h;
+}
 
-  if(M.slots.length>1&&!filterActive()){
-    const tot=M.slots.length;
-    let stable=0,transient=0,newest=0;
-    for(const p of M.pres.values()){
-      const n=p.slots.length;
-      if(n>=Math.max(2,Math.ceil(tot*0.8)))stable++;
-      if(n===1){transient++;if(p.slots[0]===tot-1)newest++;}
-    }
-    const rot=RC.filter(c=>c.rotation).length;
-    const rows=[
-      ["Scans aggregated",tot+(SESSIONS.length>1?
-        " (across "+SESSIONS.length+" captures)":"")],
-      ["Stable devices",stable+" seen in ≥80% of scans"],
-      ["Transient devices",transient+" seen only once"+
-        (newest?" ("+newest+" new in the latest scan)":"")],
-      ["Address-rotation chains",rot+(RC.length>rot?
-        " (+"+(RC.length-rot)+" concurrent product groups)":"")],
-    ];
-    h+='<div class="crowd"><div class="ttl">Multi-scan stability</div>'+
-      '<div class="est">'+rows.map(([k,v])=>
-        '<div class="r"><b>'+esc(k)+'</b><span class="v">'+esc(String(v))+
-        "</span></div>").join("")+"</div>"+
-      '<div class="disc">Consistency across rescans is the confidence signal: '+
-      "a device present in every pass is an established part of this "+
-      "environment; transient and address-rotating devices deserve a closer "+
-      "look. Each result card carries its per-scan presence strip and "+
-      "consistency gauge; chains live under Clusters → Multi-scan.</div></div>";
+// Block registry. `def` = on in the default (pre-charts) summary layout.
+const SUMMARY_BLOCKS=[
+  {id:"verdict",   label:"Worst-threat verdict",   def:true,  render:blkVerdict},
+  {id:"tiles",     label:"Count tiles",            def:true,  render:blkTiles},
+  {id:"channels",  label:"Channel chips",          def:true,  render:blkChannels},
+  {id:"env",       label:"Environment indicators", def:true,  render:blkEnv},
+  {id:"crowd",     label:"RF environment estimate",def:true,  render:blkCrowd},
+  {id:"crossscan", label:"Scan timeline (multi-scan)",def:true,render:blkCrossScan},
+  {id:"pcap",      label:"Packet-capture status",  def:true,  render:blkPcap},
+  {id:"c_comp",    label:"Chart: result composition",def:false,isChart:true,render:chartComposition},
+  {id:"c_threat",  label:"Chart: threat distribution",def:false,isChart:true,render:chartThreat},
+  {id:"c_signal",  label:"Chart: signal strength", def:false, isChart:true,render:chartSignal},
+  {id:"c_chan",    label:"Chart: Wi-Fi channel activity",def:false,isChart:true,render:chartChannels},
+  {id:"c_cat",     label:"Chart: device categories",def:false,isChart:true,render:chartCategories},
+  {id:"top_signal",label:"List: strongest signals",def:false, isList:true,render:blkTopSignal},
+  {id:"top_threat",label:"List: top threats",      def:false, isList:true,render:blkTopThreat},
+  {id:"watchlist", label:"Watchlist (MAC / name)", def:false, isList:true,render:blkWatch},
+];
+const BLK={};SUMMARY_BLOCKS.forEach(b=>BLK[b.id]=b);
+const SM_KEY="sc-summary-layout";
+function defaultLayout(){return SUMMARY_BLOCKS.map(b=>({id:b.id,on:!!b.def}));}
+// Persisted order/visibility, reconciled with the registry so new blocks appear
+// and removed ones drop out without wiping the user's arrangement.
+function summaryLayout(){
+  let saved=null;
+  try{saved=JSON.parse(localStorage.getItem(SM_KEY));}catch(e){}
+  if(!Array.isArray(saved))return defaultLayout();
+  const out=[],seen=new Set();
+  for(const s of saved)if(s&&BLK[s.id]&&!seen.has(s.id)){out.push({id:s.id,on:!!s.on});seen.add(s.id);}
+  for(const b of SUMMARY_BLOCKS)if(!seen.has(b.id))out.push({id:b.id,on:!!b.def});
+  return out;
+}
+function saveSummaryLayout(arr){
+  try{if(arr)localStorage.setItem(SM_KEY,JSON.stringify(arr.map(x=>({id:x.id,on:!!x.on}))));
+    else localStorage.removeItem(SM_KEY);}catch(e){}
+}
+
+function renderBanner(){
+  const layout=summaryLayout();
+  let h='<div class="smbar"><button class="smgear" id="smgear" type="button" '+
+    'aria-haspopup="dialog" title="Customize the RF Env Summary">'+
+    '<svg><use href="#ic-gear"/></svg>Customize</button></div>';
+  let run=[];
+  const flush=()=>{if(run.length){const inner=run.join("");
+    if(inner)h+='<div class="charts">'+inner+"</div>";run=[];}};
+  for(const b of layout){
+    if(!b.on)continue;const def=BLK[b.id];if(!def)continue;
+    const html=def.render()||"";if(!html)continue;
+    if(def.isChart)run.push(html);else{flush();h+=html;}
   }
-
-  if(!filterActive()&&M.pcap&&M.pcap.ran!==false&&M.pcap.status){
-    const p=M.pcap;
-    h+='<div class="stats"><div><b>Packet capture</b>'+esc(p.status)+
-      " · "+(p.packets??0)+" pkts"+
-      (p.dropped?" · "+p.dropped+" dropped":"")+
-      (p.bytes?" · "+Math.round(p.bytes/1024)+" KB":"")+
-      (Array.isArray(p.channels)&&p.channels.length?
-        " · ch "+p.channels.join(","):"")+
-      ' <a class="mono" href="'+esc(p.download||"/api/pcap/latest")+
-      '">download .pcap</a></div></div>';
-  }
-
-  let extra="";
-  if(!filterActive()){
-    if(M.bad)extra+="<div><b>skipped lines</b>"+M.bad+"</div>";
-  }
-  if(extra)h+='<div class="stats">'+extra+"</div>";
-
+  flush();
+  if(!filterActive()&&M.bad)
+    h+='<div class="stats"><div><b>skipped lines</b>'+M.bad+"</div></div>";
   $("banner").innerHTML=h;
-
+  $("smgear").onclick=openSummaryCfg;
+  wireSummaryActs();
+}
+// Route a summary drill-in to the right filtered result list / tab.
+function goResults(){
+  const t=FW.length?"s-wifi":FB.length?"s-ble":FT.length?"s-trackers":
+    FD.length?"s-drones":"s-wifi";
+  curTab=t;showTab();
+}
+function summaryAct(act){
   const go=t=>{curTab=t;showTab();};
-  const ACT={
-    wifi:()=>go("s-wifi"), ble:()=>go("s-ble"), track:()=>go("s-trackers"),
-    drone:()=>go("s-drones"), clusters:()=>go("s-clusters"),
-    alerts:()=>go("s-alerts"), scans:()=>go("s-raw"), privacy:()=>go("s-privacy"),
-    ap24:()=>{setQuick({kind:"wifi",band:"2.4"});go("s-wifi");},
-    ap5:()=>{setQuick({kind:"wifi",band:"5"});go("s-wifi");},
+  const simple={wifi:"s-wifi",ble:"s-ble",track:"s-trackers",drone:"s-drones",
+    clusters:"s-clusters",alerts:"s-alerts",scans:"s-raw",privacy:"s-privacy"};
+  if(simple[act]){go(simple[act]);return;}
+  if(act==="ap24"){setQuick({kind:"wifi",band:"2.4"});go("s-wifi");return;}
+  if(act==="ap5"){setQuick({kind:"wifi",band:"5"});go("s-wifi");return;}
+  const i=act.indexOf(":");if(i<0)return;
+  const k=act.slice(0,i),v=act.slice(i+1);
+  if(k==="ch"){setQuick({kind:"wifi",channel:v});go("s-wifi");return;}
+  if(k==="t"){setQuick({threat:v});goResults();return;}
+  if(k==="cat"){setQuick({cat:[v]});goResults();return;}
+  if(k==="kind"){setQuick({kind:v});goResults();return;}
+  if(k==="dev"){const j=v.indexOf(":");if(j>0)gotoDevice(v.slice(0,j),v.slice(j+1));return;}
+}
+function wireSummaryActs(){
+  $("banner").querySelectorAll("[data-act]").forEach(el=>{
+    el.onclick=e=>{e.stopPropagation();summaryAct(el.dataset.act);};
+    if(el.getAttribute("role")==="button")
+      el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();
+        summaryAct(el.dataset.act);}};
+  });
+  $("banner").querySelectorAll("[data-wl=manage]").forEach(el=>
+    el.onclick=openWatchlist);
+}
 
-    crowd:()=>{setQuick({cat:["Phones & mobile","Wearables"]});go("s-ble");},
+// ---- watchlist manager sheet ----
+let wlWired=false,wlov=null,wlsheet=null,wlType="mac";
+function openWatchlist(){
+  wlov=$("wlov");wlsheet=$("wlsheet");
+  if(!wlWired){wlWired=true;
+    wlov.addEventListener("click",e=>{if(e.target===wlov)wlov.hidden=true;});
+    addEventListener("keydown",e=>{if(e.key==="Escape"&&wlov&&!wlov.hidden)wlov.hidden=true;});}
+  renderWatchlist();wlov.hidden=false;
+}
+// Re-render everything that shows a watchlist flag after the list changes.
+function watchRefresh(){renderWatchlist();renderBanner();renderWifi();renderBle();}
+function renderWatchlist(){
+  const wl=watchGet();
+  let h='<h3>Watchlist</h3><div class="smsub">Flag a device or network when it '+
+    "shows up in a scan. Stored only in this browser. Matching never hides anything "+
+    "— it just marks the row.</div>";
+  h+='<div class="wlman"><span class="wlseg">'+
+    '<button data-wt="mac" class="'+(wlType==="mac"?"on":"")+'">MAC</button>'+
+    '<button data-wt="name" class="'+(wlType==="name"?"on":"")+'">Name</button></span>'+
+    '<input id="wlin" placeholder="'+(wlType==="mac"?"AA:BB:CC:DD:EE:FF":
+      "SSID or device name (partial ok)")+'" autocomplete="off">'+
+    '<button class="wladd" data-wl="add">Add</button></div>';
+  h+='<div class="wlstat" style="font-size:12px;color:var(--avoid);min-height:1.1em;'+
+    'margin-top:6px"></div>';
+  if(wl.length)h+=wl.map((w,i)=>'<div class="wlrow"><span class="wt">'+
+    (w.t==="mac"?"MAC":"name")+'</span><span class="wv" title="'+esc(w.v)+'">'+
+    esc(w.v)+'</span><button class="wx" data-del="'+i+'" aria-label="Remove">✕</button>'+
+    "</div>").join("");
+  else h+='<div class="chempty" style="margin-top:8px">No watchlist entries yet.</div>';
+  h+='<div class="smact"><button class="prim" data-wl="done">Done</button></div>';
+  wlsheet.innerHTML=h;
+  wlsheet.querySelectorAll("[data-wt]").forEach(b=>b.onclick=()=>{
+    wlType=b.dataset.wt;renderWatchlist();});
+  const stat=wlsheet.querySelector(".wlstat");
+  const doAdd=()=>{
+    const inp=wlsheet.querySelector("#wlin"),v=inp.value;
+    if(watchAdd(wlType,v)){inp.value="";watchRefresh();
+      wlsheet.querySelector("#wlin").focus();}
+    else{const s=wlsheet.querySelector(".wlstat");
+      if(s)s.textContent=wlType==="mac"?
+        "Enter a full MAC (12 hex digits).":"Enter a name.";}
   };
-  $("banner").querySelectorAll("[data-act]").forEach(el=>
-    el.onclick=()=>{const f=ACT[el.dataset.act];if(f)f();});
-  $("banner").querySelectorAll(".fchip[data-ch]").forEach(el=>
-    el.onclick=()=>{setQuick({kind:"wifi",channel:el.dataset.ch});go("s-wifi");});
+  wlsheet.querySelector("[data-wl=add]").onclick=doAdd;
+  wlsheet.querySelector("#wlin").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();doAdd();}};
+  wlsheet.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{
+    watchDel(+b.dataset.del);watchRefresh();});
+  wlsheet.querySelector("[data-wl=done]").onclick=()=>{wlov.hidden=true;};
+}
+
+// ---- gear / customization sheet ----
+let smWired=false,smov=null,smsheet=null;
+function openSummaryCfg(){
+  smov=$("smov");smsheet=$("smsheet");
+  if(!smWired){smWired=true;
+    smov.addEventListener("click",e=>{if(e.target===smov)smov.hidden=true;});
+    addEventListener("keydown",e=>{if(e.key==="Escape"&&smov&&!smov.hidden)smov.hidden=true;});}
+  renderSummaryCfg();smov.hidden=false;
+}
+function renderSummaryCfg(){
+  const layout=summaryLayout();
+  let h='<h3>Customize summary</h3><div class="smsub">Turn blocks on/off, and drag '+
+    "the grip (or use ↑↓) to reorder. Charts and lists link into filtered results. "+
+    "Changes save on this device.</div>";
+  layout.forEach((b,i)=>{
+    const def=BLK[b.id];if(!def)return;
+    h+='<div class="smblk '+(b.on?"on":"off")+'" draggable="true" data-i="'+i+'">'+
+      '<span class="smgrip" title="Drag to reorder">⠿</span>'+
+      '<span class="smname">'+esc(def.label)+'</span>'+
+      (def.isChart?'<span class="smtag">chart</span>':
+        def.isList?'<span class="smtag">list</span>':"")+
+      '<span class="smmv"><button data-mv="up"'+(i===0?" disabled":"")+
+      ' aria-label="Move up">↑</button><button data-mv="down"'+
+      (i===layout.length-1?" disabled":"")+' aria-label="Move down">↓</button></span>'+
+      '<button class="smtog" data-tog="'+b.id+'">'+(b.on?"On":"Off")+"</button></div>";
+  });
+  h+='<div class="smact"><button data-sm="reset">Reset to default</button>'+
+    '<button class="prim" data-sm="done">Done</button></div>';
+  smsheet.innerHTML=h;
+  const apply=L=>{saveSummaryLayout(L);renderSummaryCfg();renderBanner();};
+  smsheet.querySelectorAll("[data-tog]").forEach(b=>b.onclick=()=>{
+    const L=summaryLayout(),it=L.find(x=>x.id===b.dataset.tog);
+    if(it){it.on=!it.on;apply(L);}});
+  smsheet.querySelectorAll("[data-mv]").forEach(b=>b.onclick=()=>{
+    const i=+b.closest(".smblk").dataset.i,L=summaryLayout();
+    const j=b.dataset.mv==="up"?i-1:i+1;if(j<0||j>=L.length)return;
+    const t=L[i];L[i]=L[j];L[j]=t;apply(L);});
+  smsheet.querySelectorAll("[data-sm]").forEach(b=>b.onclick=()=>{
+    if(b.dataset.sm==="reset")apply(null);else smov.hidden=true;});
+  let dragI=null;
+  smsheet.querySelectorAll(".smblk").forEach(el=>{
+    el.ondragstart=e=>{dragI=+el.dataset.i;el.classList.add("dragging");
+      e.dataTransfer.effectAllowed="move";};
+    el.ondragend=()=>{el.classList.remove("dragging");
+      smsheet.querySelectorAll(".smblk").forEach(x=>x.classList.remove("dragover"));};
+    el.ondragover=e=>{e.preventDefault();el.classList.add("dragover");};
+    el.ondragleave=()=>el.classList.remove("dragover");
+    el.ondrop=e=>{e.preventDefault();const to=+el.dataset.i;
+      if(dragI==null||dragI===to)return;
+      const L=summaryLayout(),m=L.splice(dragI,1)[0];L.splice(to,0,m);apply(L);};
+  });
 }
 
 function renderSession(){
@@ -1773,6 +2407,38 @@ function renderClusters(){
     const m=layer==="wifi"?M.wifi.get(mac):M.ble.get(mac);
     return m?(m.rec.vendor||m.rec.company_name||null):null;
   }
+  // A NIC cluster grouped purely on hardware-address proximity + RF co-location
+  // cannot, from RF alone, tell one multi-SSID radio apart from two identical
+  // twin units bought together (consecutive MACs, side by side). Flag that only
+  // when nothing stronger corroborates the merge: no related SSID base, no
+  // product/name/wired-identity match. Related SSIDs or a stronger identifier
+  // mean it is plainly one box, so no caveat there.
+  const NIC_EV={conserved_nic_bytes:1,same_physical_router:1,
+    nearby_mac_suffix:1,mac_adjacent:1};
+  const STRONG_EV={same_product_model:1,wps_vendor_model:1,name_match:1,
+    l2l3_id:1};
+  function siblingCaveat(c){
+    const kind=c.cluster_kind||"physical";
+    if(kind!=="physical"&&kind!=="candidate")return "";
+    const wifiN=(c.members||[]).filter(mb=>mb.layer==="wifi").length;
+    if(wifiN<2)return "";
+    let nic=false,strong=false,ssid=false;
+    for(const e of c.edges||[]){
+      if(e.merged===false)continue;
+      const ev=String(e.evidence??"");
+      if(NIC_EV[ev])nic=true;
+      if(STRONG_EV[ev])strong=true;
+      if(Array.isArray(e.candidate_evidence)&&
+         e.candidate_evidence.indexOf("ssid_related")>=0)ssid=true;
+    }
+    if(!nic||strong||ssid)return "";
+    return '<div class="sibcav"><b>Possible sibling units.</b> These networks '+
+      'were grouped by matching hardware-address bytes and radio co-location '+
+      'alone, with no shared network name or product identifier. That is what '+
+      'one router with several SSIDs looks like — but two identical units of '+
+      'the same model, bought together and sitting side by side, look the same '+
+      'on RF. Treat as one device with low confidence.</div>';
+  }
   function panelHtml(c){
     const members=c.members||[],total=c.member_total??members.length;
 
@@ -1790,7 +2456,7 @@ function renderClusters(){
       (best?'<div class="why">grouped by: '+esc(evName(best.evidence))+"</div>":"")+
       '<div class="small dim">'+lead+" · "+total+
       " member"+(total>1?"s":"")+" · confidence "+esc(c.confidence??"?")+
-      " · scan "+esc(c.scan_index??"?")+"</div><div>";
+      " · scan "+esc(c.scan_index??"?")+"</div>"+siblingCaveat(c)+"<div>";
     for(const mb of members){
       const nm=nameOf(mb.layer,mb.mac),w=mb.layer==="wifi";
       h+='<span class="chip"><span class="lyr '+(w?"w":"b")+'">'+
@@ -1837,7 +2503,7 @@ function renderClusters(){
 
   function mrPanel(r){
     const sibs=r.radio_siblings||[],total=r.radio_count??(sibs.length+1);
-    let h='<div class="card"><div class="small dim">'+esc(r.ssid||"(hidden)")+
+    let h='<div class="card"><div class="small dim">'+esc(realName(r.ssid)||"(hidden)")+
       " · "+esc(total)+" radios merged into one logical network · scan "+
       esc(r.scan_index??"?")+'</div><div>';
     h+='<span class="chip"><span class="lyr w">REP</span><span class="mono">'+
@@ -1876,13 +2542,14 @@ function renderClusters(){
     const cnt=new Map();
     for(const mb of c.members||[]){
       if(mb.layer!=="wifi")continue;
-      const s=nameOf("wifi",mb.mac);
+      const s=realName(nameOf("wifi",mb.mac));
       if(s)cnt.set(s,(cnt.get(s)||0)+1);
     }
     let top=null,n=0;cnt.forEach((v,k)=>{if(v>n){n=v;top=k;}});
     if(top)return top;
     for(const mb of c.members||[])
-      if(mb.layer!=="wifi"){const nm=nameOf("ble",mb.mac);if(nm)return nm;}
+      if(mb.layer!=="wifi"){const nm=realName(nameOf("ble",mb.mac));if(nm)return nm;}
+    // No real member name anywhere — surface the MAC rather than "<hidden>".
     return repMac(c);
   }
 
@@ -2048,8 +2715,8 @@ function renderClusters(){
   const aggIcon=a=>{const p=aggRep(a);
     return p?catIcon(p.r,p.kind):iconSpan(["ic-nic","cluster"]);};
   const aggName=a=>{
-    if(a.ssids.size)return [...a.ssids][0];
-    for(const ad of a.addrs){const i=addrInfo(ad);if(i.name)return i.name;}
+    for(const s of a.ssids)if(realName(s))return s;
+    for(const ad of a.addrs){const i=addrInfo(ad);if(realName(i.name))return i.name;}
     return [...a.addrs][0]||"?";
   };
   const famLabel=f=>f==="nic"?"NIC cluster":f==="radio"?"Radio cluster":"Privacy cluster";
@@ -2087,7 +2754,7 @@ function renderClusters(){
     empty("No NIC clusters in this capture.");
   const radioHtml=
     tgrid(mrAps,"Merged radios","mr",r=>catIcon(r,"wifi"),
-      r=>r.ssid||r.bssid,mrPanel)||
+      r=>realName(r.ssid)||r.bssid,mrPanel)||
     empty("No merged-radio records in this capture.");
   const privHtml=
     pvGrid(PV,"Privacy clusters","pv",pvIcon,pvName,pvPanel)||
@@ -2098,42 +2765,70 @@ function renderClusters(){
 
   const rcName=c=>{
     const mb=c.members[0],r=mb.rec;
-    return (mb.kind==="wifi"?r.ssid:(r.name||r.vendor))||mb.mac;
+    return (mb.kind==="wifi"?realName(r.ssid):(r.name||r.vendor))||mb.mac;
   };
+  // Cross-scan clusters: every chain of 2+ addresses linked by a persistent
+  // identifier. Two shapes share one tab — rotation chains (one device whose
+  // MAC changed between passes) draw as an address-change timeline; concurrent
+  // chains (addresses heard in the same pass) draw as a kept-apart product
+  // group. A type icon on each result tells the two apart.
   const rcIcon=c=>{const mb=c.members[0];return catIcon(mb.rec,mb.kind==="wifi"?"wifi":"ble");};
-  function rcPanel(c){
-    const lead=c.rotation?
-      "likely one physical device rotating its address across scans":
-      "same identifiers heard in the same pass — likely "+c.members.length+
-      " distinct units of one product (or one device advertising several addresses)";
-    let h='<div class="card"><div class="why">linked by: '+esc(c.evidence)+"</div>"+
-      '<div class="small dim">'+lead+" · "+c.members.length+" addresses · confidence "+
-      c.conf+" "+identBar(c.conf)+"</div><div>";
-    for(const mb of c.members){
-      const w=mb.kind==="wifi",nm=w?mb.rec.ssid:(mb.rec.name||mb.rec.vendor||"");
-      h+='<div style="margin:4px 0"><span class="chip"><span class="lyr '+(w?"w":"b")+'">'+
-        (w?"WIFI":"BLE")+"</span>"+(nm?"<b>"+esc(nm)+"</b> ":"")+
-        '<span class="mono">'+esc(mb.mac)+"</span></span> "+presStrip(mb.p)+
-        ' <span class="dim">scans '+esc(slotLabel(mb.p.first))+"–"+
-        esc(slotLabel(mb.p.last))+" ("+mb.p.seen+"/"+mb.p.total+")</span> "+
-        devLink(mb.mac)+"</div>";
+  const xcType=c=>c.rotation?["ic-rotate","address rotation"]:["ic-chain","product group"];
+  const xcIcon=c=>rcIcon(c)+iconSpan(xcType(c));
+  function xcPanel(c){
+    const rot=c.rotation,ico=iconSpan(xcType(c));
+    const lbl=rot?"MAC randomization — one device changing address across scans":
+      c.members.length+" concurrent units of one product (kept apart)";
+    let h='<div class="card"><div class="xhead '+(rot?"rot":"grp")+'">'+ico+
+      "<span>"+esc(lbl)+"</span></div>"+
+      '<div class="why">linked by: '+esc(c.evidence)+"</div>"+
+      '<div class="small dim">'+c.members.length+" addresses · confidence "+
+      c.conf+" "+identBar(c.conf)+"</div>";
+    if(rot){
+      h+='<div class="tl">';
+      c.members.forEach((mb,i)=>{
+        const w=mb.kind==="wifi",nm=w?mb.rec.ssid:(mb.rec.name||mb.rec.vendor||"");
+        const band=w?(mb.rec.band_5g?"5 GHz":"2.4 GHz"):"BLE";
+        h+='<div class="hop"><span class="dot"></span><div class="body">'+
+          '<span class="chip"><span class="lyr '+(w?"w":"b")+'">'+(w?"WIFI":"BLE")+
+          "</span>"+(nm?"<b>"+esc(nm)+"</b> ":"")+'<span class="mono">'+esc(mb.mac)+
+          "</span></span>"+
+          '<span class="rng">scans '+esc(slotLabel(mb.p.first))+"–"+
+          esc(slotLabel(mb.p.last))+" · "+esc(band)+" · seen "+mb.p.seen+"/"+
+          mb.p.total+"</span> "+presStrip(mb.p)+" "+devLink(mb.mac)+
+          (i<c.members.length-1?'<div class="small dim" style="margin-top:3px">'+
+            "↓ address changed</div>":"")+
+          "</div></div>";
+      });
+      h+="</div>";
+    }else{
+      h+="<div>";
+      for(const mb of c.members){
+        const w=mb.kind==="wifi",nm=w?mb.rec.ssid:(mb.rec.name||mb.rec.vendor||"");
+        h+='<div style="margin:4px 0"><span class="chip"><span class="lyr '+
+          (w?"w":"b")+'">'+(w?"WIFI":"BLE")+"</span>"+(nm?"<b>"+esc(nm)+"</b> ":"")+
+          '<span class="mono">'+esc(mb.mac)+"</span></span> "+presStrip(mb.p)+
+          ' <span class="dim">scans '+esc(slotLabel(mb.p.first))+"–"+
+          esc(slotLabel(mb.p.last))+" ("+mb.p.seen+"/"+mb.p.total+")</span> "+
+          devLink(mb.mac)+"</div>";
+      }
+      h+="</div>"+'<div class="small dim" style="margin-top:6px">'+
+        c.overlap+" scan pass"+(c.overlap>1?"es":"")+" heard 2+ of these addresses "+
+        "at once, so they are kept apart as probable separate devices — nothing "+
+        "is merged or hidden on identifier match alone.</div>";
     }
-    h+="</div>";
-    if(!c.rotation)h+='<div class="small dim" style="margin-top:6px">'+
-      c.overlap+" scan pass"+(c.overlap>1?"es":"")+" heard 2+ of these addresses "+
-      "at once, so they are kept apart as probable separate devices — nothing "+
-      "is merged or hidden on identifier match alone.</div>";
     return h+"</div>";
   }
   const rcHtml=M.slots.length<2?
-    empty("Single scan loaded — use Import (or run more scan passes) to build multi-scan sequencing."):
-    (tgrid(RC,"Multi-scan chains","rc",rcIcon,rcName,rcPanel)||
-     empty("No cross-scan address chains — every device kept a stable address across the aggregated scans."));
+    empty("Single scan loaded — use Import (or run more scan passes) to trace devices across scans."):
+    (tgrid(RC,"Cross scan clusters","rc",xcIcon,rcName,xcPanel)||
+     empty("No cross-scan matches — no device was seen in two scans under a "+
+       "different address with >70 confidence of being the same unit."));
   const nicN=veh.length+net.length+bt.length+supBle.length;
   $("clusters").innerHTML=
     '<div class="ctabs">'+
     '<button class="ctab act" data-t="agg">Aggregate Cluster(s) <span class="tn">'+AGG.length+"</span></button>"+
-    '<button class="ctab" data-t="multi">Multi-scan Chain(s) <span class="tn">'+RC.length+"</span></button>"+
+    '<button class="ctab" data-t="multi">Cross Scan Cluster(s) <span class="tn">'+RC.length+"</span></button>"+
     '<button class="ctab" data-t="priv">Privacy Cluster(s) <span class="tn">'+PV.length+"</span></button>"+
     '<button class="ctab" data-t="nic">NIC Cluster(s) <span class="tn">'+nicN+"</span></button>"+
     '<button class="ctab" data-t="radio">Radio Cluster(s) <span class="tn">'+mrAps.length+"</span></button></div>"+
@@ -2259,20 +2954,69 @@ function subjLink(r){
   }
   return ref?esc(ref):'<span class="dim">—</span>';
 }
+// Notification display filter — tailor the noise without touching the capture.
+// The raw records ("alert" in the schema) stay in the data/export; these prefs
+// only change what's shown.
+const ALERT_KEY="sc-alert-prefs";
+let alertShowAll=false;
+function alertPrefs(){
+  try{const p=JSON.parse(localStorage.getItem(ALERT_KEY));
+    if(p&&typeof p==="object")return {minSev:p.minSev||"all",
+      muted:Array.isArray(p.muted)?p.muted:[]};}catch(e){}
+  return {minSev:"all",muted:[]};
+}
+function alertPrefsSet(p){try{localStorage.setItem(ALERT_KEY,JSON.stringify(p));}catch(e){}}
 function renderAlerts(){
   const el=$("alerts");
   if(!FA.length){el.innerHTML=empty(filterActive()?
-    "No alerts match the filter.":"No alerts fired.");return;}
+    "No notifications match the filter.":"No notifications.");return;}
   const sevRank={high:3,medium:2,low:1};
   const rows=FA.slice().sort((a,b)=>
     (sevRank[b.rec.severity]||0)-(sevRank[a.rec.severity]||0));
-  el.innerHTML='<div class="dlist">'+rows.map(a=>{
+  const prefs=alertPrefs();
+  const minR=sevRank[prefs.minSev]||0;
+  const muted=new Set(prefs.muted);
+  const passes=a=>!(muted.has(a.rec.rule_id)||(sevRank[a.rec.severity]||0)<minR);
+  const shown=alertShowAll?rows:rows.filter(passes);
+  const hidden=rows.length-rows.filter(passes).length;
+  // rules present, for the mute chips
+  const rules=[];const seen=new Set();
+  for(const a of rows){const id=a.rec.rule_id||"?";
+    if(!seen.has(id)){seen.add(id);rules.push(id);}}
+  let h='<div class="alfbar"><label for="alsev">Show severity</label>'+
+    '<select id="alsev"><option value="all">all</option>'+
+    '<option value="low">low +</option><option value="medium">medium +</option>'+
+    '<option value="high">high only</option></select>'+
+    '<div class="alfmutes">'+rules.map(id=>'<button class="almute'+
+      (muted.has(id)?" muted":"")+'" data-rule="'+esc(id)+'" title="'+
+      (muted.has(id)?"Muted — click to show":"Click to mute this rule")+'">'+
+      esc(id)+"</button>").join("")+"</div></div>";
+  if(hidden>0&&!alertShowAll)
+    h+='<div class="alfnote">'+hidden+" notification"+(hidden>1?"s":"")+
+      " hidden by your filter (still in the data/export). "+
+      '<button data-al="showall">Show all</button></div>';
+  else if(alertShowAll&&hidden>0)
+    h+='<div class="alfnote">Showing all — '+hidden+" would be filtered. "+
+      '<button data-al="applyfilter">Apply filter</button></div>';
+  h+=shown.length?'<div class="dlist">'+shown.map(a=>{
     const r=a.rec;
     const meta=span("mono",esc(r.rule_id||"?"))+
       (r.target_ref?subjLink(r):"")+(a.n>1?span("",a.n+"×"):"");
-    return devCard("alert",null,esc(r.message||r.rule_id||"alert"),
+    return devCard("alert",null,esc(r.message||r.rule_id||"notification"),
       sevPill(r.severity),meta,null,iconSpan(ICON_BY_KIND.alert));
-  }).join("")+"</div>";
+  }).join("")+"</div>":
+    '<div class="note">All '+rows.length+" notification"+(rows.length>1?"s":"")+
+    " hidden by your filter.</div>";
+  el.innerHTML=h;
+  const sev=$("alsev");if(sev){sev.value=prefs.minSev;
+    sev.onchange=()=>{const p=alertPrefs();p.minSev=sev.value;alertPrefsSet(p);
+      alertShowAll=false;renderAlerts();};}
+  el.querySelectorAll("[data-rule]").forEach(b=>b.onclick=()=>{
+    const p=alertPrefs(),id=b.dataset.rule,i=p.muted.indexOf(id);
+    if(i>=0)p.muted.splice(i,1);else p.muted.push(id);
+    alertPrefsSet(p);renderAlerts();});
+  el.querySelectorAll("[data-al]").forEach(b=>b.onclick=()=>{
+    alertShowAll=b.dataset.al==="showall";renderAlerts();});
   el.querySelectorAll("a[data-go]").forEach(a=>{
     a.onclick=e=>{e.preventDefault();gotoDevice(a.dataset.tab,a.dataset.go);};
   });
@@ -2413,12 +3157,11 @@ let chBest=6;
 let chList=[];
 function renderChannel(){
   $("channel").innerHTML=
-    '<div class="pexp">Live tools. They read the device you are connected to. '+
-    'Pick a channel the last scan saw, then capture the stations talking on it '+
-    'or run a CSI window. A fresh capture uses the radio, so this page '+
-    'disconnects while it runs, then the SniffCheck AP comes back on its own — '+
-    'just reconnect and reopen this tab to see the results. '+
-    'In a saved report these controls do nothing.</div>'+
+    '<div class="pexp">Live tools — they read the device you are connected to. '+
+    'Pick a channel the last scan saw, then capture its stations or run a CSI '+
+    'window. A capture uses the radio, so the SniffCheck AP drops while it runs '+
+    'and returns on its own — reconnect and reopen this tab for results. '+
+    'Inactive in a saved report.</div>'+
     '<div id="chans" class="pexp">channels found: …</div>'+
     '<div id="stalist" class="pexp" style="max-height:200px;overflow:auto">'+
     'loading stations…</div>'+
@@ -2427,10 +3170,10 @@ function renderChannel(){
     '<div id="csiline" class="pexp">CSI: –</div>'+
 
     '<hr style="border:none;border-top:1px solid var(--line);margin:12px 0">'+
-    '<div class="pexp"><b>Packet scan.</b> Sniff every channel in the graph '+
-    'above for 10 seconds each and save one <code>.pcap</code>. The SniffCheck '+
-    'AP drops while it runs, then comes back on its own — just reconnect and '+
-    'download the file. Receive-only: nothing is transmitted.</div>'+
+    '<div class="pexp"><b>Packet scan.</b> Sniff every channel in the graph for '+
+    '10 s each into one <code>.pcap</code>. The AP drops while it runs and '+
+    'returns on its own — reconnect to download. Receive-only: nothing is '+
+    'transmitted.</div>'+
     '<button id="pcapbtn" onclick="pcapRun(this)" disabled>'+
     'Packet scan: 10s per channel</button>'+
     '<div id="pcapline" class="pexp">PCAP: –</div>';
@@ -2494,11 +3237,60 @@ function askCap(){
   if(s===null)return null;
   return{channel:+c,seconds:+s};
 }
+// Extra seconds after the scan for the SniffCheck AP to redeploy before the
+// user can reconnect.
+const RC_AP_DEPLOY=10;
+let rcTick=null;
+// The browser can't rejoin Wi-Fi for the user, so a blind reload just hangs if
+// they haven't reconnected to the (same-password) SniffCheck AP yet. Verify the
+// device answers first; only then reload to the fresh results.
+function rcReconnect(){
+  const b=$("rcbtn");
+  b.disabled=true;b.textContent="Checking…";
+  const ctrl=("AbortController"in window)?new AbortController():null;
+  const t=setTimeout(()=>{if(ctrl)ctrl.abort();},4000);
+  fetch("/api/status",{cache:"no-store",signal:ctrl?ctrl.signal:undefined})
+    .then(r=>{clearTimeout(t);if(r.ok){location.reload();return;}throw 0;})
+    .catch(()=>{clearTimeout(t);b.disabled=false;b.className="ready";
+      b.textContent="Not back yet — rejoin the Wi-Fi, then tap";});
+}
+// Local countdown shown while the device is off-network running a scan. total =
+// scan eta + AP redeploy. The reconnect button stays disabled until it hits 0,
+// then turns green so the user can rejoin the (same-password) AP and refresh.
+function startReconnectTimer(scanEta,label){
+  const total=Math.max(1,(scanEta|0))+RC_AP_DEPLOY;
+  $("rctitle").textContent=label||"Scan running";
+  $("rcmsg").innerHTML="The SniffCheck AP drops while the radio scans, then "+
+    "relaunches with the <b>same Wi-Fi password</b>. When the timer ends, "+
+    "reconnect to the AP and tap below to load the new results.";
+  const btn=$("rcbtn");
+  btn.disabled=true;btn.className="";btn.textContent="Reconnect & refresh";
+  $("rcov").classList.add("on");
+  let left=total;
+  const paint=()=>{
+    $("rcnum").textContent=left>0?left+"s":"Ready";
+    $("rcbarf").style.width=Math.round((total-left)/total*100)+"%";
+  };
+  paint();
+  if(rcTick)clearInterval(rcTick);
+  rcTick=setInterval(()=>{
+    left--;
+    if(left<=0){
+      left=0;paint();clearInterval(rcTick);rcTick=null;
+      btn.disabled=false;btn.className="ready";
+      btn.textContent="Reconnect & refresh";
+    }else paint();
+  },1000);
+}
 function fireCap(u,b){
   const p=askCap();if(!p)return;
   b.textContent="Capturing… the AP returns on its own — reconnect to see results";b.disabled=true;
+  const label=u.indexOf("csi")>=0?"CSI capture running":"Station capture running";
   fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(p)}).catch(()=>{});
+    body:JSON.stringify(p)})
+    .then(r=>r.json())
+    .then(j=>startReconnectTimer(j&&j.eta_seconds!=null?j.eta_seconds:p.seconds,label))
+    .catch(()=>startReconnectTimer(p.seconds,label));
 }
 function staCap(b){fireCap("/api/sta/capture",b);}
 function csiRun(b){fireCap("/api/csi/run",b);}
@@ -2544,7 +3336,11 @@ function pcapRun(b){
   b.textContent="Scanning "+n+" channel"+(n>1?"s":"")+
     "… the AP relaunches when it finishes";
   fetch("/api/pcap/run",{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({channels:chList,seconds_per_channel:10})}).catch(()=>{});
+    body:JSON.stringify({channels:chList,seconds_per_channel:10})})
+    .then(r=>r.json())
+    .then(j=>startReconnectTimer(j&&j.eta_seconds!=null?j.eta_seconds:secs,
+      "Packet scan running"))
+    .catch(()=>startReconnectTimer(secs,"Packet scan running"));
 }
 
 function hlJson(obj){
@@ -2611,7 +3407,7 @@ function renderNav(){
     ["s-ble","BLE",FB.length,1],
     ["s-clusters","Clusters",FC.length,1],
     ["s-trackers","Trackers",FT.length,1],
-    ["s-alerts","Alerts",FA.length,1],
+    ["s-alerts","Notifications",FA.length,1],
     ["s-privacy","Privacy",availPrivacy(),1],
     ["s-channel","Channels",0,1],
     ["s-raw","Raw",M.total,1],
@@ -2782,7 +3578,7 @@ FSEL.forEach(id=>$(id).onchange=onFilterChange);
 $("ftog").onclick=()=>$("filters").classList.toggle("open");
 
 const SC_TAB_LABELS={"s-banner":"Summary","s-wifi":"Wi-Fi","s-ble":"BLE",
-  "s-clusters":"Clusters","s-trackers":"Trackers","s-alerts":"Alerts",
+  "s-clusters":"Clusters","s-trackers":"Trackers","s-alerts":"Notifications",
   "s-privacy":"Privacy","s-channel":"Channels","s-raw":"Raw","s-drones":"Drones"};
 const SC_HOTLIST_DEFAULT=["s-wifi","s-ble","s-clusters","s-channel"];
 function readHotlist(){
@@ -2868,19 +3664,293 @@ function buildExport(){
   first("footer");
   return out;
 }
-function download(name,text){
-  const b=new Blob([text],{type:"application/x-ndjson"});
+function download(name,text,mime){
+  const b=new Blob([text],{type:mime||"application/x-ndjson"});
   const u=URL.createObjectURL(b);
   const a=document.createElement("a");
   a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(u),1500);
 }
+
+// ---------- Phase 86: multi-format export ----------
+// Everything here works on the records already loaded in this browser tab; the
+// friendlier formats (CSV/WiGLE) are honest lossy summaries of the same rows the
+// report shows, and never invent location the capture did not carry.
+function expBase(){
+  const sid=(M&&M.header&&M.header.session&&M.header.session.session_id)||"capture";
+  return "sniffcheck-"+sid+(filterActive()?"-filtered":"");
+}
+// A walk (Sniff Walk / Walk Pup) is single-scan-ineligible for WDGWars upload.
+function expIsWalk(){
+  if(RAW_RECS.some(r=>r&&r.type==="pup_walk"))return true;
+  return RAW_RECS.some(r=>r&&(r.type==="wifi_ap"||r.type==="ble_device")&&r.source==="walk");
+}
+// Served from the device SoftAP (http, no uplink) vs. a saved report opened
+// standalone (file://, the browser has its own internet). WDGWars upload needs
+// the latter, since the AP page can't reach wdgwars.pl.
+function expServedByDevice(){return location.protocol!=="file:"&&deviceOnline();}
+
+function csvEsc(v){
+  const s=v==null?"":String(v);
+  return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
+}
+// Flatten the current filtered Wi-Fi + BLE (+ tracker/drone) view into simple rows.
+function expRows(){
+  const rows=[];
+  for(const r of FW)rows.push({type:"Wi-Fi",name:r.ssid||"",mac:r.bssid||"",
+    vendor:fVendor(r)||"",cls:fClass(r)||"",rssi:r.rssi,channel:r.channel,
+    band:r.band_5g?"5GHz":"2.4GHz",auth:r.auth||"",
+    threat:fThreat(r)||"",grade:fGrade(r)||""});
+  for(const r of FB)rows.push({type:"BLE",name:r.name||r.fastpair_name||"",mac:r.addr||"",
+    vendor:fVendor(r)||"",cls:fClass(r)||"",rssi:r.rssi,channel:"",band:"BLE",auth:"",
+    threat:fThreat(r)||"",grade:fGrade(r)||""});
+  for(const r of FT)rows.push({type:"Tracker",name:fName(r)||"",mac:r.addr||"",
+    vendor:fVendor(r)||"",cls:fClass(r)||"",rssi:r.rssi,channel:"",band:"BLE",auth:"",
+    threat:fThreat(r)||"",grade:fGrade(r)||""});
+  for(const r of FD)rows.push({type:"Drone",name:fName(r)||r.id||"",mac:r.addr||"",
+    vendor:fVendor(r)||"",cls:fClass(r)||"",rssi:r.rssi,channel:"",band:"",auth:"",
+    threat:fThreat(r)||"",grade:fGrade(r)||""});
+  return rows;
+}
+function toSummaryCSV(){
+  const cols=["type","name","mac","vendor","class","rssi","channel","band",
+    "auth","threat","grade"];
+  const lines=[cols.join(",")];
+  for(const r of expRows())
+    lines.push([r.type,r.name,r.mac,r.vendor,r.cls,r.rssi,r.channel,r.band,
+      r.auth,r.threat,r.grade].map(csvEsc).join(","));
+  return lines.join("\r\n")+"\r\n";
+}
+
+// WiGLE / WigleWifi-1.6 CSV — same column contract dp_wigle.c writes on the X4,
+// so device-scan exports land in WiGLE/WDGWars the same way walk exports do.
+const WIGLE_PRE="WigleWifi-1.6,appRelease=1.30.0,model=SniffCheck-C5,"+
+  "release=1.30.0,device=esp32c5,display=st7735,board=t-dongle-c5,brand=SniffCheck";
+const WIGLE_COLS="MAC,SSID,AuthMode,FirstSeen,Channel,Frequency,RSSI,"+
+  "CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,RCOIs,MfgrId,Type";
+function chanFreq(ch,band5){
+  if(!ch)return "";
+  if(band5)return 5000+ch*5;
+  return ch===14?2484:2407+ch*5;
+}
+function wigleAuth(auth,type){
+  const a=String(auth||"").toLowerCase();
+  if(type!=="Wi-Fi")return "";
+  if(a.indexOf("wpa3")>=0)return "[WPA3-SAE][ESS]";
+  if(a.indexOf("wpa2")>=0&&a.indexOf("eap")>=0)return "[WPA2-EAP-CCMP][ESS]";
+  if(a.indexOf("wpa2")>=0)return "[WPA2-PSK-CCMP][ESS]";
+  if(a.indexOf("wpa")>=0)return "[WPA-PSK-TKIP][ESS]";
+  if(a.indexOf("wep")>=0)return "[WEP][ESS]";
+  return "[ESS]";
+}
+function wigleTime(){
+  const base=(M&&M.header&&M.header.session&&M.header.session.start_us)||null;
+  const d=base?new Date(base/1000):new Date();
+  const p=n=>String(n).padStart(2,"0");
+  return d.getUTCFullYear()+"-"+p(d.getUTCMonth()+1)+"-"+p(d.getUTCDate())+" "+
+    p(d.getUTCHours())+":"+p(d.getUTCMinutes())+":"+p(d.getUTCSeconds());
+}
+function toWigleCSV(loc){
+  const lat=loc&&loc.lat!=null?loc.lat:"";
+  const lon=loc&&loc.lon!=null?loc.lon:"";
+  const ts=wigleTime();
+  const lines=[WIGLE_PRE,WIGLE_COLS];
+  for(const r of expRows()){
+    if(!r.mac)continue;
+    const type=r.type==="Wi-Fi"?"WIFI":"BLE";
+    lines.push([csvEsc(r.mac),csvEsc(r.name),csvEsc(wigleAuth(r.auth,r.type)),ts,
+      r.channel||"",chanFreq(Number(r.channel),r.band==="5GHz"),
+      typeof r.rssi==="number"?r.rssi:"",lat,lon,"","",""/*RCOIs*/,
+      csvEsc(r.vendor),type].join(","));
+  }
+  return lines.join("\r\n")+"\r\n";
+}
+
+// Save the rendered report as one self-contained offline HTML file: clone this
+// document, drop transient overlays, and seed the data island so it reloads the
+// exact records on open. No external assets — everything is already inline.
+function saveReportHTML(){
+  const jsonl=RAW_RECS.map(r=>JSON.stringify(r)).join("\n");
+  const doc=document.documentElement.cloneNode(true);
+  const isl=doc.querySelector("#sc-data");
+  if(isl)isl.textContent=jsonl;
+  ["#expov","#rcov"].forEach(sel=>{const n=doc.querySelector(sel);if(n)n.remove();});
+  const body=doc.querySelector("body");
+  if(body){body.classList.remove("bar-hidden");
+    body.querySelectorAll("style[data-runtime]").forEach(n=>n.remove());}
+  const html="<!doctype html>\n"+doc.outerHTML;
+  download(expBase()+".html",html,"text/html");
+}
+
+// WDGWars API key lives only in this browser (localStorage), never in exports.
+const WDG_KEY="sc-wdgwars-key";
+function wdgKeyGet(){try{return localStorage.getItem(WDG_KEY)||"";}catch(e){return "";}}
+function wdgKeySet(k){try{k?localStorage.setItem(WDG_KEY,k):localStorage.removeItem(WDG_KEY);}catch(e){}}
+function wdgKeyMask(k){return k&&k.length>4?"key ending …"+k.slice(-4):"linked";}
+
+// ---- export menu UI ----
+// #expov / #expsheet live after this script in the DOM, so they don't exist at
+// load; bind them on first Export click (all render fns run only after that).
+let expov=null,expsheet=null;
+let expLoc=null; // {lat,lon} user-confirmed device location for this upload
+function expClose(){if(expov)expov.hidden=true;expLoc=null;}
+let expWired=false;
+function expWire(){
+  expov=$("expov");expsheet=$("expsheet");
+  if(expWired)return;expWired=true;
+  expov.addEventListener("click",e=>{if(e.target===expov)expClose();});
+  addEventListener("keydown",e=>{if(e.key==="Escape"&&expov&&!expov.hidden)expClose();});
+}
+
+function expIcon(id){return '<svg class="exi" aria-hidden="true"><use href="#'+id+'"/></svg>';}
+function expOptHTML(id,icon,label,desc,tag,net,dis){
+  return '<button class="exopt'+(net?" net":"")+'" data-act="'+id+'"'+
+    (dis?" disabled":"")+'>'+expIcon(icon)+
+    '<span class="ext"><span class="exl">'+esc(label)+'</span>'+
+    '<span class="exd">'+desc+'</span></span>'+
+    (tag?'<span class="extag">'+esc(tag)+"</span>":"")+"</button>";
+}
+function renderExportMenu(){
+  const n=expRows().length,walk=expIsWalk(),served=expServedByDevice();
+  const filt=filterActive();
+  let h="<h3>Export</h3><div class=exsub>"+n+" device"+(n===1?"":"s")+
+    (filt?" (current filter)":"")+" · everything stays local unless you upload.</div>";
+  h+=expOptHTML("json","ic-download","JSON","Full SniffCheck capture — recommended for re-import / BYOS.","jsonl");
+  h+=expOptHTML("csv","ic-download","CSV","Spreadsheet-friendly device summary. Lossy.","csv");
+  h+=expOptHTML("wigle","ic-download","WiGLE","WigleWifi-1.6 CSV for wardrive tools. Location only if you add it.","csv");
+  h+=expOptHTML("html","ic-download","HTML","Save this report to view offline, raw details included.","html");
+  // WDGWars: single-scan only, and needs internet the device AP can't provide.
+  const wdgDis=walk||served;
+  const wdgDesc=walk?"Single-scan only — walk geotag/upload waits on GPS hardware.":
+    served?"Open a saved report off the device (with internet) to upload.":
+    "Upload this single scan to WDGWars. Sends data off-device.";
+  h+=expOptHTML("wdgwars","ic-cloud","WDGWars",wdgDesc,"upload",true,wdgDis);
+  h+='<button class="excancel" data-act="cancel">Cancel</button>';
+  expsheet.innerHTML=h;
+  expsheet.querySelectorAll(".exopt,.excancel").forEach(b=>
+    b.onclick=()=>expRoute(b.dataset.act));
+}
+function expRoute(act){
+  if(act==="cancel"){expClose();return;}
+  if(act==="json"){
+    const recs=buildExport();
+    if(!recs.length){expClose();alert("Nothing to export for this filter.");return;}
+    download(expBase()+".jsonl",recs.map(r=>JSON.stringify(r)).join("\n")+"\n");
+    expClose();return;}
+  if(act==="csv"){download(expBase()+".csv",toSummaryCSV(),"text/csv");expClose();return;}
+  if(act==="wigle"){renderWigleForm();return;}
+  if(act==="html"){saveReportHTML();expClose();return;}
+  if(act==="wdgwars"){renderWdgForm();return;}
+}
+
+// Shared device-location capture (browser geolocation or manual entry), used by
+// the WiGLE and WDGWars flows. Never auto-collected — only when the user asks.
+function locFieldsHTML(){
+  return '<label>Device location (optional)</label>'+
+    '<div class=exrow><input id=exlat type=text inputmode=decimal placeholder=latitude '+
+    (expLoc?'value="'+esc(expLoc.lat)+'"':"")+'>'+
+    '<input id=exlon type=text inputmode=decimal placeholder=longitude '+
+    (expLoc?'value="'+esc(expLoc.lon)+'"':"")+'></div>'+
+    '<button class="excancel" style="margin-top:8px" data-loc=geo>Use my phone location</button>';
+}
+function locWire(statEl){
+  const geo=expsheet.querySelector('[data-loc=geo]');
+  if(geo)geo.onclick=()=>{
+    if(!navigator.geolocation){statEl.textContent="Geolocation unavailable.";statEl.className="exstat err";return;}
+    statEl.textContent="Locating…";statEl.className="exstat";
+    navigator.geolocation.getCurrentPosition(p=>{
+      expsheet.querySelector("#exlat").value=p.coords.latitude.toFixed(6);
+      expsheet.querySelector("#exlon").value=p.coords.longitude.toFixed(6);
+      statEl.textContent="Location added.";statEl.className="exstat ok";
+    },e=>{statEl.textContent="Location denied.";statEl.className="exstat err";},
+    {enableHighAccuracy:true,timeout:10000});
+  };
+}
+function readLoc(){
+  const la=expsheet.querySelector("#exlat"),lo=expsheet.querySelector("#exlon");
+  const lat=la&&la.value.trim(),lon=lo&&lo.value.trim();
+  if(!lat&&!lon)return null;
+  const nlat=Number(lat),nlon=Number(lon);
+  if(!isFinite(nlat)||!isFinite(nlon))return {bad:true};
+  return {lat:nlat,lon:nlon};
+}
+function renderWigleForm(){
+  let h='<button class="exback" data-act=back>‹ Export</button>'+
+    "<h3>WiGLE CSV</h3><div class=exsub>WigleWifi-1.6. Add a device location, or "+
+    "leave blank for a no-location file.</div>";
+  h+=locFieldsHTML();
+  h+='<button class="exgo" data-act=go>Download WiGLE CSV</button>';
+  h+='<div class="exstat" id=exstat></div>';
+  h+='<div class=exnote>Location is honest: blank unless you add it. Walks are not '+
+     "geotagged from a single point.</div>";
+  expsheet.innerHTML=h;
+  const stat=$("exstat");
+  expsheet.querySelector('[data-act=back]').onclick=renderExportMenu;
+  locWire(stat);
+  expsheet.querySelector('[data-act=go]').onclick=()=>{
+    const loc=readLoc();
+    if(loc&&loc.bad){stat.textContent="Latitude/longitude must be numbers.";stat.className="exstat err";return;}
+    download(expBase()+".wigle.csv",toWigleCSV(loc),"text/csv");
+    expClose();
+  };
+}
+function renderWdgForm(){
+  const key=wdgKeyGet();
+  let h='<button class="exback" data-act=back>‹ Export</button>'+
+    "<h3>Upload to WDGWars</h3><div class=exsub>Sends this single scan to "+
+    "wdgwars.pl as a WigleWifi CSV. Single-scan only.</div>";
+  h+='<div class=exform>';
+  if(key){
+    h+='<div style="font-weight:700;font-size:12.5px">WDGWars: linked ('+esc(wdgKeyMask(key))+')</div>'+
+      '<button class="excancel" style="margin-top:8px" data-act=clearkey>Clear saved key</button>';
+  }else{
+    h+='<label>WDGWars API key</label><input id=exkey type=password '+
+      'autocomplete=off placeholder="X-API-Key">';
+  }
+  h+=locFieldsHTML();
+  h+='<button class="exgo" data-act=go'+(key?"":" disabled")+'>Review &amp; upload</button>';
+  h+='<div class="exstat" id=exstat></div>';
+  h+='<div class=exnote>Your key is stored only in this browser and never written '+
+     "into any exported file. Uploading sends the selected scan data to WDGWars.</div>";
+  h+="</div>";
+  expsheet.innerHTML=h;
+  const stat=$("exstat");
+  expsheet.querySelector('[data-act=back]').onclick=renderExportMenu;
+  locWire(stat);
+  const clr=expsheet.querySelector('[data-act=clearkey]');
+  if(clr)clr.onclick=()=>{wdgKeySet("");renderWdgForm();};
+  const keyIn=expsheet.querySelector("#exkey"),go=expsheet.querySelector('[data-act=go]');
+  if(keyIn)keyIn.oninput=()=>{go.disabled=!keyIn.value.trim();};
+  go.onclick=()=>{
+    let k=key;
+    if(keyIn){k=keyIn.value.trim();if(!k)return;wdgKeySet(k);}
+    const loc=readLoc();
+    if(loc&&loc.bad){stat.textContent="Latitude/longitude must be numbers.";stat.className="exstat err";return;}
+    doWdgUpload(k,loc,stat,go);
+  };
+}
+function doWdgUpload(key,loc,stat,go){
+  const csv=toWigleCSV(loc);
+  stat.textContent="Uploading…";stat.className="exstat";go.disabled=true;
+  const fd=new FormData();
+  fd.append("file",new Blob([csv],{type:"text/csv"}),"wardrive.csv");
+  fetch("https://wdgwars.pl/api/v2/upload-csv",{method:"POST",
+    headers:{"X-API-Key":key},body:fd})
+    .then(r=>{
+      if(r.ok){stat.textContent="Upload complete.";stat.className="exstat ok";
+        go.disabled=false;return;}
+      stat.textContent="Upload failed (HTTP "+r.status+"). Your WiGLE CSV download "+
+        "still works for manual upload.";stat.className="exstat err";go.disabled=false;
+    })
+    .catch(()=>{stat.textContent="Could not reach WDGWars. If this phone is on the "+
+      "SniffCheck AP it has no internet — download the WiGLE CSV and upload it "+
+      "yourself.";stat.className="exstat err";go.disabled=false;});
+}
 $("exp").onclick=()=>{
-  const recs=buildExport();
-  if(!recs.length){alert("Nothing to export for this filter.");return;}
-  const sid=(M.header&&M.header.session&&M.header.session.session_id)||"capture";
-  const name="sniffcheck-"+sid+(filterActive()?"-filtered":"")+".jsonl";
-  download(name,recs.map(r=>JSON.stringify(r)).join("\n")+"\n");
+  if(!M||!RAW_RECS.length){alert("Load a capture first.");return;}
+  expWire();
+  renderExportMenu();
+  expov.hidden=false;
 };
 
 let RAW_RECS=[];
@@ -3090,7 +4160,9 @@ addEventListener("visibilitychange",()=>{if(!document.hidden)pollConn();});
   function upd(){
     const y=window.scrollY||document.documentElement.scrollTop||0;
     if(y<60)document.body.classList.remove("bar-hidden");
-    else if(y>lastY+6)document.body.classList.add("bar-hidden");
+    else if(y>lastY+6){document.body.classList.add("bar-hidden");
+      // collapse the open filter panel too, so it doesn't spring back expanded
+      $("filters").classList.remove("open");}
     else if(y<lastY-6)document.body.classList.remove("bar-hidden");
     lastY=y;ticking=false;
   }
@@ -3103,6 +4175,25 @@ addEventListener("visibilitychange",()=>{if(!document.hidden)pollConn();});
   let t=(isl.textContent||"").replace(/<!--.*?-->/g,"").trim();
   if(t){loadText(t,"locally stored report");DEVICE_SESSION=SESSIONS.length-1;}
 })();
+
+// Dashboard "Save report (.html)" links here with ?dl=1 — fulfill it once the
+// report has loaded by triggering the same self-contained HTML export.
+(function(){
+  try{
+    if(new URLSearchParams(location.search).get("dl")==="1"&&RAW_RECS.length)
+      setTimeout(saveReportHTML,300);
+  }catch(e){}
+})();
 </script>
+<div id="expov" hidden><div id="expsheet" role="dialog" aria-modal="true" aria-label="Export"></div></div>
+<div id="smov" hidden><div id="smsheet" role="dialog" aria-modal="true" aria-label="Customize summary"></div></div>
+<div id="wlov" hidden><div id="wlsheet" role="dialog" aria-modal="true" aria-label="Watchlist"></div></div>
+<div id="rcov"><div id="rcbox">
+  <h3 id="rctitle">Scan running</h3>
+  <div class="rcmsg" id="rcmsg"></div>
+  <div id="rcnum">–</div>
+  <div id="rcbar"><i id="rcbarf"></i></div>
+  <button id="rcbtn" disabled onclick="rcReconnect()">Reconnect &amp; refresh</button>
+</div></div>
 </body>
 </html>

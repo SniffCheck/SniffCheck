@@ -226,7 +226,7 @@ From Home, tap **View report** for the live report
 
 Tap **Save report (.html)** to keep a copy for later
 
-**Report tabs:** Summary, Wi-Fi, BLE, Clusters, Trackers, Alerts, Privacy, Channels, Raw, and Drones (if any drones were seen otherwise it won't show up)   *<- clusters are finicky...lot of logic there to combine scanned results and say, with confidence, "yeah this is probably the same router" we're trying to get there but it's taking time*
+**Report tabs:** Summary, Wi-Fi, BLE, Clusters, Trackers, Notifications, Privacy, Channels, Raw, and Drones (if any drones were seen otherwise it won't show up)   *<- clusters are finicky...lot of logic there to combine scanned results and say, with confidence, "yeah this is probably the same router" we're trying to get there but it's taking time*
 
 You can filter and search: by kind, vendor, device type, grade, threat, band, channel. There are quick buttons too: Phones, Cameras, Wearables, Drones, Trackers, Cars, Enterprise APs, Consumer APs, High threat.  *<- we have a smart filter feature that runs but if you're scanning the same areas you'll never really see a difference..also this smart filter feature is part of a future addition*
 

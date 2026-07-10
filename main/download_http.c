@@ -195,6 +195,21 @@ static const char DASH_HTML[] =
 "filter:drop-shadow(4px 4px 0 var(--sh))}"
 "#splash.hide{opacity:0;pointer-events:none}"
 "@media(prefers-reduced-motion:reduce){#splash{transition:none}}"
+
+"#rcov{position:fixed;inset:0;z-index:30;display:none;align-items:center;"
+"justify-content:center;padding:20px;background:rgba(20,14,6,.93)}"
+"#rcov.on{display:flex}"
+"#rcbox{background:var(--panel);border:3px solid var(--line);border-radius:14px;"
+"box-shadow:4px 4px 0 var(--sh);max-width:340px;width:100%;padding:20px 18px;text-align:center}"
+"#rcbox h3{margin:0 0 6px;font-size:16px;color:var(--accent)}"
+"#rcmsg{color:var(--muted);font-size:13px;line-height:1.4;margin:0 0 12px}"
+"#rcnum{font-size:38px;font-weight:900;margin:6px 0;color:var(--ink)}"
+"#rcbtn{display:block;width:100%;box-sizing:border-box;margin:14px 0 0;padding:11px;"
+"border:2px solid var(--line);border-radius:9px;font-size:15px;font-weight:800;"
+"cursor:not-allowed;background:var(--trk);color:var(--muted);box-shadow:3px 3px 0 var(--sh)}"
+"#rcbtn.ready{cursor:pointer;background:var(--safe);color:#0c2a16}"
+"#rcbtn.ready:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}"
+
 "</style></head><body>"
 
 "<script>var TH={'sniffcheck':[0],'sniffcheck-dark':[1],"
@@ -203,7 +218,14 @@ static const char DASH_HTML[] =
 "'gruvbox-dark':[1,'#282828','#32302f','#ebdbb2','#d79921','#a89984','#1d2021','#fabd2f','#fe8019','#b8bb26','#1d2021','#282828'],"
 "'solarized-light':[0,'#fdf6e3','#eee8d5','#073642','#586e75','#657b83','#93a1a1','#b58900','#cb4b16','#859900','#ffffff','#fdf6e3'],"
 "'tokyo-night':[1,'#1a1b26','#24283b','#c0caf5','#7aa2f7','#9aa5ce','#0f101a','#7aa2f7','#bb9af7','#9ece6a','#0f101a','#1a1b26'],"
-"'monokai':[1,'#272822','#34352d','#f8f8f2','#e6db74','#a59f85','#1b1c17','#fd971f','#e6db74','#a6e22e','#1b1c17','#272822']};"
+"'monokai':[1,'#272822','#34352d','#f8f8f2','#e6db74','#a59f85','#1b1c17','#fd971f','#e6db74','#a6e22e','#1b1c17','#272822'],"
+"'catppuccin-mocha':[1,'#1e1e2e','#313244','#cdd6f4','#cba6f7','#a6adc8','#11111b','#89b4fa','#cba6f7','#a6e3a1','#11111b','#1e1e2e'],"
+"'catppuccin-latte':[0,'#eff1f5','#e6e9ef','#4c4f69','#8839ef','#6c6f85','#bcc0cc','#1e66f5','#8839ef','#40a02b','#ffffff','#eff1f5'],"
+"'one-dark':[1,'#282c34','#2c313a','#abb2bf','#61afef','#7f848e','#1b1e24','#61afef','#c678dd','#98c379','#1b1e24','#282c34'],"
+"'github-light':[0,'#ffffff','#f6f8fa','#1f2328','#0969da','#656d76','#d0d7de','#0969da','#8250df','#1a7f37','#ffffff','#ffffff'],"
+"'ayu-mirage':[1,'#1f2430','#232834','#cbccc6','#ffcc66','#8a9199','#171b24','#ffcc66','#73d0ff','#a6cc70','#171b24','#1f2430'],"
+"'everforest-dark':[1,'#2d353b','#343f44','#d3c6aa','#a7c080','#9da9a0','#232a2e','#a7c080','#7fbbb3','#a7c080','#232a2e','#2d353b'],"
+"'synthwave-84':[1,'#262335','#2a2139','#f0eff1','#ff7edb','#b6b1c8','#171520','#ff7edb','#36f9f6','#72f1b8','#171520','#262335']};"
 "var THV=['bg','panel','ink','line','muted','sh','accent','pname','safe','trk','onacc'],"
 "curth='sniffcheck';"
 "function applyth(id){if(!TH[id])id='sniffcheck';var t=TH[id],"
@@ -326,7 +348,14 @@ static const char DASH_HTML[] =
 "<option value=gruvbox-dark>Gruvbox Dark</option>"
 "<option value=solarized-light>Solarized Light</option>"
 "<option value=tokyo-night>Tokyo Night</option>"
-"<option value=monokai>Monokai</option></select></label>"
+"<option value=monokai>Monokai</option>"
+"<option value=catppuccin-mocha>Catppuccin Mocha</option>"
+"<option value=catppuccin-latte>Catppuccin Latte</option>"
+"<option value=one-dark>One Dark</option>"
+"<option value=github-light>GitHub Light</option>"
+"<option value=ayu-mirage>Ayu Mirage</option>"
+"<option value=everforest-dark>Everforest Dark</option>"
+"<option value=synthwave-84>Synthwave '84</option></select></label>"
 "<div class=ex>WebUI colors, saved in this browser and shared with the report page.</div>"
 
 "<div class=hot><span class=hotlbl>Quick tabs</span>"
@@ -335,7 +364,7 @@ static const char DASH_HTML[] =
 "<label class=hotck><input type=checkbox value=s-clusters onchange=\"savehot()\">Clusters</label>"
 "<label class=hotck><input type=checkbox value=s-channel onchange=\"savehot()\">Channels</label>"
 "<label class=hotck><input type=checkbox value=s-trackers onchange=\"savehot()\">Trackers</label>"
-"<label class=hotck><input type=checkbox value=s-alerts onchange=\"savehot()\">Alerts</label>"
+"<label class=hotck><input type=checkbox value=s-alerts onchange=\"savehot()\">Notifications</label>"
 "<label class=hotck><input type=checkbox value=s-privacy onchange=\"savehot()\">Privacy</label>"
 "<label class=hotck><input type=checkbox value=s-banner onchange=\"savehot()\">Summary</label>"
 "<label class=hotck><input type=checkbox value=s-raw onchange=\"savehot()\">Raw</label>"
@@ -406,9 +435,25 @@ static const char DASH_HTML[] =
 "b.setAttribute('data-armed','1');b.setAttribute('data-l',b.textContent);"
 "b.textContent='tap again to confirm';"
 "tm[u]=setTimeout(function(){disarm(b)},3000)}"
+"function rcReconnect(){var b=el('rcbtn');b.disabled=true;b.textContent='Checking\\u2026';"
+"fetch('/api/status',{cache:'no-store'}).then(function(r){if(r.ok){location.reload();return}"
+"throw 0}).catch(function(){b.disabled=false;b.className='ready';"
+"b.textContent='Not back yet \\u2014 rejoin the Wi-Fi, then tap'})}"
+"var rcTk=null;"
+"function rcStart(eta){var total=Math.max(1,eta|0)+10,left=total;"
+"el('rcmsg').innerHTML='The SniffCheck AP drops while the radio scans, then relaunches with the '"
+"+'<b>same Wi-Fi password</b>. When the timer ends, rejoin the AP and tap below to load the new results.';"
+"var b=el('rcbtn');b.disabled=true;b.className='';b.textContent='Reconnect \\u0026 refresh';"
+"el('rcov').classList.add('on');"
+"function paint(){el('rcnum').textContent=left>0?left+'s':'Ready'}paint();"
+"if(rcTk)clearInterval(rcTk);"
+"rcTk=setInterval(function(){left--;if(left<=0){left=0;paint();clearInterval(rcTk);rcTk=null;"
+"b.disabled=false;b.className='ready'}else paint()},1000)}"
 "function armscan(b){if(b.getAttribute('data-armed')){disarm(b);"
 "b.textContent='Scan starting. Check SniffCheck.';b.disabled=true;"
-"fetch('/api/scan/start',{method:'POST'}).catch(function(){});return}"
+"fetch('/api/scan/start',{method:'POST'}).then(function(r){return r.json()})"
+".then(function(j){rcStart(j&&j.eta_seconds!=null?j.eta_seconds:60)})"
+".catch(function(){rcStart(60)});return}"
 "b.setAttribute('data-armed','1');b.setAttribute('data-l',b.textContent);"
 "b.textContent='tap again \\u2014 page will disconnect';"
 "setTimeout(function(){disarm(b)},3000)}"
@@ -521,7 +566,14 @@ static const char DASH_HTML[] =
 ".then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'BYOS failed');return j})})"
 ".then(function(j){location.href=j.report||'/report.html'})"
 ".catch(function(e){el('dig').style.display='none';el('bystat').textContent=e.message||'BYOS failed'})}"
-"</script><div id=dig>SniffCheck is digging<span>Decoding and scoring uploaded MACs on-device...</span></div></body></html>";
+"</script>"
+"<div id=rcov><div id=rcbox>"
+"<h3 id=rctitle>Scan running</h3>"
+"<div id=rcmsg></div>"
+"<div id=rcnum>\xe2\x80\x93</div>"
+"<button id=rcbtn disabled onclick=\"rcReconnect()\">Reconnect &amp; refresh</button>"
+"</div></div>"
+"<div id=dig>SniffCheck is digging<span>Decoding and scoring uploaded MACs on-device...</span></div></body></html>";
 
 static esp_err_t root_get(httpd_req_t *req)
 {
@@ -828,8 +880,11 @@ static esp_err_t settings_timeout_post(httpd_req_t *req)
 static esp_err_t scan_start_post(httpd_req_t *req)
 {
 
-    esp_err_t rc = send_json(req,
-        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"scan_start\"}");
+    char json[128];
+    snprintf(json, sizeof(json),
+        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"scan_start\","
+        "\"eta_seconds\":%d}", app_scan_eta_seconds());
+    esp_err_t rc = send_json(req, json);
     ESP_LOGI(TAG, "scan-start requested by client");
     app_request_scan_after_download();
     return rc;
@@ -993,8 +1048,11 @@ static esp_err_t sta_capture_post(httpd_req_t *req)
 {
     int ch, sec;
     read_chan_secs(req, &ch, &sec);
-    esp_err_t rc = send_json(req,
-        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"sta_capture\"}");
+    char json[128];
+    snprintf(json, sizeof(json),
+        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"sta_capture\","
+        "\"eta_seconds\":%d}", sec);
+    esp_err_t rc = send_json(req, json);
     ESP_LOGI(TAG, "sta-capture requested: ch=%d sec=%d", ch, sec);
     app_request_sta_capture_after_download((uint8_t)ch, (uint16_t)sec);
     return rc;
@@ -1004,8 +1062,11 @@ static esp_err_t csi_run_post(httpd_req_t *req)
 {
     int ch, sec;
     read_chan_secs(req, &ch, &sec);
-    esp_err_t rc = send_json(req,
-        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"csi_run\"}");
+    char json[128];
+    snprintf(json, sizeof(json),
+        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"csi_run\","
+        "\"eta_seconds\":%d}", sec);
+    esp_err_t rc = send_json(req, json);
     ESP_LOGI(TAG, "csi-run requested: ch=%d sec=%d", ch, sec);
     app_request_csi_after_download((uint8_t)ch, (uint16_t)sec);
     return rc;
@@ -1054,8 +1115,11 @@ static esp_err_t pcap_run_post(httpd_req_t *req)
     if (n == 0)
         return send_bad(req, "no valid channels");
 
-    esp_err_t rc = send_json(req,
-        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"pcap_run\"}");
+    char json[128];
+    snprintf(json, sizeof(json),
+        "{\"ok\":true,\"disconnecting\":true,\"reason\":\"pcap_run\","
+        "\"eta_seconds\":%u}", (unsigned)n * 10u);
+    esp_err_t rc = send_json(req, json);
     ESP_LOGI(TAG, "pcap-run requested: %u channels, 10s each", (unsigned)n);
     app_request_pcap_after_download(chans, n);
     return rc;

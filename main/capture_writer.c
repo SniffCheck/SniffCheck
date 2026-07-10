@@ -23,14 +23,14 @@
 static const char *TAG = "sc_capwrt";
 
 #ifndef SNIFFCHECK_FW_VERSION
-#define SNIFFCHECK_FW_VERSION  "0.86.0-phase86"
+#define SNIFFCHECK_FW_VERSION  "87.0.110"
 #endif
 #ifndef SNIFFCHECK_FW_COMMIT
 #define SNIFFCHECK_FW_COMMIT   "dev"
 #endif
 
 #ifndef SNIFFCHECK_SCHEMA_VER
-#define SNIFFCHECK_SCHEMA_VER  "1.29.0"
+#define SNIFFCHECK_SCHEMA_VER  "1.30.0"
 #endif
 
 #define LINE_BUF  3072

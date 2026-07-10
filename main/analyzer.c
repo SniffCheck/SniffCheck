@@ -1003,10 +1003,12 @@ static bool crowd_dev_is_person(const ble_device_t *d)
 
 static crowd_bucket_t crowd_bucket_for(uint16_t evidence)
 {
-    if (evidence == 0)  return CROWD_QUIET;
-    if (evidence <= 3)  return CROWD_FEW;
-    if (evidence <= 9)  return CROWD_SOME;
-    if (evidence <= 24) return CROWD_BUSY;
+    /* Loose bands: dense residential (townhouses/apartments) normally hears
+     * dozens of neighbour stations, which is expected, not crowded. */
+    if (evidence == 0)   return CROWD_QUIET;
+    if (evidence <= 10)  return CROWD_FEW;
+    if (evidence <= 30)  return CROWD_SOME;
+    if (evidence <= 80)  return CROWD_BUSY;
     return CROWD_CROWDED;
 }
 

@@ -50,9 +50,15 @@ static uint8_t          s_channel         = DEFAULT_CH;
 static volatile uint8_t s_client_count    = 0;
 static int64_t          s_deadline_us     = 0;
 
+/* The AP passphrase is generated once per boot and reused for every AP
+ * re-enable within that boot, so a client that reconnects after a scan uses
+ * the same credentials. It lives only in RAM — it is never written to NVS, so
+ * it does not persist across reboots (each power-cycle mints a fresh one). */
+static bool s_pass_generated = false;
+
 static void gen_passphrase(void)
 {
-
+    if (s_pass_generated) return;
     const uint32_t limit = 256u - (256u % ALPHA_N);
     for (int i = 0; i < PASS_LEN; i++) {
         uint8_t b;
@@ -60,6 +66,7 @@ static void gen_passphrase(void)
         s_pass[i] = PASS_ALPHABET[b % ALPHA_N];
     }
     s_pass[PASS_LEN] = '\0';
+    s_pass_generated = true;
 }
 
 static void build_ssid(void)
@@ -162,7 +169,9 @@ static void ap_stop(void)
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
 
     xSemaphoreTake(s_mutex, portMAX_DELAY);
-    memset(s_pass, 0, sizeof(s_pass));
+    /* Keep s_pass: the same per-boot passphrase is reused on the next AP
+     * re-enable so a client can reconnect after a scan with unchanged
+     * credentials. It is RAM-only and never persisted across reboots. */
     s_client_count = 0;
     s_deadline_us  = 0;
     s_state = DL_PASSIVE_SCAN;

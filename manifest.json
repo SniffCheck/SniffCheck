@@ -1,6 +1,6 @@
 {
   "name": "SniffCheck",
-  "version": "v0.19-phase19-117-ga011ab2",
+  "version": "87.0.110",
   "new_install_prompt_erase": true,
   "builds": [
     {
