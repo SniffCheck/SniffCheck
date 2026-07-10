@@ -113,20 +113,27 @@ As I keep prototyping, I plan to work toward a custom PCB that people can order 
 ## Using the device
 
 1. Plug SniffCheck into any USB power source.
-2. Let it boot and scan on its own.
-3. Read the verdict at the top of the screen.
-4. Press the BOOT button to move around:
-       After booting
-   * One click: Results
-   * Two clicks: Settings
-   * Hold about 1.5 seconds: Rescan
-   From there everything is 1, 2, or hold. Some splashes don't have room for all 3 options so if you don't see hold as an option its because I ran out of room on the screen, it still likely takes you to the previous or main splash. 
+2. The T-Dongle C5 boots through the logo and author splashes, starts in Adv mode, and runs a scan automatically.  *<- there is also a option to auto launch the ap*
+3. Read the verdict on the environment summary splash.
+4. Use the BOOT button to move around:
+   * One click `[1]`: open the Main menu from the env summary, or move to the next row/item in selector screens.
+   * Two clicks `[2]`: open the highlighted item, or open Pup from the summary.
+   * Hold for 1.5 seconds `[hold]`: rescan from the env summary, or go back from all splashes.
 
-5. Connect your phone to an SSID only if SniffCheck marks it safe.
+The Main menu is a `>` selector with **Results**, **Settings**, and **Rescan**.
+Results opens the current Lite or Adv result splash. Settings includes Mode and,
+in Adv mode, Launch AP.
+
+Some splashes do not have room to show the buttons. When a one is missing,
+`[hold]` still always backs out to the previous splash.
+
+Connect your phone to an SSID only if SniffCheck marks it safe.  *<- just joking this isn't a end all be all RF Audit but hopefully this helps people understand the environment around them and make safe RF decisions*
 
 SniffCheck has two modes: Lite and Adv.
 
-Lite mode is the original idea: a standalone RF audit tool that does not need an app or phone. Advanced mode has more features. If you want to try the more interactive parts of the demo, open Settings, look for the Launch AP option, and use the QR codes to connect your phone. The pathing is still being worked on so it's a little bit of a maze.
+Lite mode is the original idea: a standalone RF audit tool that doesnt need a
+app or phone. Adv mode adds deeper Wi-Fi, BLE, probe, report, export, capture,
+and surfaces the webAP. For more indepth guide check out ['UserGuide.md'](UserGuide.md)
 
 ## Updating
 
