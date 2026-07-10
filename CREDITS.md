@@ -6,9 +6,10 @@ Copyright 2026 Michael Pabst (@jLaHire).
 This file lists the projects, datasets, standards, and research that inspired and
 motivated SniffCheck. It is part of NOTICE by reference.
 
-I wrote SniffCheck's own code from scratch. The firmware image also bundles two
-small third-party libraries, both under the Apache License 2.0, listed under
-"Bundled in the firmware" below. The web flasher also vendors one MIT library.
+I wrote SniffCheck's own code from scratch using AI and ESP-IDF's example code.
+The firmware image also bundles two small third-party libraries, both under the 
+Apache License 2.0, listed under "Bundled in the firmware" below. 
+The web flasher also vendors one MIT library.
 Everything else in the lists below gave no source code — those projects are here
 because they inspired me, motivated a feature, or are planned interoperability
 references.
@@ -120,4 +121,4 @@ Bluetooth SIG, Inc.
 ## AI use
 
 AI tools were used during prototyping, and to help with debugging and reading
-ESP-IDF example code. The design, the decisions, and the final code are my own.
+ESP-IDF example code. The design, the decisions, and final code are my own.

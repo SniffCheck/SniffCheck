@@ -6,7 +6,7 @@ This guide tells you how to push the button, read the screen, and use the phone 
 
 ## What's new in this build (v0.19-phase19-117)
 
-- **The sniffer sweeps in loops now.** Instead of parking on each channel once for a long dwell, the passive sniff hops every `80 ms` and keeps looping over the channel list for the same total time. Devices that only transmit now and then don't get missed just because they were quiet during their channel's one window.
+- **The sniffer sweeps in loops now.** Instead of parking on each channel once for a long dwell, the passive sniff hops every `100 ms` and keeps looping over the channel list for the same total time. Devices that only transmit now and then don't get missed just because they were quiet during their channel's one window.
 - **The AP comes back after every capture.** Station capture and CSI capture now relaunch the SniffCheck AP on their own when the window ends, same as the packet scan already did. Just reconnect — no more digging through the device menu to re-open it.
 - **Quick tabs.** Pick your favorite report tabs in the dashboard Settings (default: Wi-Fi, BLE, Clusters, Channels). The report's floating button is now an apps-grid that jumps straight to them. The theme picker moved to dashboard Settings only — your theme still applies everywhere.
 - **Aggregate clusters.** The Clusters tab leads with a new subtab that combines NIC, radio, and privacy clusters describing the same physical device — linked only by a shared hardware address, or a shared SSID *plus* matching vendor OUI. Each tile shows which source clusters were combined and why.

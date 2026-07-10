@@ -1,28 +1,24 @@
 # SniffCheck
+```text
+Disclaimer: This project has nothing in it that hasn't been done before. There are tons of amazing developers out there who have innovated and broke ground in this space well before the idea of SniffCheck was inspired. There was a good amount of AI use in the development of this project and that's not for everyone, please go and support the projects listed in CREDITS.md, they've got great communities around them and really are the ones making a difference in educating the normies on RF awareness. SniffCheck is just our twist and we like it and have learned a ton making it. The goal isn't to steal credit or pretend to be a developer. When I decided to take `B4YC` from being a python program to being a firmware on a microcontroller I reached out to some buddies and used the tools I had to help me make that idea a reality.
+```
+A USB stick that helps you understand whether nearby Wi-Fi and Bluetooth activity seems safe.
 
-A USB stick that helps you decide whether nearby Wi-Fi and Bluetooth activity looks safe.
-
-Plug it in, read the screen, and decide whether to connect your phone to a nearby network. No app, no account, and nothing leaves the device.
-
-This repo is a opensource release of the standalone lilygo tdongle c5 firmware. 
-
-The - [Wiki](https://github.com/SniffCheck/SniffCheck/wiki) has a devlog if anyone wants to see how things came about. 
+Plug it in, read the screen, and decide whether to connect your phone to a nearby network. No app, no account, and nothing leaves the device. There is a Wigle integration(very minimal, barely enhances the results of a scan) and we were trying to work on WDGwars integration but moved on from that for the moment. There is still some stale references in the webui that will be cleaned up eventually. 
 
 ## Note from the author
 
 SniffCheck started as a quick way to do an RF check before connecting to Wi-Fi at places like coffee shops. It lived as a Python script on my Lenovo for months before I started thinking about putting it on a microcontroller.
 
-Up front: there will be no crowdfunding. At some point, I plan to make a self-funded custom PCB, and I may try to sell that hardware, but the source code will stay available for anyone who wants to build it themselves.
+Up front: there will be no crowdfunding. At some point, I plan to make a self-funded custom PCB, and I will be open sourcing the pcb files once they're done(easyeda is kicking my butt), this project will always be open source.
 
-Right now, this is just a demo. Some parts were built with help from friends and AI along the way. Shout out to DCS, Dead Coder Society. Check it out, open issues if you find problems or have questions, and take a look at the credits. Hopefully this turns into something cool.
-
-This is just our twist on something thats pretty common. The only thing that is different from other projects is the environmental audit portion of SniffCheck. This shouldn't replace any of the other projects avaible out there. I think it's fun either way :)
+Some parts of SniffCheck were built with help from friends and AI along the way. Shout out to DCS, Dead Coder Society. Open issues if you find problems or have questions, and take a look at the [Credits](CREDITS.md). The devs listed there are the GOATS of the RF microcontroller world who inspired this project through their work.
 
 ## Pertinent Files
 
-- [Credits & References](https://github.com/SniffCheck/SniffCheck/blob/main/CREDITS.md)
-- [NOTICE](https://github.com/SniffCheck/SniffCheck/blob/main/NOTICE)
-- [UserGuide](https://github.com/SniffCheck/SniffCheck/blob/main/UserGuide.md)
+[Credits & References](https://github.com/SniffCheck/SniffCheck/blob/main/CREDITS.md)
+[NOTICE](https://github.com/SniffCheck/SniffCheck/blob/main/NOTICE)
+[UserGuide](https://github.com/SniffCheck/SniffCheck/blob/main/UserGuide.md)
 
 ## Flash it from your browser
 
@@ -85,6 +81,8 @@ SniffCheck has the beginnings of an ePup mascot. Everything in the project is do
 
 The current avatar is modeled after my yellow lab, Suz. Eventually, there may be a larger ePup ecosystem, but for now it is mostly cosmetic.
 
+THIS IS CURRENTLY BEING WORKED ON. Fingers crossed :D
+
 ## Hardware
 
 SniffCheck currently runs on the LilyGO T-Dongle C5.
@@ -113,27 +111,20 @@ As I keep prototyping, I plan to work toward a custom PCB that people can order 
 ## Using the device
 
 1. Plug SniffCheck into any USB power source.
-2. The T-Dongle C5 boots through the logo and author splashes, starts in Adv mode, and runs a scan automatically.  *<- there is also a option to auto launch the ap*
-3. Read the verdict on the environment summary splash.
-4. Use the BOOT button to move around:
-   * One click `[1]`: open the Main menu from the env summary, or move to the next row/item in selector screens.
-   * Two clicks `[2]`: open the highlighted item, or open Pup from the summary.
-   * Hold for 1.5 seconds `[hold]`: rescan from the env summary, or go back from all splashes.
+2. Let it boot and scan on its own.
+3. Read the verdict at the top of the screen.
+4. Press the BOOT button to move around:
+       After booting
+   * One click: Results
+   * Two clicks: Settings
+   * Hold about 1.5 seconds: Rescan
+   From there everything is 1, 2, or hold. Some splashes don't have room for all 3 options so if you don't see hold as an option its because I ran out of room on the screen, it still likely takes you to the previous or main splash. 
 
-The Main menu is a `>` selector with **Results**, **Settings**, and **Rescan**.
-Results opens the current Lite or Adv result splash. Settings includes Mode and,
-in Adv mode, Launch AP.
-
-Some splashes do not have room to show the buttons. When a one is missing,
-`[hold]` still always backs out to the previous splash.
-
-Connect your phone to an SSID only if SniffCheck marks it safe.  *<- just joking this isn't a end all be all RF Audit but hopefully this helps people understand the environment around them and make safe RF decisions*
+5. Connect your phone to an SSID only if SniffCheck marks it safe.
 
 SniffCheck has two modes: Lite and Adv.
 
-Lite mode is the original idea: a standalone RF audit tool that doesnt need a
-app or phone. Adv mode adds deeper Wi-Fi, BLE, probe, report, export, capture,
-and surfaces the webAP. For more indepth guide check out ['UserGuide.md'](UserGuide.md)
+Lite mode is the original idea: a standalone RF audit tool that does not need an app or phone. Advanced mode has more features. If you want to try the more interactive parts of the demo, open Settings, look for the Launch AP option, and use the QR codes to connect your phone. The pathing is still being worked on so it's a little bit of a maze.
 
 ## Updating
 
@@ -143,7 +134,7 @@ SniffCheck does not phone home. To update it, flash it again.
 
 ## AI use
 
-AI tools were used during prototyping, debugging, and reading ESP-IDF example code. The design and final code are the author's own.
+AI tools were used during prototyping, debugging, and reading ESP-IDF example code, as well as assisting in learning how to write firmware. The design is the author's own.
 
 ## License
 
