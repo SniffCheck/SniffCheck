@@ -66,7 +66,7 @@ Best if you just want a fast look on the device to see what RF threats flag from
 
 ## Change the mode
 
-**On the device, from the Main screen:**          *<- this may change as things progress because right now every flash boots to adv mode which gives you easy access to the settings, etc. In lite_mode it's a little bit of a maze to get to the settings on purpose because originally I planned for lite to be the only mode with adv a easter egg for people who want to know more..i digress.*
+**On the device, from the Main screen:**          *<- This may change as things progress because right now every flash boots to Adv mode, which gives you easy access to the settings, etc. In Lite mode, it's a little bit of a maze to get to the settings on purpose because originally I planned for Lite to be the only mode, with Adv as an Easter egg for people who want to know more. I digress.*
 
 1. `[1]` = open the Main menu
 2. `[1]` to highlight **Settings**, `[2]` to open it
@@ -77,7 +77,7 @@ If the mode changed, it does a fresh boot scan.    *<- not a reboot*
 
 **On the phone page:**
 
-1. Open the phone page (only in adv mode)
+1. Open the phone page (only in Adv mode)
 2. Go to the **Settings** tab
 3. Pick **Lite** or **Adv**
 4. It takes effect on the next scan
@@ -154,7 +154,7 @@ Adv Results has panes: WiFi, BLE, Probes, Pup
 
 ## Turn on the phone page (WebAP)
 
-You need to be in adv mode for this
+You need to be in Adv mode for this.
 
 From the Main menu:
 
@@ -171,7 +171,7 @@ When the AP is on:
 
 - The screen shows a QR code to join the SniffCheck Wi-Fi
 - After you join, the QR shows the web address
-- If nothing opens on its own, type `192.168.4.1` as a url in a broswer
+- If nothing opens on its own, enter `192.168.4.1` as a URL in a browser
 - Up to 2 devices can join
 - `[hold]` = turn the AP off
 
@@ -181,7 +181,7 @@ The AP picks a channel (1, 6, or 11) based on the last scan.
 
 ## The phone page (WebUI)
 
-It lives on the SniffCheck Wi-Fi. No cloud. No account. No internet needed.    *<- we thought about making an app but we really want everything to stay on the device as much as possible because were all cyber security focused and don't really like phone apps...lot of data there going back and forth..*
+It lives on the SniffCheck Wi-Fi. No cloud. No account. No internet needed.    *<- We thought about making an app, but we really want everything to stay on the device as much as possible because we're all cybersecurity-focused and don't really like phone apps. There is a lot of data going back and forth.*
 
 **Open:** `http://192.168.4.1/`
 
@@ -203,13 +203,13 @@ It lives on the SniffCheck Wi-Fi. No cloud. No account. No internet needed.    *
 
 ### Pup
 
-Virtual Pup. You can: Pet, Give treat, Rename, Start Sniff Walk, Reset Pup    *<- honestly all of this is mostly cosmetic but **walk** right now its a placeholder for some future things we want to do.*
+Virtual Pup. You can: Pet, Give treat, Rename, Start Sniff Walk, Reset Pup    *<- Honestly, all of this is mostly cosmetic, but **walk** right now is a placeholder for some future things we want to do.*
 
 ### BYOS
 
-BYOS = bring your own scan. Drop in a file: `.json`, `.jsonl`, `.csv`, `.txt`, or `.log`  *<- we tried to make the 'parse' button work with the common upload types from wigle and kismet but its buggy sometimes. We will keep working on it but its a low priority atm*
+BYOS = bring your own scan. Drop in a file: `.json`, `.jsonl`, `.csv`, `.txt`, or `.log`  *<- We tried to make the 'parse' button work with the common upload types from WiGLE and Kismet, but it's buggy sometimes. We will keep working on it, but it's a low priority at the moment.*
 
-Your browser reads it. You can download a device list, or send the records into SniffCheck to view as a report *<- this is the scaffold for our Dog Park feature thats in the works...more on that later probably*
+Your browser reads it. You can download a device list or send the records into SniffCheck to view as a report. *<- This is the scaffold for our Dog Park feature that's in the works. More on that later, probably.*
 
 ### Settings
 
@@ -217,8 +217,8 @@ Your browser reads it. You can download a device list, or send the records into 
 - Theme: palette for the phone page + report (Dracula, Nord, Gruvbox, Solarized Light, Tokyo Night, Monokai, or the two SniffCheck defaults)
 - Quick tabs: choose which report tabs the report's floating apps-grid button jumps to (default: Wi-Fi, BLE, Clusters, Channels)
 - Brightness: `25%`, `50%`, `75%`, `100%`
-- LED: On or Off      *<- does not really work....it dims the light but because we redraw each splash for some reason it inits a led flash on redraw...we have a issues open with espressif to try and figure this out but honestly it may come down to just the Lilygo Tdongle C5 not appreciating our attempt at animation.....*
-- AP timer: `15`, `30`, or `60` minutes    *<- realistitcally you don't need to keep the ap open once you open the summary. Normally I'll launch the ap, connect, go to the page, open **View Report** or save the report as html, and then disconnect or do more scans while I check out the results.*
+- LED: On or Off      *<- This does not really work. It dims the light, but because we redraw each screen, it initializes an LED flash on redraw for some reason. We have an issue open with Espressif to try to figure this out, but honestly it may come down to the LilyGO T-Dongle C5 not appreciating our attempt at animation.*
+- AP timer: `15`, `30`, or `60` minutes    *<- Realistically, you don't need to keep the AP open once you open the summary. Normally I'll launch the AP, connect, go to the page, open **View Report** or save the report as HTML, and then disconnect or do more scans while I check out the results.*
 
 ## Reports
 
@@ -247,15 +247,16 @@ A Sniff Walk scans Wi-Fi and BLE while you walk around carrying the device. At t
 ### Start a walk on the device
 
 1. From the summary, `[2]` = Pup
-  **On the Pup page:**
+
+   **On the Pup page:**
    - `[1]` = play with Pup
    - `[2]` = back
-   - `[hold]` = start the wal
+   - `[hold]` = start the walk
 2. Carry it while it runs
 3. `[hold]` = end the walk
 4. Join the AP when the screen shows the join prompt to see the summary
 
-During a walk, clicks do nothing. Only `[hold]` works
+During a walk, clicks do nothing. Only `[hold]` works.
 
 ### Start a walk from the phone
 
@@ -279,7 +280,7 @@ The Channels tab is in the report. The live buttons only work on the live report
 - A list of stations the device saw active during its scan
 **Buttons:** capture stations, CSI, packet scan     *<- this is a work in progress, it works, but we haven't spent a ton of time on it because like a lot of other features this ties into future things we want to do so we've pushed most of it off till we're actually ready to work on it all. for now its ok if you don't know what all this does, feel free to just kinda ignore the channels tab until we flesh this out*
 
-All of these only listen. Nothing is ever sent    *<- at the moment this is a global decision for SniffCheck, we're looking at allowing certain things to be possible in adv mode down the road once we integrate mqtt/zigbee/thread but we haven't crossed that rubicon yet so things to figure out later*
+All of these only listen. Nothing is ever sent.    *<- At the moment, this is a global decision for SniffCheck. We're looking at allowing certain things to be possible in Adv mode down the road once we integrate MQTT/Zigbee/Thread, but we haven't crossed that Rubicon yet, so there are things to figure out later.*
 
 ### Capture stations
 
@@ -313,7 +314,7 @@ All of these only listen. Nothing is ever sent    *<- at the moment this is a gl
 8. Rejoin the AP
 9. Go back to Channels and download the PCAP when it's ready
 
-Packet scan only listens. Nothing is sent.    *<- for the moment*
+Packet scan only listens. Nothing is sent.    *<- For the moment.*
 
 ## If something goes wrong
 
@@ -321,5 +322,5 @@ Packet scan only listens. Nothing is sent.    *<- for the moment*
 - Phone page drops during a scan or capture? That's normal. The radio can't serve the AP and scan at the same time *<- if you hit 'Continue trying wifi' it will stay connected*
 - After **Start new scan**: re-open the AP from the device *<- should be same password so just rejoining the ap once it shows up works 70% or 90% of the time... we're still trying to figure that one out but I'm sure it'll sneak in there in one of the updates to the repo...*
 - After a Sniff Walk, station capture, CSI, or packet scan: the AP comes back on its own *<- see above note*
-- Saved reports open later, but live tools need the SniffCheck AP *<- minus the channels...thats temporary*
+- Saved reports open later, but live tools need the SniffCheck AP *<- Minus the Channels tab. That's temporary.*
 - Lost in the menus? `[hold]` backs you out toward Main
