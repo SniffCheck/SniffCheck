@@ -11,22 +11,37 @@
 
 import { connect } from "./esptool/index.js";
 
-// id -> { label, image path, chip-name gate regex, human chip name, flash offset }.
+// id -> firmware metadata used for chip gating and pre-erase image validation.
 const TARGETS = {
   "sniffcheck-c5": {
     label: "SniffCheck (T-Dongle C5)",
     url: "firmware/sniffcheck-merged.bin",
-    chip: /c5/i, chipName: "ESP32-C5", offset: 0x0,
+    chip: /c5/i,
+    chipName: "ESP32-C5",
+    imageChipId: 23,
+    bootloaderOffset: 0x2000,
+    appOffset: 0x10000,
+    offset: 0x0,
   },
   "node-c5": {
     label: "SniffCheck Node (ESP32-C5)",
     url: "firmware/sniffcheck-node-c5.bin",
-    chip: /c5/i, chipName: "ESP32-C5", offset: 0x0,
+    chip: /c5/i,
+    chipName: "ESP32-C5",
+    imageChipId: 23,
+    bootloaderOffset: 0x2000,
+    appOffset: 0x10000,
+    offset: 0x0,
   },
   "dogpark-x4": {
     label: "Dog Park X4 orchestrator (Xteink X4, ESP32-C3)",
     url: "firmware/dogpark-x4-c3.bin",
-    chip: /c3/i, chipName: "ESP32-C3", offset: 0x0,
+    chip: /c3/i,
+    chipName: "ESP32-C3",
+    imageChipId: 5,
+    bootloaderOffset: 0x0,
+    appOffset: 0x10000,
+    offset: 0x0,
   },
 };
 const DEFAULT_TARGET = "sniffcheck-c5";
@@ -55,6 +70,58 @@ function formatMac(mac) {
 
 function currentTarget() {
   return TARGETS[targetSel && targetSel.value] || TARGETS[DEFAULT_TARGET];
+}
+
+function validateImageHeader(firmware, offset, expectedChipId, description) {
+  const headerLength = 24;
+  if (firmware.length < offset + headerLength) {
+    throw new Error(`Downloaded firmware is truncated before the ${description} header.`);
+  }
+
+  if (firmware[offset] !== 0xE9) {
+    throw new Error(
+      `Downloaded firmware does not contain a valid ESP image at 0x${offset.toString(16)}.`
+    );
+  }
+
+  const segmentCount = firmware[offset + 1];
+  if (segmentCount < 1 || segmentCount > 16) {
+    throw new Error(`Downloaded firmware has an invalid ${description} segment count.`);
+  }
+
+  const imageChipId = firmware[offset + 12] | (firmware[offset + 13] << 8);
+  if (imageChipId !== expectedChipId) {
+    throw new Error(
+      `Downloaded firmware is for chip ID ${imageChipId}, expected ${expectedChipId}.`
+    );
+  }
+}
+
+function validateFirmware(buf, target) {
+  const firmware = new Uint8Array(buf);
+
+  validateImageHeader(
+    firmware,
+    target.bootloaderOffset,
+    target.imageChipId,
+    "bootloader"
+  );
+
+  const partitionOffset = 0x8000;
+  if (
+    firmware.length < partitionOffset + 2 ||
+    firmware[partitionOffset] !== 0xAA ||
+    firmware[partitionOffset + 1] !== 0x50
+  ) {
+    throw new Error("Downloaded firmware does not contain a valid partition table at 0x8000.");
+  }
+
+  validateImageHeader(
+    firmware,
+    target.appOffset,
+    target.imageChipId,
+    "application"
+  );
 }
 
 // Web Serial gate.
@@ -90,16 +157,21 @@ installBtn.addEventListener("click", async () => {
       throw new Error(`Wrong chip — "${target.label}" is for the ${target.chipName}.`);
     }
 
+    log("Downloading firmware…");
+    const response = await fetch(target.url);
+    if (!response.ok) {
+      throw new Error(`firmware fetch failed: ${response.status}`);
+    }
+
+    const buf = await response.arrayBuffer();
+    validateFirmware(buf, target);
+    log("Firmware image structure validated.");
+
     stub = await esploader.runStub();
 
     log("Erasing flash…");
     await stub.eraseFlash();
 
-    log("Downloading firmware…");
-    const buf = await fetch(target.url).then((r) => {
-      if (!r.ok) throw new Error(`firmware fetch failed: ${r.status}`);
-      return r.arrayBuffer();
-    });
     log(`Writing ${(buf.byteLength / 1048576).toFixed(2)} MB at 0x0…`);
 
     await stub.flashData(buf, (written) => setProgress(written, buf.byteLength), target.offset);
