@@ -128,7 +128,7 @@ Lite mode is the original idea: a standalone RF audit tool that does not need an
 
 ## Updating
 
-There is no over the air update by design.
+There is no over-the-air update by design.
 
 SniffCheck does not phone home. To update it, flash it again.
 
