@@ -1,0 +1,9 @@
+{
+  "name": "SniffCheck Cluster master",
+  "version": "cluster-0.2",
+  "new_install_prompt_erase": true,
+  "builds": [
+    { "chipFamily": "ESP32-C5",
+      "parts": [{ "path": "sniffcheck-cluster-master-merged.bin", "offset": 0 }] }
+  ]
+}

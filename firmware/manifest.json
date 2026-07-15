@@ -1,0 +1,11 @@
+{
+  "name": "SniffCheck",
+  "version": "0.0.0-staging",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-C5",
+      "parts": [{ "path": "sniffcheck-merged.bin", "offset": 0 }]
+    }
+  ]
+}

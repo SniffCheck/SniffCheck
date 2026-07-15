@@ -1,123 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SniffCheck Web Flasher</title>
-  <style>
-    :root { color-scheme: light dark; }
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      max-width: 40rem; margin: 0 auto; padding: 2rem 1.25rem; line-height: 1.5;
-    }
-    h1 { margin-bottom: 0.25rem; }
-    .sub { color: #888; margin-top: 0; }
-    .flash { text-align: center; margin: 2rem 0; }
-    button {
-      font: inherit; font-weight: 600; cursor: pointer;
-      padding: 0.7rem 1.6rem; border-radius: 8px; border: 0;
-      background: #0a7; color: #fff;
-    }
-    button:disabled { opacity: 0.5; cursor: default; }
-    .note {
-      background: rgba(127,127,127,0.12); border-radius: 8px;
-      padding: 0.75rem 1rem; margin: 1rem 0;
-    }
-    .unsupported { display: none; color: #b00020; font-weight: 600; }
-    select { font: inherit; padding: 0.45rem 0.6rem; border-radius: 8px;
-             border: 1px solid rgba(127,127,127,0.4); background: transparent;
-             color: inherit; max-width: 100%; }
-    .pick { margin: 1.25rem 0 0.5rem; }
-    label.pick-label { display: block; font-size: 0.85rem; color: #888; margin-bottom: 0.3rem; }
-    code { background: rgba(127,127,127,0.18); padding: 0 0.3em; border-radius: 4px; }
-    #bar { display: none; height: 10px; background: rgba(127,127,127,0.25);
-           border-radius: 5px; overflow: hidden; margin: 1rem 0; }
-    #barfill { width: 0; height: 100%; background: #0a7; transition: width .2s ease; }
-    #log {
-      display: none; white-space: pre-wrap; font-family: ui-monospace, Menlo, monospace;
-      font-size: 0.8rem; background: rgba(127,127,127,0.1); border-radius: 8px;
-      padding: 0.75rem 1rem; margin: 1rem 0; max-height: 16rem; overflow-y: auto;
-    }
-    footer { margin-top: 2.5rem; font-size: 0.85rem; color: #888; }
-    a { color: #0a7; }
-  </style>
-</head>
-<body>
-  <h1>SniffCheck Web Flasher</h1>
-  <p class="sub">RF environment audit tool, plus the Dog Park firmware family.</p>
-
-  <p>
-    Flash a SniffCheck board straight from your browser. No ESP-IDF, no Python,
-    no drivers. Pick a firmware, plug the matching board into a USB port, click
-    Install, choose the serial port, and wait.
-  </p>
-
-  <div class="pick">
-    <label class="pick-label" for="target">Firmware</label>
-    <select id="target">
-      <option value="sniffcheck-c5" selected>SniffCheck — T-Dongle C5 (ESP32-C5)</option>
-      <option value="node-c5">SniffCheck Node — ESP32-C5</option>
-      <option value="dogpark-x4">Dog Park X4 orchestrator — Xteink X4 (ESP32-C3)</option>
-    </select>
-  </div>
-
-  <div class="flash">
-    <button id="install">Install</button>
-    <p class="unsupported" id="unsupported">
-      This browser can't flash over USB. Use Chrome or Edge on a desktop
-      (Windows, macOS, or Linux). Firefox, Safari, and all phones/tablets
-      lack the Web Serial API.
-    </p>
-  </div>
-
-  <div id="bar"><div id="barfill"></div></div>
-  <pre id="log"></pre>
-
-  <div class="note">
-    <strong>If the dongle isn't detected or flashing fails:</strong> unplug it,
-    hold the <code>BOOT</code> button, plug it back in while still holding,
-    then release and click Install again. This forces download mode.
-  </div>
-
-  <h2>What it does</h2>
-  <p>
-    SniffCheck passively audits the Wi-Fi (both bands) and BLE around you and shows a
-    safety verdict on its little screen. It only listens — it never connects to
-    or transmits to other devices, and nothing leaves the dongle. The flash
-    includes the firmware and the vendor identification database, so it scans
-    correctly on first boot.
-  </p>
-
-  <h2>Firmwares</h2>
-  <ul>
-    <li><strong>SniffCheck</strong> — the standalone RF audit tool. LilyGO T-Dongle C5 (ESP32-C5).</li>
-    <li><strong>SniffCheck Node</strong> — a scanner node that reports to a Dog Park orchestrator. ESP32-C5.</li>
-    <li><strong>Dog Park X4 orchestrator</strong> — the e-ink controller that runs a Dog Park session. Xteink X4 (ESP32-C3).</li>
-  </ul>
-
-  <h2>Requirements</h2>
-  <ul>
-    <li>Chrome or Edge on desktop (Web Serial API required).</li>
-    <li>The board that matches the firmware you picked.</li>
-    <li>A USB port. Flashing erases the board and installs a clean image.</li>
-  </ul>
-
-  <footer>
-    <p>Version: <span id="ver">loading…</span></p>
-    <p>Source: SniffCheck firmware. Apache 2.0. Flash engine:
-      <a href="https://github.com/adafruit/Adafruit_WebSerial_ESPTool">Adafruit WebSerial ESPTool</a>
-      (MIT, with ESP32-C5 support) — see <code>esptool/LICENSE.md</code>.</p>
-    <p>Plain ESP Web Tools build (does not currently flash the C5):
-      <a href="./esp-web-tools.html">esp-web-tools.html</a>.</p>
-  </footer>
-
-  <script type="module" src="./flash.js"></script>
-  <script>
-    // Show the version from the manifest.
-    fetch("./manifest.json")
-      .then((r) => r.json())
-      .then((m) => { document.getElementById("ver").textContent = m.version || "unknown"; })
-      .catch(() => { document.getElementById("ver").textContent = "unknown"; });
-  </script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ff9e3d" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <title>SniffCheck</title>
+    <script type="module" crossorigin src="/SniffCheck/assets/index-CYvouM_l.js"></script>
+    <link rel="stylesheet" crossorigin href="/SniffCheck/assets/index-BDK4Tj0_.css">
+  <link rel="manifest" href="/SniffCheck/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/SniffCheck/registerSW.js"></script></head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
