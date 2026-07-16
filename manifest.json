@@ -1,0 +1,34 @@
+{
+  "name": "SniffCheck",
+  "version": "87.0.110",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-C5",
+      "parts": [
+        {
+          "path": "firmware/sniffcheck-merged.bin",
+          "offset": 0
+        }
+      ]
+    },
+    {
+      "chipFamily": "ESP32-C5",
+      "parts": [
+        {
+          "path": "firmware/sniffcheck-node-c5.bin",
+          "offset": 0
+        }
+      ]
+    },
+    {
+      "chipFamily": "ESP32-C3",
+      "parts": [
+        {
+          "path": "firmware/dogpark-x4-c3.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
