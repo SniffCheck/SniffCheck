@@ -22,10 +22,19 @@
       ]
     },
     {
-      "chipFamily": "ESP32-C3",
+      "chipFamily": "ESP32-C5",
       "parts": [
         {
-          "path": "firmware/dogpark-x4-c3.bin",
+          "path": "firmware/sniffcheck-cluster-master-merged.bin",
+          "offset": 0
+        }
+      ]
+    },
+    {
+      "chipFamily": "ESP32-C5",
+      "parts": [
+        {
+          "path": "firmware/sniffcheck-cluster-arm-merged.bin",
           "offset": 0
         }
       ]

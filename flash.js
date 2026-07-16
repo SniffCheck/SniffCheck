@@ -1,7 +1,7 @@
 // SniffCheck web flasher glue.
 //
 // Drives the vendored Adafruit/CodeHedge WebSerial ESPTool engine
-// (esptool/index.js), which flashes the ESP32-C5 and ESP32-C3 boards without the
+// (esptool/index.js), which flashes the ESP32-C5 board without the
 // esptool-js stub path that times out in esp-web-tools 10.2.1
 // (see esphome/esp-web-tools#687).
 //
@@ -33,13 +33,23 @@ const TARGETS = {
     appOffset: 0x10000,
     offset: 0x0,
   },
-  "dogpark-x4": {
-    label: "Dog Park X4 orchestrator (Xteink X4, ESP32-C3)",
-    url: "firmware/dogpark-x4-c3.bin",
-    chip: /c3/i,
-    chipName: "ESP32-C3",
-    imageChipId: 5,
-    bootloaderOffset: 0x0,
+  "cluster-master": {
+    label: "Dog Park cluster — master (ESP32-C5)",
+    url: "firmware/sniffcheck-cluster-master-merged.bin",
+    chip: /c5/i,
+    chipName: "ESP32-C5",
+    imageChipId: 23,
+    bootloaderOffset: 0x2000,
+    appOffset: 0x10000,
+    offset: 0x0,
+  },
+  "cluster-arm": {
+    label: "Dog Park cluster — arm (ESP32-C5)",
+    url: "firmware/sniffcheck-cluster-arm-merged.bin",
+    chip: /c5/i,
+    chipName: "ESP32-C5",
+    imageChipId: 23,
+    bootloaderOffset: 0x2000,
     appOffset: 0x10000,
     offset: 0x0,
   },
