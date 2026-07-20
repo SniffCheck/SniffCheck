@@ -53,6 +53,26 @@ const TARGETS = {
     appOffset: 0x10000,
     offset: 0x0,
   },
+  "cluster-brain": {
+    label: "Dog Park cluster — brain (ESP32-C5)",
+    url: "firmware/sniffcheck-cluster-brain-merged.bin",
+    chip: /c5/i,
+    chipName: "ESP32-C5",
+    imageChipId: 23,
+    bootloaderOffset: 0x2000,
+    appOffset: 0x10000,
+    offset: 0x0,
+  },
+  "cluster-s3node": {
+    label: "Dog Park cluster — S3 node (ESP32-S3)",
+    url: "firmware/sniffcheck-cluster-s3node-merged.bin",
+    chip: /s3/i,
+    chipName: "ESP32-S3",
+    imageChipId: 9,
+    bootloaderOffset: 0x0,
+    appOffset: 0x10000,
+    offset: 0x0,
+  },
 };
 const DEFAULT_TARGET = "sniffcheck-c5";
 

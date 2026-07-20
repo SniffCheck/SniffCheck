@@ -1,15 +1,24 @@
-# firmware/ — flasher assets (network-first, never stale-cached)
+# firmware/ — flasher assets
 
-The Flash tab loads `manifest.json` from here and esp-web-tools writes the referenced
-`.bin` to the stick. **`sniffcheck-merged.bin` is not committed to this app tree** —
-it is dropped in by the release/publish step (the public-repo git is the owner's job;
-see the `public-repo-hands-off` note).
+The web flasher loads `../manifest.json`, and the flash engine writes the referenced
+`.bin` to the board over USB. Every image here is a **merged** one-shot image
+(bootloader + partition table + app + data) flashed at offset 0, plus an app-only
+`*-app.bin` for over-the-air style updates.
 
-To publish a build:
+Images shipped here:
 
-1. Copy the merged image to `sniffcheck-merged.bin` (offset 0), e.g. from
-   `docs/webflasher/firmware/sniffcheck-merged.bin` in the private repo.
-2. Bump `version` in `manifest.json` to the firmware version.
+| Firmware                              | Board     | Merged image                              |
+|---------------------------------------|-----------|-------------------------------------------|
+| SniffCheck (standalone)               | ESP32-C5  | `sniffcheck-merged.bin`                   |
+| SniffCheck Node                       | ESP32-C5  | `sniffcheck-node-c5.bin`                  |
+| Dog Park cluster — master             | ESP32-C5  | `sniffcheck-cluster-master-merged.bin`    |
+| Dog Park cluster — arm                | ESP32-C5  | `sniffcheck-cluster-arm-merged.bin`       |
+| Dog Park cluster — brain              | ESP32-C5  | `sniffcheck-cluster-brain-merged.bin`     |
+| Dog Park cluster — S3 node            | ESP32-S3  | `sniffcheck-cluster-s3node-merged.bin`    |
 
-The service worker caches `/firmware/*` **network-first** (see `vite.config.ts`), so a
-newly published binary is never masked by a stale cached copy.
+`checksums.txt` holds a `sha256` for every `.bin`; the S3-node image is the only
+ESP32-S3 build (the flasher checks the chip family before writing).
+
+To publish a new build: rebuild the role, regenerate its merged (and app) image, drop
+the `.bin` here, update `checksums.txt`, and bump `version` in `../manifest.json` (and
+the matching `manifest-*.json`).

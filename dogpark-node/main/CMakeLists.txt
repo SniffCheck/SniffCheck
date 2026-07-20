@@ -1,0 +1,27 @@
+idf_component_register(
+    SRCS
+        "app_main.c"
+        "dp_sniffer.c"
+        "dp_ble.c"
+        "node_display.c"
+        "../../main/led.c"
+        "../../dogpark-x4/main/dp_espnow.c"
+    INCLUDE_DIRS
+        "."
+        "../../dogpark-x4/main"
+        "../../main"
+    PRIV_REQUIRES
+        nvs_flash
+        esp_wifi
+        esp_event
+        esp_netif
+        esp_timer
+        esp_hw_support
+        esp_driver_spi
+        esp_driver_gpio
+        esp_driver_ledc
+        esp_lcd
+        bt
+    REQUIRES
+        lcd_st7735
+)

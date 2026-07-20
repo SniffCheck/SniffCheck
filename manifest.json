@@ -38,6 +38,24 @@
           "offset": 0
         }
       ]
+    },
+    {
+      "chipFamily": "ESP32-C5",
+      "parts": [
+        {
+          "path": "firmware/sniffcheck-cluster-brain-merged.bin",
+          "offset": 0
+        }
+      ]
+    },
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        {
+          "path": "firmware/sniffcheck-cluster-s3node-merged.bin",
+          "offset": 0
+        }
+      ]
     }
   ]
 }

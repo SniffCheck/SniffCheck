@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SniffCheck Dog Park</title>
+<style>
+:root{
+  --bg:#ffd93b; --panel:#fff7d6; --panelw:#ffc24a; --band:#ff9e3d;
+  --line:#3f2a14; --line2:#8a5a2e;
+  --txt:#3f2a14; --dim:#7a5a34; --acc:#ff8a1e; --acc2:#e0701a;
+  --sh:#3f2a14; --code:#fffdf3;
+  --safe:#2fa85a; --avoid:#d63838;
+}
+body.dark{
+  --bg:#241a0e; --panel:#3a2a18; --panelw:#4a3620; --band:#6b4a1e;
+  --line:#c8a25a; --line2:#8a6a3a;
+  --txt:#f3e4bf; --dim:#c9ac7e; --acc:#ffcf4a; --acc2:#f0a83a;
+  --sh:#100a04; --code:#1a1206;
+  --safe:#5ec98a; --avoid:#ff6b6b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px}
+header{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--band);border-bottom:2px solid var(--line);position:sticky;top:0;z-index:2}
+header img{height:26px}
+header h1{font-size:16px;margin:0;letter-spacing:.5px}
+header .sp{margin-left:auto}
+a.nav{display:inline-block;padding:6px 10px;border:2px solid var(--line);border-radius:8px;
+  background:var(--panel);color:var(--txt);text-decoration:none;font-weight:700;font-size:13px;
+  box-shadow:2px 2px 0 var(--sh)}
+a.nav:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+main{max-width:760px;margin:0 auto;padding:12px 14px 40px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;margin:0 0 12px}
+.card h3{margin:0 0 8px;font-size:14px;color:var(--acc)}
+.small{color:var(--dim);font-size:12px}
+.row{padding:3px 0}
+button.btn,input{font:inherit}
+button.btn{padding:7px 12px;margin:2px 4px 2px 0;border:2px solid var(--line);border-radius:8px;
+  background:var(--panelw);color:var(--txt);font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--sh)}
+button.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--sh)}
+.srow{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:13px}
+.srow input[type=text],.srow input:not([type]),.srow select{padding:4px 6px;border:1px solid var(--line2);
+  border-radius:6px;background:var(--panel);color:var(--txt);font-size:12px}
+.flagbtn{margin-left:auto;padding:1px 7px;border:1px solid var(--line2);border-radius:6px;
+  background:var(--panel);color:var(--acc2);cursor:pointer;font-size:12px}
+.flagbtn:active{transform:translate(1px,1px)}
+
+.wf{height:46vh;overflow-y:auto;border:1px solid var(--line);border-radius:8px;
+  background:var(--code);padding:4px 8px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.wf .r{display:flex;align-items:center;gap:8px;padding:3px 0;border-top:1px solid var(--line2)}
+.wf .r:first-child{border-top:0}
+.wf .t{color:var(--dim);flex:none;font-variant-numeric:tabular-nums}
+.wf .nm{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf .nm .arm{color:var(--acc2)}
+
+.dicon{flex:none;display:inline-flex;align-items:center}
+.dicon .ic{width:1.25em;height:1.25em;vertical-align:-.22em}
+.flag{flex:none;display:inline-flex;align-items:center;color:var(--avoid)}
+.flag .ic{width:1.2em;height:1.2em}
+
+.sigbar{flex:none;display:inline-flex;align-items:center;gap:4px}
+.sigbar .bars{display:flex;align-items:flex-end;gap:2px;height:12px}
+.sigbar .bars i{width:3px;border-radius:1px;background:var(--dim);opacity:.3}
+.sigbar .bars i:nth-child(1){height:4px}.sigbar .bars i:nth-child(2){height:6.5px}
+.sigbar .bars i:nth-child(3){height:9px}.sigbar .bars i:nth-child(4){height:12px}
+.sigbar .bars i.on{opacity:1;background:var(--txt)}
+.sigbar .rssi{font-size:10px;color:var(--dim);opacity:.75;line-height:1;font-variant-numeric:tabular-nums}
+
+.ebar{height:9px;border:1px solid var(--line);border-radius:6px;background:var(--code);
+  overflow:hidden;margin:5px 0 2px}
+.ebar i{display:block;height:100%;background:var(--safe);transition:width .4s ease}
+.epill{display:inline-block;margin:2px 6px 2px 0;padding:2px 8px;border:1px solid var(--line2);
+  border-radius:20px;background:var(--panelw);font-size:12px;font-weight:700}
+
+html.embed header{display:none}
+html.embed main{padding-top:8px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-wifi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3.8 9.4a13 13 0 0 1 16.4 0"/><path d="M6.8 13a8.5 8.5 0 0 1 10.4 0"/></g><circle cx="12" cy="17.6" r="1.8" fill="currentColor"/></symbol>
+  <symbol id="ic-ble" viewBox="0 0 24 24"><path d="M7 7 17 17 12 22 12 2 17 7 7 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="ic-tracker" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 1.5C7.9 1.5 4.5 4.9 4.5 9 4.5 14 12 21 12 21s7.5-7 7.5-12c0-4.1-3.4-7.5-7.5-7.5ZM9 9a3 3 0 1 0 6 0 3 3 0 1 0-6 0ZM11.4 4.5h1.2V8.4H16v1.2h-3.4V13h-1.2V9.6H8V8.4h3.4Z"/><ellipse cx="12" cy="21.3" rx="4.6" ry="1.6" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  <symbol id="ic-drone" viewBox="0 0 24 24"><path d="M8 8 16 16M16 8 8 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><g fill="currentColor"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><rect x="9" y="9" width="6" height="6" rx="2"/></g></symbol>
+  <symbol id="ic-camera" viewBox="0 0 24 24"><g fill="currentColor"><rect x="11" y="3" width="8" height="2" rx="1"/><rect x="14.2" y="4.5" width="2" height="6" rx="1"/><rect x="3.2" y="8.6" width="11" height="2" rx="1"/></g><path fill="currentColor" fill-rule="evenodd" d="M4 9.8h12.5c.8 0 1.5.7 1.5 1.5v3.5c0 .8-.7 1.5-1.5 1.5H4ZM4.8 13a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0Z"/></symbol>
+  <symbol id="ic-police" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3c2 1.6 4.4 1.6 6.4.2l2.4 2.4c-1.4 2-1.2 4-.5 6 .8 2.5.4 5-1.5 6.9-1.9 1.9-4.4 2.8-6.8 3.3-2.4-.5-4.9-1.4-6.8-3.3-1.9-1.9-2.3-4.4-1.5-6.9.7-2 .9-4-.5-6l2.4-2.4c2 1.4 4.4 1.4 6.4-.2Z"/><path d="M12 8.7l1.25 2.53 2.8.41-2.03 1.97.48 2.78L12 15.05l-2.5 1.34.48-2.78-2.03-1.97 2.8-.41Z"/></g></symbol>
+  <symbol id="ic-router" viewBox="0 0 24 24"><g fill="currentColor"><rect x="2" y="13.5" width="20" height="6" rx="3"/><circle cx="13.5" cy="16.5" r="1.1"/><circle cx="16.2" cy="16.5" r="1.1"/><circle cx="18.9" cy="16.5" r="1.1"/></g><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 13V5"/><path d="M9.6 4a4.5 4.5 0 0 0 0 6"/><path d="M10.9 5.6a2.3 2.3 0 0 0 0 2.8"/><path d="M14.4 4a4.5 4.5 0 0 1 0 6"/><path d="M13.1 5.6a2.3 2.3 0 0 1 0 2.8"/></g></symbol>
+  <symbol id="ic-router-ent" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9.4 10.7a3.7 3.7 0 0 0 5.2 0"/><path d="M7.4 8.6a6.6 6.6 0 0 0 9.2 0"/><path d="M5.4 6.5a9.5 9.5 0 0 0 13.2 0"/></g><circle cx="12" cy="12.4" r="1.2" fill="currentColor"/><g fill="currentColor"><rect x="3" y="15" width="18" height="6" rx="2.4"/></g><g fill="var(--panel)"><circle cx="6.4" cy="18" r="0.95"/><circle cx="9" cy="18" r="0.95"/></g></symbol>
+</defs></svg>
+<header>
+  <img alt="SniffCheck" src="/logo.png" onerror="this.remove()">
+  <h1>Dog Park</h1>
+  <span class="sp"></span>
+  <a class="nav" href="/report.html">Report</a>
+</header>
+<main>
+  <div class="card"><h3>ePup <span class="small">(the C5 brain — learns your RF world)</span></h3>
+    <div id="d-epup"><div class="small">waiting for the brain…</div></div></div>
+  <div class="card"><h3>Arms</h3><div id="d-arms"><div class="small">connecting…</div></div></div>
+  <div class="card"><h3>Controls</h3><div id="d-ctrl"></div>
+    <div class="small" style="margin-top:6px">Rescan runs a deep Wi-Fi+BLE audit on every arm. The Dog Park AP never closes.</div></div>
+  <div class="card"><h3>ePup activity <span class="small">(what the pack is doing &amp; seeing · newest first)</span></h3>
+    <div id="d-alog"><div class="small">no activity yet…</div></div></div>
+  <div class="card"><h3>Sentinel <span class="small">(flagged signatures &amp; your watchlist)</span></h3>
+    <div id="d-sentinel"><div class="small">loading…</div></div></div>
+  <div class="card"><h3>Live results <span class="small">(streaming from the arms · newest at the bottom)</span></h3><div id="dashlog" class="wf"></div></div>
+  <div class="card"><h3>Map <span class="small">(work in progress)</span></h3>
+    <div class="small">Walk and scan points will plot here. GPS is already stamped onto every
+    record (phone stand-in now, hardware GPS later), so this view lights up once it’s built.</div></div>
+</main>
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  try{const t=localStorage.getItem('sc-theme')||'auto';
+    if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches))
+      document.body.classList.add('dark');}catch(e){}
+  if(location.search.indexOf('embed')>=0)document.documentElement.classList.add('embed');
+
+  let gps={lat:null,lon:null,acc:null},lastPost=0;
+  const secure=(window.isSecureContext===true);
+  function postGps(){const b={ts:Date.now()};
+    if(gps.lat!=null){b.lat=gps.lat;b.lon=gps.lon;b.acc=gps.acc;}
+    fetch('/api/gps',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).catch(()=>{});
+    lastPost=Date.now();}
+  function startGps(){
+    if(!navigator.geolocation||!secure)return;
+    navigator.geolocation.watchPosition(p=>{
+      gps.lat=p.coords.latitude;gps.lon=p.coords.longitude;gps.acc=p.coords.accuracy;postGps();
+    },()=>{},{enableHighAccuracy:true,maximumAge:2000,timeout:12000});}
+  setInterval(()=>{if(Date.now()-lastPost>8000)postGps();},8000);
+
+  let status=null;
+  function pollStatus(){fetch('/api/cluster/status',{cache:'no-store'})
+    .then(r=>r.json()).then(j=>{status=j;renderEpup();renderArms();renderCtrl();}).catch(()=>{});}
+  function renderEpup(){const el=$('d-epup');if(!el)return;
+    const e=status&&status.epup;
+    if(!e){el.innerHTML='<div class="small">'+(status&&status.brain&&status.brain.online
+        ?'brain online — waiting for its first learned window…':'brain offline')+'</div>';return;}
+    const conf=Math.max(0,Math.min(100,e.confidence|0));
+    el.innerHTML=
+      '<div class="row"><b style="font-size:16px;color:var(--acc2)">'+esc(e.title)+'</b>'
+        +' <span class="small">level '+(e.level|0)+'</span></div>'
+      +'<div class="row small">confidence '+conf+'% · learned from '+(e.scans|0)+' scans</div>'
+      +'<div class="ebar"><i style="width:'+conf+'%"></i></div>'
+      +'<div class="row" style="margin-top:6px">'
+        +'<span class="epill">~'+(e.unique|0)+' unique seen</span>'
+        +'<span class="epill">this window: W'+(e.wifi|0)+' B'+(e.ble|0)+'</span>'
+        +'<span class="epill">'+(e.new|0)+' new</span></div>';}
+  function fmtAge(ms){if(ms==null||ms<0)return'never';if(ms<1200)return'live';
+    if(ms<60000)return(ms/1000).toFixed(1)+'s ago';return Math.round(ms/60000)+'m ago';}
+  function linkPct(o){const p=o&&o.polls|0;return p>0?Math.round((o.ok|0)*100/p):0;}
+  function slaveState(o){if(!o||!o.online)return'off';
+    if((o.age_ms|0)>1500)return'degraded';return'ok';}
+  function healthLine(o){const pct=linkPct(o);
+    return '<div class="small">seen '+fmtAge(o.age_ms)+' · link '+pct+'% ('+(o.ok|0)+'/'+(o.polls|0)+')'
+      +(('planned'in o)?' · plan '+(o.planned?'✓':'…'):'')+'</div>';}
+  function armRow(a){const st=['idle','scanning','walking'][a.state]||'?';
+    const s=slaveState(a),col=s==='ok'?'var(--safe)':s==='degraded'?'var(--acc)':'var(--avoid)';
+    return '<div class="row"><b>Arm '+a.i+'</b> '+esc(a.band)+' — <b style="color:'+col+'">'+
+      (s==='off'?'offline':s==='degraded'?'degraded':'online')+'</b> · '+esc(st)+
+      ' · W'+a.wifi+' B'+a.ble+' · seq'+a.seq+'</div>'+healthLine(a);}
+  function brainRow(b){if(!b)return'';const s=slaveState(b),
+      col=s==='ok'?'var(--safe)':s==='degraded'?'var(--acc)':'var(--avoid)';
+    return '<div class="row" style="margin-top:6px"><b>Brain 0x'+((b.addr|0).toString(16))+'</b> — <b style="color:'+
+      col+'">'+(s==='off'?'offline':s==='degraded'?'degraded':'online')+'</b></div>'+healthLine(b);}
+  function degradeBanner(){if(!status)return'';const arms=status.arms||[];
+    const down=arms.filter(a=>!a.online).length, deg=arms.filter(a=>slaveState(a)==='degraded').length;
+    const boff=status.brain&&!status.brain.online;
+    if(!down&&!deg&&!boff)return'';
+    const parts=[];if(down)parts.push(down+' arm'+(down>1?'s':'')+' offline');
+    if(deg)parts.push(deg+' flapping');if(boff)parts.push('brain offline');
+    return '<div class="row small" style="color:var(--avoid)">⚠ '+parts.join(' · ')
+      +' — cluster degraded, results reflect the arms still reporting</div>';}
+  function renderArms(){const el=$('d-arms');if(!el)return;
+    el.innerHTML=status&&status.arms?
+      degradeBanner()+status.arms.map(armRow).join('')+brainRow(status.brain)
+      :'<div class="small">no status yet…</div>';}
+  function renderCtrl(){const el=$('d-ctrl');if(!el)return;const walking=!!(status&&status.walking);
+    el.innerHTML='<button class="btn" id="c-scan">Adv rescan (both arms)</button>'
+      +'<button class="btn" id="c-walk">'+(walking?'Stop walk':'Start walk')+'</button>';
+    $('c-scan').onclick=()=>fetch('/api/cluster/scan',{method:'POST'}).then(()=>setTimeout(pollStatus,300)).catch(()=>{});
+    $('c-walk').onclick=()=>fetch('/api/cluster/walk?start='+(walking?0:1),{method:'POST'}).then(()=>setTimeout(pollStatus,300)).catch(()=>{});}
+
+  function iconSpan(id,label){return '<span class="dicon" role="img" aria-label="'+esc(label)+
+    '" title="'+esc(label)+'"><svg class="ic"><use href="#'+id+'"/></svg></span>';}
+  function flagSpan(id,label){return '<span class="flag" role="img" aria-label="'+esc(label)+
+    '" title="'+esc(label)+'"><svg class="ic"><use href="#'+id+'"/></svg></span>';}
+  function wifiIcon(o){const f=o.eui_flags||0;
+    if(f&0x0002)return iconSpan('ic-router-ent','enterprise access point');
+    if(f&0x0004)return iconSpan('ic-router','consumer router');
+    return iconSpan('ic-wifi','Wi-Fi network');}
+  function typeIcon(o){
+    if(o.type==='wifi_ap')return wifiIcon(o);
+    if(o.type==='tracker')return iconSpan('ic-tracker','tracker / beacon');
+    if(o.type==='drone_rid')return iconSpan('ic-drone','drone');
+    return iconSpan('ic-ble','BLE device');}
+  function sigBar(rssi){
+    if(typeof rssi!=='number')return '';
+    const on=rssi>=-55?4:rssi>=-67?3:rssi>=-78?2:rssi>=-88?1:0;
+    let bars='';for(let i=1;i<=4;i++)bars+='<i class="'+(i<=on?'on':'')+'"></i>';
+    return '<span class="sigbar" title="'+rssi+' dBm"><span class="bars">'+bars+
+      '</span><span class="rssi">'+rssi+'</span></span>';}
+
+  const OBS=new Set(['wifi_ap','ble_device','tracker','drone_rid']);
+  const seen=new Set();
+  const lawMacs=new Set();
+  const fmtWall=ms=>ms?new Date(ms).toLocaleTimeString():'—';
+  const macOf=o=>String(o.bssid||o.addr||o.mac||'').toUpperCase();
+  const idOf=o=>o.ssid||o.name||o.bssid||o.addr||o.mac||'—';
+  const armOf=o=>o.source_id||o.arm||o.node||null;
+  const keyOf=o=>(o.bssid||o.addr||o.mac||'')+'|'+(o.ts_us||o.ts_wall||'')+'|'+o.type;
+  const CAM_CLASS=new Set([12]);
+  function rowHtml(o){
+    const mac=macOf(o);
+    const arm=armOf(o);
+    let flags='';
+    if(mac&&lawMacs.has(mac))flags+=flagSpan('ic-police','law-enforcement presence');
+    if(CAM_CLASS.has(o.device_class))flags+=flagSpan('ic-camera','camera / surveillance');
+    return typeIcon(o)+flags
+      +'<span class="nm">'+esc(idOf(o))+(arm?' <span class="arm">·'+esc(arm)+'</span>':'')+'</span>'
+      +sigBar(o.rssi)
+      +(mac?'<button class="flagbtn" title="Flag this device for the sentinel" data-mac="'
+        +esc(mac)+'" data-nm="'+esc(String(idOf(o)).slice(0,18))+'">⚑</button>':'')
+      +'<span class="t">'+esc(fmtWall(o.ts_wall))+'</span>';}
+  function ingestLaw(o){
+    if(o.type!=='law_enforcement_presence'||!Array.isArray(o.entries))return;
+    for(const e of o.entries){const m=String(e.mac||e.bssid||e.addr||'').toUpperCase();if(m)lawMacs.add(m);}}
+  function pollLog(){fetch('/api/captures/live.jsonl',{cache:'no-store'}).then(r=>r.text()).then(t=>{
+    const wf=$('dashlog');if(!wf)return;
+    const near=(wf.scrollHeight-wf.scrollTop-wf.clientHeight)<48;
+    const ls=t.split('\n');const add=[];
+    for(let i=0;i<ls.length;i++){const s=ls[i].trim();if(!s||s[0]!=='{')continue;
+      let o;try{o=JSON.parse(s);}catch(e){continue;}
+      ingestLaw(o);
+      if(!OBS.has(o.type))continue;const k=keyOf(o);if(seen.has(k))continue;seen.add(k);add.push(o);}
+    if(!add.length)return;
+    const frag=document.createDocumentFragment();
+    for(const o of add){const d=document.createElement('div');d.className='r';d.innerHTML=rowHtml(o);frag.appendChild(d);}
+    wf.appendChild(frag);
+    while(wf.children.length>400)wf.removeChild(wf.firstChild);
+    if(near)wf.scrollTop=wf.scrollHeight;
+  }).catch(()=>{});}
+
+  function fmtUp(s){s=s|0;const h=(s/3600)|0,m=((s%3600)/60)|0,ss=s%60;
+    return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(ss).padStart(2,'0');}
+  function alogRow(e){return '<div class="row small"><span style="color:var(--dim)">['
+    +fmtUp(e.t)+']</span> '+esc(e.s)+'</div>';}
+  function renderAlog(lines){const el=$('d-alog');if(!el)return;
+    el.innerHTML=(lines&&lines.length)?lines.map(alogRow).join('')
+      :'<div class="small">no activity yet…</div>';}
+  function pollAlog(){fetch('/api/cluster/log',{cache:'no-store'})
+    .then(r=>r.json()).then(j=>renderAlog(j&&j.log)).catch(()=>{});}
+
+  const SENT_ICONS=['ic-tracker','ic-ble','ic-wifi','ic-router','ic-camera','ic-police','ic-drone'];
+  let sentData=null;
+  function postSentinel(obj){return fetch('/api/cluster/sentinel',
+    {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(obj)})
+    .then(()=>setTimeout(pollSentinel,150)).catch(()=>{});}
+  function catToggle(id,on){const m=(sentData?sentData.mask:0);
+    postSentinel({mask:on?(m|(1<<id)):(m&~(1<<id))});}
+  function catRow(c){return '<label class="srow"><input type="checkbox" data-cat="'+c.id+'"'
+    +(c.alert?' checked':'')+'> '+iconSpan(c.icon,c.label)+' <b>'+esc(c.label)+'</b>'
+    +' <span class="small">'+(c.hits|0)+' seen</span></label>';}
+  function byoiRow(b){return '<div class="srow"><input type="checkbox" data-en="'+b.i+'"'
+    +(b.enabled?' checked':'')+' title="alert on this device">'+iconSpan(b.icon||'ic-tracker',b.name)
+    +' <b'+(b.enabled?'':' style="opacity:.5"')+'>'+esc(b.name)+'</b> <span class="small">'+esc(b.mac)
+    +(b.pref_len<6?'/'+(b.pref_len*8):'')+' · '+(b.hits|0)+' seen</span>'
+    +' <button class="flagbtn" data-del="'+b.i+'" title="Remove">✕</button></div>';}
+  function addForm(){
+    return '<div class="srow" style="flex-wrap:wrap;gap:4px">'
+      +'<input id="by-mac" placeholder="aa:bb:cc:dd:ee:ff" style="flex:1;min-width:130px">'
+      +'<input id="by-nm" placeholder="name" style="width:90px">'
+      +'<select id="by-ic">'+SENT_ICONS.map(i=>'<option value="'+i+'">'+i.replace('ic-','')+'</option>').join('')+'</select>'
+      +'<select id="by-sc"><option value="6">this device</option><option value="3">whole OUI</option></select>'
+      +'<button class="btn" id="by-add">Flag</button></div>';}
+  function renderSentinel(d){const el=$('d-sentinel');if(!el)return;sentData=d;
+    if(!d||!d.cats){el.innerHTML='<div class="small">sentinel unavailable</div>';return;}
+    const armed=d.armed!==false;
+    const last=d.last&&d.last.label?(' · last: '+esc(d.last.label)+(d.last.mac&&d.last.mac[0]!=='0'?' '+esc(d.last.mac):'')):'';
+    el.innerHTML='<label class="srow" style="padding-bottom:6px;margin-bottom:4px;border-bottom:1px solid var(--line,#334)">'
+      +'<input type="checkbox" id="s-armed"'+(armed?' checked':'')+'> '
+      +'<b>Sentinel '+(armed?'armed':'disarmed')+'</b> <span class="small">master switch</span></label>'
+      +'<div id="s-body"'+(armed?'':' style="opacity:.45"')+'>'
+      +'<div class="row small"><b>'+(d.total|0)+'</b> flagged detections'+last+'</div>'
+      +'<div class="small" style="margin:4px 0">Alert on these signatures:</div>'
+      +d.cats.map(catRow).join('')
+      +'<div class="small" style="margin:6px 0 2px">Your flagged devices (BYOI):</div>'
+      +(d.byoi.length?d.byoi.map(byoiRow).join(''):'<div class="small">none yet — flag a result with ⚑, or add below</div>')
+      +addForm()+'</div>';
+    const arm=$('s-armed');if(arm)arm.onchange=()=>postSentinel({armed:arm.checked?1:0});
+    el.querySelectorAll('input[data-cat]').forEach(cb=>cb.onchange=()=>catToggle(+cb.dataset.cat,cb.checked));
+    el.querySelectorAll('button[data-del]').forEach(b=>b.onclick=()=>postSentinel({byoi_del:+b.dataset.del}));
+    el.querySelectorAll('input[data-en]').forEach(cb=>cb.onchange=()=>postSentinel({byoi_en:{i:+cb.dataset.en,on:cb.checked?1:0}}));
+    const add=$('by-add');if(add)add.onclick=()=>{const mac=$('by-mac').value.trim();if(!mac)return;
+      postSentinel({byoi_add:{mac:mac,name:$('by-nm').value.trim()||'flagged',
+        icon:$('by-ic').value,pref_len:+$('by-sc').value}});};}
+  function pollSentinel(){fetch('/api/cluster/sentinel',{cache:'no-store'})
+    .then(r=>r.json()).then(renderSentinel).catch(()=>{});}
+  document.addEventListener('click',e=>{const b=e.target.closest('.flagbtn[data-mac]');if(!b)return;
+    const mac=$('by-mac'),nm=$('by-nm');if(!mac){pollSentinel();return;}
+    mac.value=b.dataset.mac.toLowerCase();nm.value=b.dataset.nm||'';
+    $('d-sentinel').scrollIntoView({behavior:'smooth',block:'center'});mac.focus();});
+
+  pollStatus();pollLog();pollAlog();pollSentinel();
+  if(secure)startGps();
+  setInterval(pollLog,1200);
+  setInterval(pollStatus,3000);
+  setInterval(pollAlog,3000);
+  setInterval(pollSentinel,4000);
+})();
+</script>
+</body>
+</html>
