@@ -1,0 +1,8 @@
+{
+  "repo": "SniffCheck/SniffCheck",
+  "number": 17,
+  "base": "main",
+  "head": "fix/issue-16",
+  "fork": "VedantMadane/SniffCheck",
+  "title": "fix: docs: add DogPark user guide README"
+}
